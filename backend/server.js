@@ -1,53 +1,38 @@
-require("dotenv").config();
+require("dotenv").config(); // 환경 변수 로드
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); // 외부 도메인에서의 API 접근 허용
 
-const mysql = require("mysql2");
+const userRoutes = require("./routes/userRoutes"); // 사용자 라우터
+// const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
+// const predictRoutes = require("./routes/predictionRoutes"); // 예측 모델 라우터
 
-const app = express();
+const { errorHandler } = require("./middleware/error"); // 에러 처리
+
+const app = express(); // express 어플리케이션 생성
+
 app.use(cors()); // Cross-Origin Resource Sharing 활성화
 app.use(express.json()); // Body parsing middleware. JSON 페이로드 처리
 
-// MySQL connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
+// Routes
+app.use("/api/users", userRoutes);
+// app.use("/api/sensors", sensorRoutes);
+// app.use("/api/predictions", predictRoutes);
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log("MySQL Connected...");
-});
+// Error middleware
+app.use(errorHandler);
 
-// Logging
+// Logging middleware
+// TODO: 로깅 미들웨어 더 수정할 것
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
 
 // server test
+// TODO: 삭제
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+  res.send("<h1>Hello, World!</h1>");
   console.log("HELLO WORLD");
-});
-
-app.post("/signUp", (req, res) => {
-  const { email, password } = req.body;
-  const sql = "insert into user (email, password) values (?, ?)";
-  db.query(sql, [email, password], (err, result) => {
-    if (err) throw err;
-    res.sendStatus("User SIGNED UP!");
-  });
-});
-
-app.get("/getDB", (req, res) => {
-  let sql = "select * from user";
-  db.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
 });
 
 const PORT = process.env.PORT || 3000;
