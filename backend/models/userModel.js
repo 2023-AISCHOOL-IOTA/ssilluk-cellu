@@ -1,7 +1,6 @@
 // NOTE: 데이터베이스의 사용자 정보 처리
 const pool = require("../utils/db").promise(); // 프로미스 기반 pool 가져오기
 const bcrypt = require("bcrypt");
-const { deleteUser } = require("../controllers/userController");
 
 class UserModel {
   // 회원 가입
