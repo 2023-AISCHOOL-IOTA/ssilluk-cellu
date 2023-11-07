@@ -1,5 +1,4 @@
-// 인증 미들웨어
-// JWT 토큰 사용
+// NOTE: 로그인 여부와 올바른 토큰 갖고 있는지 확인
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/userModel");
 
@@ -18,10 +17,13 @@ exports.protect = async (req, res, next) => {
 
       // 페이로드에서 사용자 정보를 가져와 다음 미들웨어나 라우터에서 사용
       req.user = await UserModel.findUserByEmail(decoded.email);
+      if (!req.user) throw new Error("User not found in database");
 
       next();
     } catch (error) {
-      res.status(401).send({ message: `Not authorized` });
+      res
+        .status(401)
+        .send({ message: `Not authorized, token failed: ${error.message}` });
     }
   } else {
     res.status(401).send({ message: `No token provided` });
