@@ -84,7 +84,7 @@ const userController = {
   },
 
   // 사용자 탈퇴
-  async deleteUser(req, res, next) {
+  async deleteProfile(req, res, next) {
     try {
       await UserModel.deleteUser(req.user.email);
       res.status(200).send({ message: `User deleted successfully` });

@@ -15,6 +15,6 @@ router.post("/signout", (req, res) => {
 });
 router.get("/profile", protect, userController.getProfile);
 router.put("/profile", protect, userController.updateProfile);
-router.delete("/delete", protect, userController.deleteUser);
+router.delete("/delete", protect, userController.deleteProfile);
 
 module.exports = router;
