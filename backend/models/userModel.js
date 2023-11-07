@@ -1,23 +1,27 @@
-// 사용자 모델
-// bcrypt 사용
-const pool = require("../utils/db");
+// NOTE: 데이터베이스의 사용자 정보 처리
+const pool = require("../utils/db").promise(); // 프로미스 기반 pool 가져오기
 const bcrypt = require("bcrypt");
+const { deleteUser } = require("../controllers/userController");
 
 class UserModel {
   // 회원 가입
-  async createUser(userData) {
+  async createUser(userData, isSocial = false) {
     const conn = await pool.getConnection();
     try {
-      const hashedPassword = await bcrypt.hash(userData.password, 8);
+      let hashedPassword = null;
+      if (!isSocial && userData.password) {
+        hashedPassword = await bcrypt.hash(userData.password, 10);
+      }
       const [result] = await conn.query("INSERT INTO user SET ?", {
         ...userData,
         password: hashedPassword,
+        socialLoginType: isSocial ? userData.socialLoginType : null,
       });
       return result;
     } catch (err) {
       throw err;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
@@ -33,7 +37,7 @@ class UserModel {
     } catch (err) {
       throw err;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
@@ -49,7 +53,22 @@ class UserModel {
     } catch (err) {
       throw err;
     } finally {
-      conn.release();
+      if (conn) conn.release();
+    }
+  }
+
+  // 사용자 정보 삭제
+  async deleteUser(userEmail) {
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query("DELETE FROM user WHERE email = ?", [
+        userEmail,
+      ]);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
     }
   }
 }
