@@ -1,3 +1,4 @@
+// SERVER 시작점
 require("dotenv").config(); // 환경 변수 로드
 const express = require("express");
 const cors = require("cors"); // 외부 도메인에서의 API 접근 허용
@@ -5,6 +6,7 @@ const cors = require("cors"); // 외부 도메인에서의 API 접근 허용
 const userRoutes = require("./routes/userRoutes"); // 사용자 라우터
 // const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
 // const predictRoutes = require("./routes/predictionRoutes"); // 예측 모델 라우터
+const authRoutes = require("./routes/authRoutes"); // 소셜 로그인 인증 라우터
 
 const { errorHandler } = require("./middleware/error"); // 에러 처리
 
@@ -17,16 +19,22 @@ app.use(express.json()); // Body parsing middleware. JSON 페이로드 처리
 app.use("/api/users", userRoutes);
 // app.use("/api/sensors", sensorRoutes);
 // app.use("/api/predictions", predictRoutes);
+app.use("/api/auth", authRoutes); // 소셜 로그인 라우터
 
-// Error middleware
-app.use(errorHandler);
-
-// Logging middleware
-// TODO: 로깅 미들웨어 더 수정할 것
+// Logging middleware - 모든 요청에 대한 로깅
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
+
+// Error middleware
+app.use(errorHandler);
+
+// 환경 변수 검증
+if (!process.env.JWT_SECRET) {
+  console.error("FATAL ERROR: JWT_SECRET is not defined.");
+  process.exit(1);
+}
 
 // server test
 // TODO: 삭제
