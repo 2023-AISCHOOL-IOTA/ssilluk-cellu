@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final bool obscureText;
   final Widget? suffixIcon;
+  final IconData? prefixIcon;
   final TextEditingController? controller;
 
   CustomTextField({
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
+    this.prefixIcon,
   });
 
   @override
@@ -24,10 +26,11 @@ class CustomTextField extends StatelessWidget {
         labelText: label,
         hintText: hint,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.borderColor),
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide(color: AppColors.grey),
         ),
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       ),
       obscureText: obscureText,
     );

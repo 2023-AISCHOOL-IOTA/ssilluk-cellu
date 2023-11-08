@@ -24,7 +24,13 @@ class AppDimensions {
 }
 
 class AppColors {
-  static const Color primaryColor = Color(0xFF322FC1);
-  static const Color borderColor = Color(0xFF868686);
+  static const Color black = Color(0xFF000000);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color primaryColor = Color(0xFF3330C2);
+  static const Color primaryColorOpacity90 = Color(0xE63330C2);
+  static const Color brightBlue = Color(0xFF322EFB);
+  static const Color grey = Color(0xFF7D7D7D);
+  static const Color greyOpacity80 = Color(0xCC898989);
+  static const Color lightGreyOpacity20 = Color(0x33C4C4C4);
 // ... 다른 색상 값들
 }

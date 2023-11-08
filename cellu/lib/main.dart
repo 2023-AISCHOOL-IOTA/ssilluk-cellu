@@ -35,11 +35,19 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToLogin() async {
-    await Future.delayed(Duration(seconds: 3)); // 가정된 로딩 시간
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginScreen()), // 로그인 화면으로 이동
-    );
+    try {
+      await Future.delayed(Duration(seconds: 3)); // 가정된 로딩 시간
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()), // 로그인 화면으로 이동
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('로그인 화면으로 이동하는데 문제가 발생했습니다: $e'),
+        ),
+      );
+    }
   }
 
   @override

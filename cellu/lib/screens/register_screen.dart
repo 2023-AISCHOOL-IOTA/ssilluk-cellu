@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../widgets/custom_text_field.dart';
 import '../styles.dart';
-import 'register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final ValueNotifier<bool> _isRememberMeChecked = ValueNotifier(false);
+class _RegisterScreenState extends State<RegisterScreen> {
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
+  final ValueNotifier<bool> _isConfirmPasswordVisible = ValueNotifier(false);
 
   @override
   void dispose() {
-    _isRememberMeChecked.dispose();
     _isPasswordVisible.dispose();
+    _isConfirmPasswordVisible.dispose();
     super.dispose();
   }
 
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 60), // Top padding
               SvgPicture.asset('assets/logo-small.svg'), // 로고
               SizedBox(height: 40), // 로고와 폼 사이의 간격
-              Text('로그인', style: AppStyles.titleStyle), // 헤더 추가
+              Text('회원가입', style: AppStyles.titleStyle), // 헤더 추가
               SizedBox(height: 40), // 헤더와 폼 사이의 간격
               CustomTextField(
                 label: '이메일',
@@ -41,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefixIcon: Icons.email,
               ),
               SizedBox(height: 20),
+              // 비밀번호 입력 필드
               ValueListenableBuilder(
                 valueListenable: _isPasswordVisible,
                 builder: (context, value, child) {
@@ -60,22 +60,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               SizedBox(height: 20),
-              Row(
-                children: [
-                  ValueListenableBuilder(
-                    valueListenable: _isRememberMeChecked,
-                    builder: (context, value, child) {
-                      return Checkbox(
-                        value: value,
-                        onChanged: (newValue) =>
-                            _isRememberMeChecked.value = newValue ?? false,
-                      );
-                    },
-                  ),
-                  Text('아이디 기억하기'),
-                ],
-              ),
-              SizedBox(height: 20),
+              // 비밀번호 확인 입력 필드
+              ValueListenableBuilder(
+                  valueListenable: _isConfirmPasswordVisible,
+                  builder: (context, value, child) {
+                    return CustomTextField(
+                        label: '비밀번호 확인',
+                        hint: '비밀번호를 다시 입력하세요',
+                        obscureText: !value,
+                        prefixIcon: Icons.lock,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            value ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () =>
+                              _isConfirmPasswordVisible.value = !value,
+                        ));
+                  }),
+              SizedBox(height: 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.primaryColor,
@@ -85,17 +87,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 ),
                 onPressed: () {},
-                child: Text('로그인'),
+                child: Text('회원가입'),
               ),
+              SizedBox(height: 20),
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
-                  );
-                },
+                onPressed: () {},
                 child: Text(
-                  '아이디가 없으신가요? 회원가입',
+                  '아이디가 있으신가요? 로그인',
                   style: AppStyles.linkStyle,
                 ),
               ),
@@ -106,25 +104,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildTextField({
-    required String hintText,
-    required IconData icon,
-    required bool obscureText,
-    Widget? suffixIcon,
-  }) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: Icon(icon),
-        suffixIcon: suffixIcon,
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
-        ),
-      ),
-      obscureText: obscureText,
-    );
-  }
+//   Widget _buildTextField({
+//     required String hintText,
+//     required IconData icon,
+//     required bool obscureText,
+//     Widget? suffixIcon,
+//   }) {
+//     return TextField(
+//       decoration: InputDecoration(
+//         hintText: hintText,
+//         prefixIcon: Icon(icon),
+//         suffixIcon: suffixIcon,
+//         filled: true,
+//         fillColor: Colors.grey[200],
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(30),
+//           borderSide: BorderSide.none,
+//         ),
+//       ),
+//       obscureText: obscureText,
+//     );
+//   }
 }
