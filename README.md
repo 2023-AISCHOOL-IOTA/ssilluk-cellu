@@ -52,7 +52,8 @@ technologies.
 ## 🛠 Tech Stack
 
 - **FrontEnd**: Flutter, Dart
-- **BackEnd**: Python or Node.js for server-side operations
+- **BackEnd**: Node.js for server-side operations
+- **Prediction Server**: Flask for server-side operations
 - **AI Modeling**: PyTorch for developing the deep learning model
 - **Hardware Design**: Catia or AutoCAD for designing PPG sensor and other hardware components
 - **Database**: MySQL for data storage and management
