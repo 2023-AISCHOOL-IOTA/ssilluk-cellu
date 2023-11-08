@@ -4,8 +4,7 @@ const express = require("express");
 const cors = require("cors"); // 외부 도메인에서의 API 접근 허용
 
 const userRoutes = require("./routes/userRoutes"); // 사용자 라우터
-// const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
-const predictRoutes = require("./routes/predictionRoutes"); // 예측 모델 라우터
+const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
 const authRoutes = require("./routes/authRoutes"); // 소셜 로그인 인증 라우터
 
 const { errorHandler } = require("./middleware/error"); // 에러 처리
@@ -16,9 +15,8 @@ app.use(cors()); // Cross-Origin Resource Sharing 활성화
 app.use(express.json()); // Body parsing middleware. JSON 페이로드 처리
 
 // Routes
-app.use("/api/users", userRoutes);
-// app.use("/api/sensors", sensorRoutes);
-app.use("/api/predict", predictRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/sensor", sensorRoutes);
 app.use("/api/auth", authRoutes); // 소셜 로그인 라우터
 
 // Logging middleware - 모든 요청에 대한 로깅
