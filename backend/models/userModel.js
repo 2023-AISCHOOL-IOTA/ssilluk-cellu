@@ -1,7 +1,7 @@
 // NOTE: 데이터베이스의 사용자 정보 처리
 const pool = require("../utils/db").promise(); // 프로미스 기반 pool 가져오기
 const bcrypt = require("bcrypt");
-
+// FIXME: 데이터베이스 관련 코드 수정해야 함
 class UserModel {
   // 회원 가입
   async createUser(userData, isSocial = false) {
