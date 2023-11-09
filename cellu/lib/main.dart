@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cellu',
+      title: 'Cellu~',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -48,8 +48,6 @@ class _SplashScreenState extends State<SplashScreen> {
       MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
-
-
 
   @override
   void dipose() {
