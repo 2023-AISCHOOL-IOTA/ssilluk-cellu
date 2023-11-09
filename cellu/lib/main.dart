@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
@@ -23,31 +25,36 @@ class MyApp extends StatelessWidget {
 }
 
 class SplashScreen extends StatefulWidget {
+  SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
-    _navigateToLogin();
+    _timer = Timer(const Duration(seconds: 3), _navigateToLogin);
   }
 
-  _navigateToLogin() async {
-    try {
-      await Future.delayed(Duration(seconds: 3)); // 가정된 로딩 시간
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()), // 로그인 화면으로 이동
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('로그인 화면으로 이동하는데 문제가 발생했습니다: $e'),
-        ),
-      );
-    }
+  void _navigateToLogin() {
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
+
+
+  @override
+  void dipose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -55,14 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SvgPicture.asset('assets/logo.svg'), // 로고
-            SizedBox(height: 24),
-            // 로딩 인디케이터를 추가하고 싶다면 여기에 추가
-          ],
-        ),
+        child: SvgPicture.asset('assets/logo.svg'),
       ),
     );
   }
