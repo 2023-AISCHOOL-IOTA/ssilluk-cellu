@@ -9,6 +9,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.2",
     "passport": "^0.6.0",
+    "twilio": "^4.19.0",
     "winston": "^3.11.0"
   },
   "name": "backend",
