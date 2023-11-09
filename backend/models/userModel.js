@@ -70,6 +70,26 @@ class UserModel {
       if (conn) conn.release();
     }
   }
+
+  // 보호자 전화번호 조회
+  async getGuardianPhoneNumber(userEmail) {
+    const conn = await pool.getConnection();
+    try {
+      const [rows] = await conn.query(
+        "SELECT guardian_phone FROM users WHERE email = ?",
+        [userEmail]
+      );
+      if (rows.length > 0) {
+        return rows[0].guardian_phone;
+      } else {
+        throw new Error("보호자 전화번호가 등록되지 않았습니다.");
+      }
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
 }
 
 module.exports = new UserModel();
