@@ -6,6 +6,7 @@ import 'screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
+  // Push Test 슬기
 }
 
 class MyApp extends StatelessWidget {
