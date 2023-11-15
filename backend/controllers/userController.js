@@ -8,7 +8,6 @@
  */
 const UserModel = require("../models/userModel");
 const tokenUtils = require("../utils/tokenUtils");
-const bcrypt = require("bcrypt");
 
 const userController = {
   // 회원 가입
@@ -45,7 +44,10 @@ const userController = {
       }
 
       // 일반 로그인 사용자의 경우 비밀번호 검증
-      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      const isMatch = await UserModel.checkPassword(
+        req.body.email,
+        req.body.password
+      );
       if (!isMatch) {
         return res.status(401).send({ message: `Invalid credentials` });
       }
