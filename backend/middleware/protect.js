@@ -15,9 +15,15 @@ exports.protect = async (req, res, next) => {
       // 토큰 검증, 페이로드 추출
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+      if (!decoded || !decoded.id.id) {
+        return res.status(401).send({ message: `Invalid token` });
+      }
+
       // 페이로드에서 사용자 정보를 가져와 다음 미들웨어나 라우터에서 사용
-      req.user = await UserModel.findUserByEmail(decoded.email);
-      if (!req.user) throw new Error("User not found in database");
+      req.user = await UserModel.findUserById(decoded.id.id);
+      if (!req.user) {
+        return res.status(401).send({ message: `User not found in database` });
+      }
 
       next();
     } catch (error) {
