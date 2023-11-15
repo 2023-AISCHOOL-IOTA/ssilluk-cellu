@@ -1,11 +1,6 @@
 // NOTE: 사용자와 관련된 기능 처리 컨트롤러
 // NOTE: 회원가입, 로그인, 프로필 조회 및 수정
 
-/**
- * @param req - 요청 객체
- * @param res - 응답 객체
- * @param next - 다음 미들웨어로 넘기는 함수
- */
 const UserModel = require("../models/userModel");
 const tokenUtils = require("../utils/tokenUtils");
 
