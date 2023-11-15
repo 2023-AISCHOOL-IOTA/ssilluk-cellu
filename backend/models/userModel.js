@@ -51,13 +51,30 @@ class UserModel {
   }
 
   // 사용자 정보 수정
-  async updateUser(userID, updataData) {
+  async updateUser(userID, updateData) {
     const conn = await pool.getConnection();
     try {
-      const [result] = await conn.query(
-        "UPDATE tbl_user SET ? WHERE user_id = ?",
-        [updataData, userID]
-      );
+      // 사용자 존재 여부 확인
+      const user = await this.findUserById(userID);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // 부분 업데이트를 위한 쿼리 생성
+      let query = "UPDATE tbl_user SET ";
+      const params = [];
+      Object.keys(updateData).forEach((key, index) => {
+        query += `${key} = ?`;
+        params.push(updateData[key]);
+        if (index < Object.keys(updateData).length - 1) {
+          query += ", ";
+        }
+      });
+      query += " WHERE user_id = ?";
+      params.push(userID);
+
+      // 데이터베이스 업데이트 실행
+      const [result] = await conn.query(query, params);
       return result;
     } catch (err) {
       throw err;

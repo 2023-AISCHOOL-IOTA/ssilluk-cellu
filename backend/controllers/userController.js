@@ -84,8 +84,8 @@ const userController = {
   // 사용자 프로필 수정
   async updateProfile(req, res, next) {
     try {
-      const updateDate = req.body;
-      await UserModel.updateUser(req.body.id, updateDate);
+      const updateData = req.body;
+      await UserModel.updateUser(req.user.user_id, updateData);
       res.status(200).send({ message: `Profile updated successfully` });
     } catch (error) {
       next(error);
@@ -95,7 +95,7 @@ const userController = {
   // 사용자 탈퇴
   async deleteProfile(req, res, next) {
     try {
-      await UserModel.deleteUser(req.user.id);
+      await UserModel.deleteUser(req.user.user_id);
       res.status(200).send({ message: `User deleted successfully` });
     } catch (error) {
       next(error);
