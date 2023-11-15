@@ -125,9 +125,9 @@ class UserModel {
     try {
       const [result] = await conn.query("INSERT INTO tbl_guardian SET ?", {
         user_id: userId,
-        guardian_name: guardianData.name,
-        guardian_phone: guardianData.phone,
-        guardian_relationship: guardianData.relationship,
+        guardian_name: guardianData.guardian_name,
+        guardian_phone: guardianData.guardian_phone,
+        guardian_relationship: guardianData.guardian_relationship,
       });
       return result;
     } catch (err) {

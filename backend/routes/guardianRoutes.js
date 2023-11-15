@@ -1,5 +1,5 @@
 const express = require("express");
-const guardianController = require("../controllers/guardianController");
+const guardianController = require("../controllers/guardianConroller");
 const { protect } = require("../middleware/protect");
 
 const router = express.Router();
