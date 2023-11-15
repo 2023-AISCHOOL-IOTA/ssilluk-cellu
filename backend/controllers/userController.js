@@ -36,7 +36,7 @@ const userController = {
       if (user.socialLoginType) {
         // NOTE: 소셜 로그인 사용자는 비밀번호 검증이 필요 없음
         const token = tokenUtils.generateToken(
-          { id: user.id },
+          { id: user.user_id },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
@@ -51,10 +51,9 @@ const userController = {
       if (!isMatch) {
         return res.status(401).send({ message: `Invalid credentials` });
       }
-
       // TODO: 토큰 생성과 응답 로직을 함수로 추출하여 중복 최소화
       const token = tokenUtils.generateToken(
-        { id: user.id },
+        { id: user.user_id },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
@@ -67,7 +66,12 @@ const userController = {
   // 사용자 프로필 조회
   async getProfile(req, res, next) {
     try {
-      const user = await UserModel.findUserById(req.body.id);
+      const user = await UserModel.findUserById(req.user.id);
+
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
       res.status(200).send(user);
     } catch (error) {
       next(error);
