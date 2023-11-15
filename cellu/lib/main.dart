@@ -10,6 +10,7 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
 
   runApp(const MyApp());
+  // Push Test 슬기
 }
 
 class MyApp extends StatelessWidget {
