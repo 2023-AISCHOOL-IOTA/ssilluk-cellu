@@ -6,6 +6,7 @@ const cors = require("cors"); // 외부 도메인에서의 API 접근 허용
 const userRoutes = require("./routes/userRoutes"); // 사용자 라우터
 const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
 const authRoutes = require("./routes/authRoutes"); // 소셜 로그인 인증 라우터
+const guardianRoutes = require("./routes/guardianRoutes"); // 보호자 라우터
 
 const { errorHandler } = require("./middleware/error"); // 에러 처리
 
@@ -18,6 +19,7 @@ app.use(express.json()); // Body parsing middleware. JSON 페이로드 처리
 app.use("/api/user", userRoutes);
 app.use("/api/sensor", sensorRoutes);
 app.use("/api/auth", authRoutes); // 소셜 로그인 라우터
+app.use("/api/guardian", guardianRoutes); // 보호자
 
 // Logging middleware - 모든 요청에 대한 로깅
 app.use((req, res, next) => {
