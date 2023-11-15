@@ -62,10 +62,6 @@ const userController = {
   async getProfile(req, res, next) {
     try {
       const user = await UserModel.findUserById(req.user.user_id);
-      // FIXME: DELETE
-      console.log(req.user);
-      console.log(req.user.user_id);
-      console.log(user);
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
