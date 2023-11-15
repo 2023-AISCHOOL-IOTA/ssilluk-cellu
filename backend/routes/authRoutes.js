@@ -6,7 +6,7 @@ const router = express.Router();
 // Google signIn route
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "id"] })
 );
 
 // Google signIn callback route
