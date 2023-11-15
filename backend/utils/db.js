@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 // FIXME: 차후 DB 계정 수정해야 함
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
@@ -23,7 +24,7 @@ pool.getConnection((err, connection) => {
     }
   }
   if (connection) {
-    console.log("DB connection successful!");
+    console.log("**DB connection successful!**");
     // 연결 풀로 반환
     connection.release();
   }

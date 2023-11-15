@@ -1,3 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../widgets/custom_text_field.dart';
@@ -11,11 +17,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
   final ValueNotifier<bool> _isConfirmPasswordVisible = ValueNotifier(false);
 
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
     _isPasswordVisible.dispose();
     _isConfirmPasswordVisible.dispose();
     super.dispose();
@@ -77,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                     ),
-                    onPressed: () {},
+                    onPressed: _register,
                     child: Text('회원가입'),
                   ),
                   SizedBox(height: 20),
@@ -121,5 +132,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       },
     );
+  }
+
+  Future<void> _register() async {
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
+
+    // HTTP 요청 보냄
+    final response = await http.post(
+      Uri.parse('${dotenv.env['BACKEND_URL']}/signup'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
+    if (response.statusCode == 201) {
+      // 회원가입 성공
+      log('회원가입 성공: ${response.body}');
+      // 로그인 화면으로 이동
+    } else {
+      log('회원가입 실패: ${response.body}');
+    }
   }
 }
