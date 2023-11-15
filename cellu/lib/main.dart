@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:cellu/widgets/lowerbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
+import 'screens/biometrics_screen.dart';
+import 'screens/mypage_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
+      home: Bottomnavi(), // 앱의 진입점을 SplashScreen으로 설정
     );
   }
 }
