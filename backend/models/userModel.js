@@ -1,4 +1,4 @@
-// NOTE: 데이터베이스의 사용자 정보 처리
+// NOTE: 데이터베이스의 사용자, 보호자 정보 처리
 const pool = require("../utils/db").promise(); // 프로미스 기반 pool 가져오기
 // FIXME: 데이터베이스 관련 코드 수정해야 함
 class UserModel {
@@ -112,6 +112,81 @@ class UserModel {
       } else {
         throw new Error("보호자 전화번호가 등록되지 않았습니다.");
       }
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  // 보호자 정보 추가
+  async createGuardian(userId, guardianData) {
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query("INSERT INTO tbl_guardian SET ?", {
+        user_id: userId,
+        guardian_name: guardianData.name,
+        guardian_phone: guardianData.phone,
+        guardian_relationship: guardianData.relationship,
+      });
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  // 보호자 정보 조회
+  async findGuardianByUserId(userId) {
+    const conn = await pool.getConnection();
+    try {
+      const [rows] = await conn.query(
+        "SELECT * FROM tbl_guardian WHERE user_id = ?",
+        [userId]
+      );
+      return rows.length > 0 ? rows[0] : null;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  // 보호자 정보 수정
+  async updateGuardian(userId, guardianData) {
+    const conn = await pool.getConnection();
+    try {
+      let query = "UPDATE tbl_guardian SET ";
+      const params = [];
+      Object.keys(guardianData).forEach((key, index) => {
+        query += `${key} = ?`;
+        params.push(guardianData[key]);
+        if (index < Object.keys(guardianData).length - 1) {
+          query += ", ";
+        }
+      });
+      query += " WHERE user_id = ?";
+      params.push(userId);
+
+      const [result] = await conn.query(query, params);
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  // 보호자 정보 삭제
+  async deleteGuardian(userId) {
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query(
+        "DELETE FROM tbl_guardian WHERE user_id = ?",
+        [userId]
+      );
+      return result;
     } catch (err) {
       throw err;
     } finally {
