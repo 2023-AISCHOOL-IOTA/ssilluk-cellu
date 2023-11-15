@@ -10,7 +10,7 @@ class BioScreen extends StatelessWidget {
       children: [
         Container(
           width: 393,
-          height: 1717,
+          height: 850,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(color: Color(0xFFF9F9F9)),
           child: Stack(
@@ -37,6 +37,7 @@ class BioScreen extends StatelessWidget {
                                 child: SizedBox(
                                   width: 39,
                                   height: 22,
+                                  
                                   child: Text(
                                     'ellu',
                                     style: TextStyle(
