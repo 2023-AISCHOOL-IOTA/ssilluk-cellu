@@ -66,8 +66,11 @@ const userController = {
   // 사용자 프로필 조회
   async getProfile(req, res, next) {
     try {
-      const user = await UserModel.findUserById(req.user.id);
-
+      const user = await UserModel.findUserById(req.user.user_id);
+      // FIXME: DELETE
+      console.log(req.user);
+      console.log(req.user.user_id);
+      console.log(user);
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
