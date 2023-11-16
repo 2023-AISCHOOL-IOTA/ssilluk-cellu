@@ -1,5 +1,6 @@
 // NOTE: 센서 데이터와 예측 결과 저장
 const pool = require("../utils/db").promise();
+const { getStressLevel } = require("../utils/stressUtils");
 // FIXME: 데이터베이스 관련 코드 수정해야 함
 
 class SensorModel {
@@ -44,8 +45,7 @@ class SensorModel {
         "SELECT * FROM tbl_sensor WHERE user_id = ? ORDER BY created_at DESC",
         [userId]
       );
-      // FIXME: DELETE
-      console.log(rows);
+
       return rows;
     } catch (err) {
       throw err;
@@ -119,7 +119,7 @@ class SensorModel {
       );
 
       if (rows.length > 0) {
-        const stressLevel = calculateStressLevel(rows[0].fr); // calculateStressLevel은 스트레스 레벨을 계산하는 함수
+        const stressLevel = getStressLevel(rows[0].fr); // calculateStressLevel은 스트레스 레벨을 계산하는 함수
         return { stressLevel };
       } else {
         return null;
