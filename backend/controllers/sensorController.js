@@ -12,6 +12,14 @@ const sensorController = {
       const userEmail = req.user.user_id; // 인증된 사용자의 ID
       const sensorData = req.body; // 센서 데이터
 
+      // 사용자의 최신 센서 데이터 조회
+      const latestSensorData = await sensorModel.findSensorDataByUserId(
+        userEmail
+      );
+      if (!latestSensorData) {
+        return res.status(404).send({ message: "No sensor data available." });
+      }
+
       // 스트레스 수준 계산
       const stressLevel = getStressLevel(sensorData.fr);
 

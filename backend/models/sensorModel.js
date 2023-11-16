@@ -44,6 +44,8 @@ class SensorModel {
         "SELECT * FROM tbl_sensor WHERE user_id = ? ORDER BY created_at DESC",
         [userId]
       );
+      // FIXME: DELETE
+      console.log(rows);
       return rows;
     } catch (err) {
       throw err;
@@ -55,8 +57,7 @@ class SensorModel {
   // 센서 데이터 삭제
   async deleteSensorData(userId, sensorDataId) {
     const conn = await pool.getConnection();
-    // FIXME: DELETE
-    console.log(sensorDataId);
+
     try {
       const [result] = await conn.query(
         "DELETE FROM tbl_sensor WHERE user_id = ? AND sensing_idx = ?",
