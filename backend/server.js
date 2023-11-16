@@ -7,7 +7,7 @@ const userRoutes = require("./routes/userRoutes"); // 사용자 라우터
 const sensorRoutes = require("./routes/sensorRoutes"); // 센서 라우터
 const authRoutes = require("./routes/authRoutes"); // 소셜 로그인 인증 라우터
 const guardianRoutes = require("./routes/guardianRoutes"); // 보호자 라우터
-
+const stressRoutes = require("./routes/stressRoutes"); // 스트레스 라우터
 const { errorHandler } = require("./middleware/error"); // 에러 처리
 
 const app = express(); // express 어플리케이션 생성
@@ -18,6 +18,7 @@ app.use(express.json()); // Body parsing middleware. JSON 페이로드 처리
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/sensor", sensorRoutes);
+app.use("/api/stress", stressRoutes);
 app.use("/api/auth", authRoutes); // 소셜 로그인 라우터
 app.use("/api/guardian", guardianRoutes); // 보호자
 
