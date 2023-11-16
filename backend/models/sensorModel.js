@@ -52,6 +52,24 @@ class SensorModel {
     }
   }
 
+  // 센서 데이터 삭제
+  async deleteSensorData(userId, sensorDataId) {
+    const conn = await pool.getConnection();
+    // FIXME: DELETE
+    console.log(sensorDataId);
+    try {
+      const [result] = await conn.query(
+        "DELETE FROM tbl_sensor WHERE user_id = ? AND sensing_idx = ?",
+        [userId, sensorDataId]
+      );
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
   // 공복시 혈당이 300 이상인지 3일 연속으로 확인하는 메소드
   async checkConsistentHighGlucose(userEmail) {
     const conn = await pool.getConnection();

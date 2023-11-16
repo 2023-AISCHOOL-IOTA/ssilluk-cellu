@@ -71,6 +71,17 @@ const sensorController = {
       next(error);
     }
   },
+
+  // 센서 데이터 삭제
+  async deleteSensorData(req, res, next) {
+    try {
+      const { sensorDataId } = req.params;
+      await sensorModel.deleteSensorData(req.user.user_id, sensorDataId);
+      res.status(200).send({ message: "Sensor data deleted successfully." });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = sensorController;
