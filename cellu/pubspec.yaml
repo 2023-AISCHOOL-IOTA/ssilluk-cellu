@@ -3,7 +3,7 @@ description: PPG센서를 활용하여 수집한 생체 데이터를 바탕으�
 publish_to: 'none'
 version: 1.0.0+1
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '>=3.1.4 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter

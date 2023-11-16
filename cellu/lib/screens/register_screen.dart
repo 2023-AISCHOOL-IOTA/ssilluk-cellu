@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -139,22 +139,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String password = _passwordController.text;
 
     // HTTP 요청 보냄
-    final response = await http.post(
-      Uri.parse('${dotenv.env['BACKEND_URL']}/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password,
-      }),
-    );
-    if (response.statusCode == 201) {
-      // 회원가입 성공
-      log('회원가입 성공: ${response.body}');
-      // 로그인 화면으로 이동
-    } else {
-      log('회원가입 실패: ${response.body}');
-    }
+    // final response = await http.post(
+    //   Uri.parse('${dotenv.env['BACKEND_URL']}/signup'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(<String, String>{
+    //     'email': email,
+    //     'password': password,
+    //   }),
+    // );
+    // if (response.statusCode == 201) {
+    //   // 회원가입 성공
+    //   log('회원가입 성공: ${response.body}');
+    //   // 로그인 화면으로 이동
+    // } else {
+    //   log('회원가입 실패: ${response.body}');
+    // }
   }
 }
