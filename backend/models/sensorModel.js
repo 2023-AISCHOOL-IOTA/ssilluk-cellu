@@ -1,21 +1,46 @@
 // NOTE: 센서 데이터와 예측 결과 저장
 const pool = require("../utils/db").promise();
+const { encrypt, decrypt } = require("../utils/encryptionUtils");
 // FIXME: 데이터베이스 관련 코드 수정해야 함
 
 class SensorModel {
   async saveData(userEmail, sensorData, predictionResult) {
     const conn = await pool.getConnection();
     try {
+      // 각 센서 데이터 항목을 개별적으로 암호화
+      const encryptedData = {
+        iotSerialNo: encrypt(sensorData.iotSerialNo).encryptedData,
+        mealYN: encrypt(sensorData.mealYN).encryptedData,
+        mealBLD: encrypt(sensorData.mealBLD).encryptedData,
+        hr: encrypt(String(sensorData.hr)).encryptedData,
+        hrv: encrypt(String(sensorData.hrv)).encryptedData,
+        sdnn: encrypt(String(sensorData.sdnn)).encryptedData,
+        rmssd: encrypt(String(sensorData.rmssd)).encryptedData,
+        pnn50: encrypt(String(sensorData.pnn50)).encryptedData,
+        vlf: encrypt(String(sensorData.vlf)).encryptedData,
+        lf: encrypt(String(sensorData.lf)).encryptedData,
+        hf: encrypt(String(sensorData.hf)).encryptedData,
+        fr: encrypt(String(sensorData.fr)).encryptedData,
+      };
       // 센서 데이터와 예측 결과를 함께 데이터베이스에 저장
       // FIXME: 데이터베이스 관련 코드 수정해야 함
       const [result] = await conn.query(
-        "INSERT INTO biometrics (user_id, sensor_data, prediction_data, meal_time, before_after_meal) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO tbl_sensor (user_id, iot_serial_no, created_at, meal_yn, meal_bld, hr, hrv, sdnn, rmssd, pnn50, vlf, lf, hf, fr, bloodsugar) VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           userEmail,
-          JSON.stringify(sensorData),
-          JSON.stringify(predictionResult),
-          sensorData.mealTime, // 'morning', 'afternoon', 'evening'
-          sensorData.beforeAfterMeal, // 'before', 'afternoon'
+          encryptedData.iotSerialNo,
+          encryptedData.mealYN,
+          encryptedData.mealBLD,
+          encryptedData.hr,
+          encryptedData.hrv,
+          encryptedData.sdnn,
+          encryptedData.rmssd,
+          encryptedData.pnn50,
+          encryptedData.vlf,
+          encryptedData.lf,
+          encryptedData.hf,
+          encryptedData.fr,
+          predictionResult,
         ]
       );
       return result;
@@ -31,11 +56,9 @@ class SensorModel {
     const conn = await pool.getConnection();
     try {
       const [rows] = await conn.query(
-        `SELECT
-          DATE(measurement_time) as date,
-          MAX(sensor_data->"$.glucose") as max_glucose
-        FROM biometrics
-        WHERE user_id = ? AND sensor_data->"$.beforeAfterMeal" = 'before'
+        `SELECT DATE(created_at) as date, MAX(bloodsugar) as max_glucose
+        FROM tbl_sensor
+        WHERE user_id = ? AND meal_yn = 'n'  // 'n'는 공복
         GROUP BY date HAVING max_glucose >= 300
         ORDER BY date DESC LIMIT 3`,
         [userEmail]
@@ -58,6 +81,28 @@ class SensorModel {
         return isConsistent;
       } else {
         return false;
+      }
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  // 사용자의 최근 스트레스 데이터 조회
+  async getRecentStressData(userEmail) {
+    const conn = await pool.getConnection();
+    try {
+      const [rows] = await conn.query(
+        "SELECT fr FROM tbl_sensor WHERE user_id = ? ORDER BY created_at DESC LIMIT 1",
+        [userEmail]
+      );
+
+      if (rows.length > 0) {
+        const stressLevel = calculateStressLevel(rows[0].fr); // calculateStressLevel은 스트레스 레벨을 계산하는 함수
+        return { stressLevel };
+      } else {
+        return null;
       }
     } catch (err) {
       throw err;
