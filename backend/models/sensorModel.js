@@ -1,48 +1,33 @@
 // NOTE: 센서 데이터와 예측 결과 저장
 const pool = require("../utils/db").promise();
-const { encrypt, decrypt } = require("../utils/encryptionUtils");
 // FIXME: 데이터베이스 관련 코드 수정해야 함
 
 class SensorModel {
   async saveData(userEmail, sensorData, predictionResult) {
     const conn = await pool.getConnection();
     try {
-      // 각 센서 데이터 항목을 개별적으로 암호화
-      const encryptedData = {
-        iotSerialNo: encrypt(sensorData.iotSerialNo).encryptedData,
-        mealYN: encrypt(sensorData.mealYN).encryptedData,
-        mealBLD: encrypt(sensorData.mealBLD).encryptedData,
-        hr: encrypt(String(sensorData.hr)).encryptedData,
-        hrv: encrypt(String(sensorData.hrv)).encryptedData,
-        sdnn: encrypt(String(sensorData.sdnn)).encryptedData,
-        rmssd: encrypt(String(sensorData.rmssd)).encryptedData,
-        pnn50: encrypt(String(sensorData.pnn50)).encryptedData,
-        vlf: encrypt(String(sensorData.vlf)).encryptedData,
-        lf: encrypt(String(sensorData.lf)).encryptedData,
-        hf: encrypt(String(sensorData.hf)).encryptedData,
-        fr: encrypt(String(sensorData.fr)).encryptedData,
-      };
       // 센서 데이터와 예측 결과를 함께 데이터베이스에 저장
       // FIXME: 데이터베이스 관련 코드 수정해야 함
       const [result] = await conn.query(
         "INSERT INTO tbl_sensor (user_id, iot_serial_no, created_at, meal_yn, meal_bld, hr, hrv, sdnn, rmssd, pnn50, vlf, lf, hf, fr, bloodsugar) VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           userEmail,
-          encryptedData.iotSerialNo,
-          encryptedData.mealYN,
-          encryptedData.mealBLD,
-          encryptedData.hr,
-          encryptedData.hrv,
-          encryptedData.sdnn,
-          encryptedData.rmssd,
-          encryptedData.pnn50,
-          encryptedData.vlf,
-          encryptedData.lf,
-          encryptedData.hf,
-          encryptedData.fr,
+          sensorData.iotSerialNo,
+          sensorData.mealYN,
+          sensorData.mealBLD,
+          sensorData.hr,
+          sensorData.hrv,
+          sensorData.sdnn,
+          sensorData.rmssd,
+          sensorData.pnn50,
+          sensorData.vlf,
+          sensorData.lf,
+          sensorData.hf,
+          sensorData.fr,
           predictionResult,
         ]
       );
+
       return result;
     } catch (err) {
       throw err;

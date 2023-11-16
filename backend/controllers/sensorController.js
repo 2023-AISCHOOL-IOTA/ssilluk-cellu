@@ -1,29 +1,15 @@
 // NOTE: 센서 데이터를 받아 예측 모델 서버에 전송, 결과를 데이터베이스에 저장
 const axios = require("axios");
-const { encrypt } = require("../utils/encryptionUtils");
 const sensorModel = require("../models/sensorModel");
 const notificationService = require("../services/notificationService");
+const { getStressLevel } = require("../utils/stressUtils");
 
 const PREDICTION_MODEL_SERVER_URL = `http://${process.env.PREDICTION_SERVER_HOSTNAME}:${process.env.PREDICTION_SERVER_PORT}/${process.env.PREDICTION_SERVER_PATH}`;
-
-// 스트레스 수준 판별 함수
-const getStressLevel = (frequencyRatio) => {
-  if (
-    (frequencyRatio >= 0.3 && frequencyRatio <= 0.4) ||
-    (frequencyRatio >= 0.6 && frequencyRatio <= 0.7)
-  ) {
-    return "initial_stress";
-  } else if (frequencyRatio > 0.4 && frequencyRatio < 0.6) {
-    return "normal";
-  } else {
-    return "high_stress";
-  }
-};
 
 const sensorController = {
   processSensorData: async (req, res, next) => {
     try {
-      const userEmail = req.user.email; // 인증된 사용자의 ID
+      const userEmail = req.user.user_id; // 인증된 사용자의 ID
       const sensorData = req.body; // 센서 데이터
 
       // 스트레스 수준 계산
@@ -34,17 +20,10 @@ const sensorController = {
         PREDICTION_MODEL_SERVER_URL,
         sensorData
       );
-      const predictionResult = data.prediction;
-
-      // 데이터 암호화
-      const encryptedSensorData = encrypt(JSON.stringify(sensorData));
+      const predictionResult = data.bloodsugar;
 
       // 데이터베이스에 센서 데이터와 예측 결과 저장
-      await sensorModel.saveData(
-        userEmail,
-        encryptedSensorData,
-        predictionResult
-      );
+      await sensorModel.saveData(userEmail, sensorData, predictionResult);
 
       // 예측 결과가 54 이하 또는 공복시 300 이상인 경우 SMS 알림 전송
       if (
