@@ -36,6 +36,22 @@ class SensorModel {
     }
   }
 
+  // 센서 데이터 조회
+  async findSensorDataByUserId(userId) {
+    const conn = await pool.getConnection();
+    try {
+      const [rows] = await conn.query(
+        "SELECT * FROM tbl_sensor WHERE user_id = ? ORDER BY created_at DESC",
+        [userId]
+      );
+      return rows;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
   // 공복시 혈당이 300 이상인지 3일 연속으로 확인하는 메소드
   async checkConsistentHighGlucose(userEmail) {
     const conn = await pool.getConnection();

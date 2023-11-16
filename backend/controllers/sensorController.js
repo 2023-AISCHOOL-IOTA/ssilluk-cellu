@@ -60,6 +60,17 @@ const sensorController = {
       next(error);
     }
   },
+  // 사용자 센서 데이터 조회
+  async getSensorData(req, res, next) {
+    try {
+      const sensorData = await sensorModel.findSensorDataByUserId(
+        req.user.user_id
+      );
+      res.status(200).send(sensorData);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = sensorController;

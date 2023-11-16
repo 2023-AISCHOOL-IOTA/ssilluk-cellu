@@ -7,5 +7,6 @@ const router = express.Router();
 
 // 센서 데이터 처리 및 예측 모델 결과 저장 라우트
 router.post("/", protect, sensorController.processSensorData);
+router.get("/", protect, sensorController.getSensorData);
 
 module.exports = router;
