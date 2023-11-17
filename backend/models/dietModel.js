@@ -2,15 +2,19 @@
 const pool = require("../utils/db").promise();
 
 class DietModel {
-  async addDiet(userId, dietData) {
+  async addDiet(userId, dietContent, dietTime, dietImg) {
     const conn = await pool.getConnection();
+    //FIXME: DELETE
+    console.log(`dietTime1: `, dietTime);
     try {
       const [result] = await conn.query("INSERT INTO tbl_diet SET ?", {
         user_id: userId,
-        diet_time: dietData.diet_time,
-        diet_content: dietData.diet_content,
-        diet_img: dietData.diet_img,
+        diet_time: dietTime,
+        diet_content: dietContent,
+        diet_img: dietImg,
       });
+      //FIXME: DELETE
+      console.log(`result: `, result);
       return result;
     } catch (err) {
       throw err;

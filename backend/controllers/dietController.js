@@ -1,14 +1,34 @@
 // NOTE: 식단 컨트롤러
 const DietModel = require("../models/dietModel");
+const uploadToS3 = require("../utils/s3Uploader");
 
 const dietController = {
   // 식단 기록
-  async recordDiet(req, res, next) {
+  async addDiet(req, res, next) {
     try {
       const userId = req.user.user_id; // 인증된 사용자의 ID
-      const dietData = req.body;
-      await DietModel.recordDiet(userId, dietData);
-      res.status(201).send({ message: "Diet recorded successfully." });
+      const { diet_content, diet_time } = req.body;
+      let dietImgUrl = null;
+
+      // 이미지 파일이 있을 경우에만 S3 업로드 실행
+      if (req.file) {
+        try {
+          const uploadResult = await uploadToS3(
+            req.file,
+            process.env.AWS_S3_BUCKET
+          );
+          dietImgUrl = uploadResult.Location; // S3에서의 이미지 URL
+          await DietModel.addDiet(userId, diet_content, diet_time, dietImgUrl);
+          res.status(201).send({ message: "Diet recorded successfully." });
+        } catch (error) {
+          // 이미지 업로드 실패 처리
+          next(error);
+        }
+      } else {
+        // 이미지 없이 식단 기록
+        await DietModel.addDiet(userId, diet_content, diet_time, null);
+        res.status(201).send({ message: "Diet recorded successfully." });
+      }
     } catch (error) {
       next(error);
     }
