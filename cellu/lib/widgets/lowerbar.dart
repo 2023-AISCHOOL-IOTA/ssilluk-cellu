@@ -30,31 +30,83 @@ class _BottomState extends State<Bottomnavi> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex], // 현재 선택된 탭에 해당하는 페이지를 표시합니다.
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/Menu 1.png", scale: 3,),
-            activeIcon: Image.asset("assets/icons/Menu 1_1.png", scale: 3,),
-            label: '메인페이지',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black, // 배경색을 검정으로 설정합니다.
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/Menu 7.png", scale: 3,),
-            activeIcon: Image.asset("assets/icons/Menu 7_1.png", scale: 3,),
-            label: '생체 정보',
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/Menu 6.png", scale: 3,),
-            activeIcon: Image.asset("assets/icons/Menu 6_1.png", scale: 3,),
-            label: '메뉴',
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed, // 아이콘 크기를 고정합니다.
+            backgroundColor: Colors.black, // 배경색을 검정으로 설정합니다.
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 1_1.png"),
+                ),
+                activeIcon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 1.png"),
+                ),
+                label: '메인페이지',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 2.png"),
+                ),
+                activeIcon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 2_1.png"),
+                ),
+                label: '생체 정보',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 3.png"),
+                ),
+                activeIcon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 3_1.png"),
+                ),
+                label: '메뉴',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 4.png"),
+                ),
+                activeIcon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 4_1.png"),
+                ),
+                label: '마이페이지',
+              ),
+              // 여기에 다른 아이콘들을 추가합니다.
+            ],
+            currentIndex: _selectedIndex,
+            unselectedItemColor: Colors.white54, // 비활성화된 아이템 색상을 설정합니다.
+            selectedItemColor: Colors.white, // 활성화된 아이템 색상을 설정합니다.
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/Menu 4.png", scale: 3,),
-            activeIcon: Image.asset("assets/icons/Menu 4_1.png", scale: 3,),
-            label: '마이페이지',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        ),
       ),
     );
   }
