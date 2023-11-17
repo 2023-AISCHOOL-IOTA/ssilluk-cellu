@@ -1,19 +1,12 @@
 import 'dart:async';
-
-import 'package:cellu/widgets/lowerbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
-
-import 'screens/mypage_screen.dart';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  await dotenv.load(fileName: "assets/config/.env");
-
-
+  // await dotenv.load(fileName: "assets/config/.env");
   runApp(const MyApp());
   // Push Test 슬기
 }
