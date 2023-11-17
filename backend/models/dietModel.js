@@ -4,8 +4,7 @@ const pool = require("../utils/db").promise();
 class DietModel {
   async addDiet(userId, dietContent, dietTime, dietImg) {
     const conn = await pool.getConnection();
-    //FIXME: DELETE
-    console.log(`dietTime1: `, dietTime);
+
     try {
       const [result] = await conn.query("INSERT INTO tbl_diet SET ?", {
         user_id: userId,
@@ -13,8 +12,7 @@ class DietModel {
         diet_content: dietContent,
         diet_img: dietImg,
       });
-      //FIXME: DELETE
-      console.log(`result: `, result);
+
       return result;
     } catch (err) {
       throw err;
@@ -22,7 +20,7 @@ class DietModel {
       if (conn) conn.release();
     }
   }
-  async getDietRecords(userId) {
+  async getDiet(userId) {
     const conn = await pool.getConnection();
     try {
       const [rows] = await conn.query(
@@ -42,6 +40,35 @@ class DietModel {
       const [result] = await conn.query(
         "DELETE FROM tbl_diet WHERE diet_idx = ?",
         [dietIdx]
+      );
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+  async getDietById(dietIdx) {
+    const conn = await pool.getConnection();
+    try {
+      const [rows] = await conn.query(
+        "SELECT * FROM tbl_diet WHERE diet_idx = ?",
+        [dietIdx]
+      );
+      return rows.length > 0 ? rows[0] : null;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  async updateDiet(dietIdx, userId, dietContent, dietTime, dietImg) {
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query(
+        "UPDATE tbl_diet SET diet_content = ?, diet_time = ?, diet_img = ? WHERE diet_idx = ? AND user_id = ?",
+        [dietContent, dietTime, dietImg, dietIdx, userId]
       );
       return result;
     } catch (err) {
