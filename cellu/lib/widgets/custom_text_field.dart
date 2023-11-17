@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final IconData? prefixIcon;
   final TextEditingController? controller;
+  final TextInputType? keyboardType; // updateProfile 사용 추가
 
   CustomTextField({
     required this.label,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.prefixIcon,
+    this.keyboardType,  // updateProfile 사용 추가
   });
 
   @override
@@ -33,6 +35,7 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       ),
       obscureText: obscureText,
+      keyboardType: keyboardType,  // updateProfile 사용 추가
     );
   }
 }

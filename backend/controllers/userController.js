@@ -1,11 +1,6 @@
 // NOTE: 사용자와 관련된 기능 처리 컨트롤러
 // NOTE: 회원가입, 로그인, 프로필 조회 및 수정
 
-/**
- * @param req - 요청 객체
- * @param res - 응답 객체
- * @param next - 다음 미들웨어로 넘기는 함수
- */
 const UserModel = require("../models/userModel");
 const tokenUtils = require("../utils/tokenUtils");
 
@@ -36,7 +31,7 @@ const userController = {
       if (user.socialLoginType) {
         // NOTE: 소셜 로그인 사용자는 비밀번호 검증이 필요 없음
         const token = tokenUtils.generateToken(
-          { id: user.id },
+          { id: user.user_id },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
@@ -51,10 +46,9 @@ const userController = {
       if (!isMatch) {
         return res.status(401).send({ message: `Invalid credentials` });
       }
-
       // TODO: 토큰 생성과 응답 로직을 함수로 추출하여 중복 최소화
       const token = tokenUtils.generateToken(
-        { id: user.id },
+        { id: user.user_id },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
@@ -67,7 +61,11 @@ const userController = {
   // 사용자 프로필 조회
   async getProfile(req, res, next) {
     try {
-      const user = await UserModel.findUserById(req.body.id);
+      const user = await UserModel.findUserById(req.user.user_id);
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
       res.status(200).send(user);
     } catch (error) {
       next(error);
@@ -77,8 +75,8 @@ const userController = {
   // 사용자 프로필 수정
   async updateProfile(req, res, next) {
     try {
-      const updateDate = req.body;
-      await UserModel.updateUser(req.body.id, updateDate);
+      const updateData = req.body;
+      await UserModel.updateUser(req.user.user_id, updateData);
       res.status(200).send({ message: `Profile updated successfully` });
     } catch (error) {
       next(error);
@@ -88,7 +86,7 @@ const userController = {
   // 사용자 탈퇴
   async deleteProfile(req, res, next) {
     try {
-      await UserModel.deleteUser(req.user.id);
+      await UserModel.deleteUser(req.user.user_id);
       res.status(200).send({ message: `User deleted successfully` });
     } catch (error) {
       next(error);

@@ -7,6 +7,10 @@ app = Flask(__name__)
 # 로깅 설정
 logging.basicConfig(level=logging.DEBUG)
 
+def mock_predict(data):
+    data['bloodsugar'] = 150  # 임의의 bloodsugar 값 설정
+    return data
+
 # FIXME: my_model은 임의로 작성한 모델. 예측 함수는 my_model.predict(data)로 호출
 # FIXME: 가짜 코드니까 수정해야 함
 def load_my_model(data):
@@ -35,12 +39,10 @@ def predict():
   # 결과 후처리
   # processed_result = real_model.postprocess(prediction_result)
 
-  prediction_result = load_my_model(data)
+  # response = {'prediction': prediction_result}
 
-  response = {
-        'prediction': prediction_result
-    }
-
+  response = mock_predict(data)
+  app.logger.info(f'Response: {response}')
   return jsonify(response), 200
 
 if __name__ == '__main__':
