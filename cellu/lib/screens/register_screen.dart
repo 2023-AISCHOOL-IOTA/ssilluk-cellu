@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -138,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String email = _emailController.text;
     final String password = _passwordController.text;
 
-    // HTTP 요청 보냄
+    // // HTTP 요청 보냄
     // final response = await http.post(
     //   Uri.parse('${dotenv.env['BACKEND_URL']}/signup'),
     //   headers: <String, String>{

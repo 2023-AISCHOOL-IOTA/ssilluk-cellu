@@ -1,14 +1,15 @@
 import 'dart:async';
-
-import 'package:cellu/widgets/lowerbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
 import 'screens/updateProfile.dart';
+<<<<<<< HEAD
 import 'screens/mypage_screen.dart';
 import 'screens/changePw_screen.dart';
 
+=======
+>>>>>>> 659a5d08b71e75cfccb0c15cc2261691144a71a0
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
