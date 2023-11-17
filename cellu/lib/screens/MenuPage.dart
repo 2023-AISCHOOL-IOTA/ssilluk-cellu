@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MypageScreen(),
+      home: MenuPage(),
     );
   }
 }
 
-class MypageScreen extends StatelessWidget {
+class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // AppBar의 높이를 가져옵니다.
@@ -33,6 +33,13 @@ class MypageScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
+        title: Text(
+          '메뉴',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true, // 타이틀 가운데 정렬
       ),
       body: SafeArea(
         child: Center(
@@ -40,15 +47,11 @@ class MypageScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: appBarHeight), // AppBar 높이만큼 공간을 추가합니다.
-              MyButton(title: '기기 연결하기'),
+              MyButton(title: '약물 관리'),
               SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '내 정보 수정'),
+              MyButton(title: '식단 관리'),
               SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '비밀번호 변경'),
-              SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '회원탈퇴'),
-              SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '로그아웃'),
+              MyButton(title: '체중 관리'),
             ],
           ),
         ),

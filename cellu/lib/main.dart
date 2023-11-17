@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
+import 'screens/updateProfile.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   // await dotenv.load(fileName: "assets/config/.env");
+
   runApp(const MyApp());
-  // Push Test 슬기
 }
 
 class MyApp extends StatelessWidget {
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
-      // home: BioScreen(),
+      // home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
+      home: EditProfileScreen(),
     );
   }
 }
@@ -54,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  void dipose() {
+  void dispose() {
     _timer?.cancel();
     super.dispose();
   }
