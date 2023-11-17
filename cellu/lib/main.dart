@@ -7,6 +7,7 @@ import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
 import 'screens/updateProfile.dart';
 import 'screens/mypage_screen.dart';
+import 'screens/changePw_screen.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -22,13 +23,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // 상단 빨간띠 없애깅
       title: 'Cellu~',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
-      home: EditProfileScreen(),
+      home: PasswordChangeScreen(),
     );
   }
 }
