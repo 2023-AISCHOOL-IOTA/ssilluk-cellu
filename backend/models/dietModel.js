@@ -2,7 +2,7 @@
 const pool = require("../utils/db").promise();
 
 class DietModel {
-  async recordDiet(userId, dietData) {
+  async addDiet(userId, dietData) {
     const conn = await pool.getConnection();
     try {
       const [result] = await conn.query("INSERT INTO tbl_diet SET ?", {
