@@ -4,13 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
 import 'screens/updateProfile.dart';
-<<<<<<< HEAD
+// <<<<<<< HEAD
 import 'screens/mypage_screen.dart';
 import 'screens/changePw_screen.dart';
 
-=======
->>>>>>> 659a5d08b71e75cfccb0c15cc2261691144a71a0
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
+// =======
+// >>>>>>> 659a5d08b71e75cfccb0c15cc2261691144a71a0
+// // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   // await dotenv.load(fileName: "assets/config/.env");
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
-      home: PasswordChangeScreen(),
+      home: ChangePasswordScreen(),
     );
   }
 }
