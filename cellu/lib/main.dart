@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
-      home: ChangePasswordScreen(),
+      home: EditProfileScreen(),
     );
   }
 }
