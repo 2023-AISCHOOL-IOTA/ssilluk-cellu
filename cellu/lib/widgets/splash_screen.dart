@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import '../bloc/server_connection_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import '../screens/login_screen.dart';
 import '../services/logger_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart';
-
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -19,9 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // 서버 연결 체크 시작
     BlocProvider.of<ServerConnectionBloc>(context).add(CheckConnection());
   }
 
+  // 로그인 화면으로 이동
   void _navigateToLogin() {
     if (!mounted) return;
     Navigator.pushReplacement(
@@ -30,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  // 연결 오류 대화상자 표시
   void _showError() {
     showDialog(
       context: context,
@@ -68,6 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // BLoC Consumer로 상태 변화 감지
     return BlocConsumer<ServerConnectionBloc, ServerConnectionState>(
       listener: (context, state) {
         if (state == ServerConnectionState.connected) {
