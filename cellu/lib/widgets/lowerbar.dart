@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
+import '../screens/MenuPage.dart';
 import '../screens/biometrics_screen.dart';
 import '../screens/mypage_screen.dart';
-// 다른 페이지들에 대한 import도 추가해야 합니다.
+// 필요한 다른 페이지들에 대한 import를 추가합니다.
 
 class Bottomnavi extends StatefulWidget {
   @override
@@ -11,14 +14,38 @@ class Bottomnavi extends StatefulWidget {
 
 class _BottomState extends State<Bottomnavi> {
   int _selectedIndex = 0;
-  // 각 탭에 해당하는 페이지 위젯들을 리스트로 관리합니다.
+  final LocalAuthentication auth = LocalAuthentication();
   final List<Widget> _pages = [
     BioScreen(),
     MypageScreen(),
-    MypageScreen(),
+    MenuPage(),
     MypageScreen(),
     // 여기에 다른 페이지 위젯들을 추가합니다.
   ];
+
+  Future<void> _authenticateWithBiometrics() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: '지문을 사용하여 인증해 주세요.',
+        useErrorDialogs: true,
+        stickyAuth: true,
+        biometricOnly: true,
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    final String message = authenticated ? '인증 성공!' : '인증 실패';
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('인증 결과'),
+        content: Text(message),
+      ),
+    );
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -73,18 +100,10 @@ class _BottomState extends State<Bottomnavi> {
                 ),
                 label: '생체 정보',
               ),
+              // 지문 인식 기능을 호출하는 버튼을 추가하실 수 있습니다.
               BottomNavigationBarItem(
-                icon: Container(
-                  width: 24,
-                  height: 24,
-                  child: Image.asset("assets/icons/Menu 3.png"),
-                ),
-                activeIcon: Container(
-                  width: 24,
-                  height: 24,
-                  child: Image.asset("assets/icons/Menu 3_1.png"),
-                ),
-                label: '메뉴',
+                icon: Icon(Icons.fingerprint),
+                label: '지문 인식',
               ),
               BottomNavigationBarItem(
                 icon: Container(
