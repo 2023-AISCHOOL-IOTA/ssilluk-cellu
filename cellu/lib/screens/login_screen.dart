@@ -3,9 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import '../widgets/custom_text_field.dart';
 import '../styles.dart';
 
+import 'biometrics_screen.dart';
 import 'register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -111,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegisterScreen()),
+                            builder: (context) => BioScreen()),
                       );
                     },
                     child: Text(
