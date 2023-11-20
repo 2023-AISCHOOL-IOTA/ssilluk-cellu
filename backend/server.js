@@ -24,9 +24,9 @@ app.use("/api/sensor", sensorRoutes);
 app.use("/api/stress", stressRoutes);
 app.use("/api/auth", authRoutes); // 소셜 로그인 라우터
 app.use("/api/guardian", guardianRoutes); // 보호자
-app.use("/api/diet", dietRoutes);
-app.use("/api/dose", doseRoutes);
-app.use("/api/weight", weightRoutes);
+app.use("/api/diet", dietRoutes); // 식단
+app.use("/api/dose", doseRoutes); // 복약
+app.use("/api/weight", weightRoutes); // 체중
 
 // Logging middleware - 모든 요청에 대한 로깅
 app.use((req, res, next) => {
