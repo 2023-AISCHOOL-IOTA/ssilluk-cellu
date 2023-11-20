@@ -3,25 +3,19 @@ import 'dart:async';
 import 'package:cellu/screens/drugmanagement_page.dart';
 import 'package:cellu/widgets/lowerbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'screens/login_screen.dart';
-import 'screens/biometrics_screen.dart';
-import 'screens/updateProfile.dart';
-// <<<<<<< HEAD
-import 'screens/mypage_screen.dart';
-import 'screens/changePw_screen.dart';
-
-// =======
-// >>>>>>> 659a5d08b71e75cfccb0c15cc2261691144a71a0
-// // import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'screens/mypage_screen.dart';
-
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/server_connection_bloc.dart';
+import 'repository/server_connection_repository.dart';
+import 'services/logger_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'widgets/splash_screen.dart';
 
 void main() async {
-  // await dotenv.load(fileName: "assets/config/.env");
-
+  try {
+    await dotenv.load(fileName: "assets/config/.env");
+  } catch (e, s) {
+    LoggerService.error('환경 변수 로딩 실패', error: e, stackTrace: s);
+  }
   runApp(const MyApp());
   // Push Test 슬기
 }
@@ -31,56 +25,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // 상단 빨간띠 없애깅
-      title: 'Cellu~',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SplashScreen(), // 앱의 진입점을 SplashScreen으로 설정
-      // home: BioScreen(),
-    );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer(const Duration(seconds: 3), _navigateToLogin);
-  }
-
-  void _navigateToLogin() {
-    if (!mounted) return;
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SvgPicture.asset('assets/logo.svg'),
+    return BlocProvider(
+      create: (context) => ServerConnectionBloc(ServerConnectionRepository()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Cellu',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: SplashScreen(),
       ),
     );
   }
