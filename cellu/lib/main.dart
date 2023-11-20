@@ -4,7 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'screens/login_screen.dart';
 import 'screens/biometrics_screen.dart';
 import 'screens/updateProfile.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
+// <<<<<<< HEAD
+import 'screens/mypage_screen.dart';
+import 'screens/changePw_screen.dart';
+
+// =======
+// >>>>>>> 659a5d08b71e75cfccb0c15cc2261691144a71a0
+// // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   // await dotenv.load(fileName: "assets/config/.env");
@@ -18,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // 상단 빨간띠 없애깅
       title: 'Cellu~',
       theme: ThemeData(
         primarySwatch: Colors.blue,
