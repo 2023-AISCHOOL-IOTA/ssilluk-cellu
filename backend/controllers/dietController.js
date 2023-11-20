@@ -88,6 +88,72 @@ const dietController = {
       next(error);
     }
   },
+  // Update Only Diet Content
+  async updateDietContent(req, res, next) {
+    try {
+      const dietIdx = req.params.dietIdx;
+      const userId = req.user.user_id;
+      const { diet_content, diet_time } = req.body;
+
+      await DietModel.updateDiet(
+        dietIdx,
+        userId,
+        diet_content,
+        diet_time,
+        null
+      );
+      res.status(200).send({ message: "Diet content updated successfully." });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // Update Only Diet Image
+  async updateDietImage(req, res, next) {
+    try {
+      const dietIdx = req.params.dietIdx;
+      const existingRecord = await DietModel.getDietById(dietIdx);
+      let dietImgUrl = existingRecord ? existingRecord.diet_img : null;
+
+      if (req.file) {
+        if (dietImgUrl) {
+          await deleteFromS3(dietImgUrl);
+        }
+        const uploadResult = await uploadToS3(
+          req.file,
+          process.env.AWS_S3_BUCKET
+        );
+        dietImgUrl = uploadResult.Location;
+      }
+
+      await DietModel.updateDietImage(dietIdx, dietImgUrl);
+      res
+        .status(200)
+        .send({
+          message: "Diet image updated successfully.",
+          imageUrl: dietImgUrl,
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // Delete Only Diet Image
+  async deleteDietImage(req, res, next) {
+    try {
+      const dietIdx = req.params.dietIdx;
+      const existingRecord = await DietModel.getDietById(dietIdx);
+
+      if (existingRecord && existingRecord.diet_img) {
+        await deleteFromS3(existingRecord.diet_img);
+        await DietModel.updateDietImage(dietIdx, null);
+      }
+
+      res.status(200).send({ message: "Diet image deleted successfully." });
+    } catch (error) {
+      next(error);
+    }
+  },
 
   // 식단 삭제
   async deleteDiet(req, res, next) {

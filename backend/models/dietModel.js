@@ -77,6 +77,21 @@ class DietModel {
       if (conn) conn.release();
     }
   }
+
+  async updateDietImage(dietIdx, dietImg) {
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query(
+        "UPDATE tbl_diet SET diet_img = ? WHERE diet_idx = ?",
+        [dietImg, dietIdx]
+      );
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
 }
 
 module.exports = new DietModel();
