@@ -276,7 +276,7 @@ class MedicineScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0), // 여기를 수정하여 Card의 모서리를 둥글게 합니다.
+        borderRadius: BorderRadius.circular(16.0),
       ),
       margin: const EdgeInsets.all(8.0),
       child: Column(
@@ -311,7 +311,7 @@ class MedicineScheduleCard extends StatelessWidget {
             ),
           ),
           // TODO: 약물 수정 필요
-          // FIXME : time : 데이터 작성한 시간 (text), Dosing_time : 투약 시기, Drug_type : 약물 유형, Drug_name: 약 이름, amount : 용량
+          // FIXME : time : 데이터 작성한 시간 (text), Dosing_time : 식사 여부, Drug_type : 약물 유형, Drug_name: 약 이름, amount : 용량
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
