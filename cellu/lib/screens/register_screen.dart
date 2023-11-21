@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../widgets/custom_text_field.dart';
 import '../../styles.dart';
 
 import 'login_screen.dart';
+// import 'Home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -19,6 +19,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
   final ValueNotifier<bool> _isConfirmPasswordVisible = ValueNotifier(false);
@@ -27,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _isPasswordVisible.dispose();
     _isConfirmPasswordVisible.dispose();
     super.dispose();
@@ -47,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -67,16 +70,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hint: '이메일을 입력하세요',
                     obscureText: false,
                     prefixIcon: Icons.email,
+                    controller: _emailController, // 이메일 입력 컨트롤러 연결
                   ),
                   SizedBox(height: 20),
                   _buildPasswordInputField(
                     '비밀번호',
                     _isPasswordVisible,
+                    _passwordController, // 비밀번호 입력 컨트롤러 연결
                   ),
                   SizedBox(height: 20),
                   _buildPasswordInputField(
                     '비밀번호 확인',
                     _isConfirmPasswordVisible,
+                    _confirmPasswordController, // 비밀번호 입력 컨트롤러 연결
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
@@ -114,7 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPasswordInputField(
-      String label, ValueNotifier<bool> visibilityNotifier) {
+      String label,
+      ValueNotifier<bool> visibilityNotifier,
+      TextEditingController controller) {
     return ValueListenableBuilder(
       valueListenable: visibilityNotifier,
       builder: (context, value, child) {
@@ -129,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             onPressed: () => visibilityNotifier.value = !value,
           ),
+          controller: controller,
         );
       },
     );
@@ -137,24 +146,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _register() async {
     final String email = _emailController.text;
     final String password = _passwordController.text;
+    final String confirmPassword = _confirmPasswordController.text;
+
+    // 비밀번호와 비밀번호 확인이 일치하는지 확인
+    if (password != confirmPassword) {
+      // 비밀번호 불일치 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('비밀번호와 비밀번호 확인이 일치하지 않습니다.'),
+          duration: Duration(seconds: 3), // 알림이 표시되는 시간 설정
+        ),
+      );
+      return;
+    }
 
     // HTTP 요청 보냄
-    // final response = await http.post(
-    //   Uri.parse('${dotenv.env['BACKEND_URL']}/signup'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(<String, String>{
-    //     'email': email,
-    //     'password': password,
-    //   }),
-    // );
-    // if (response.statusCode == 201) {
-    //   // 회원가입 성공
-    //   log('회원가입 성공: ${response.body}');
-    //   // 로그인 화면으로 이동
-    // } else {
-    //   log('회원가입 실패: ${response.body}');
-    // }
+    final response = await http.post(
+      Uri.parse('${dotenv.env['BACKEND_URL']}/user/signup'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': email,
+        'password': password,
+      }),
+    );
+    if (response.statusCode == 201) {
+      // 회원가입 성공
+      log('회원가입 성공: ${response.body}');
+      // 로그인 화면으로 이동
+    } else {
+      log('회원가입 실패: ${response.body}');
+    }
+
+    // 회원 가입이 성공하면 MainScreen으로 이동
+    Navigator.pushReplacement(
+      context,
+      // MaterialPageRoute(builder: (context) => MainScreen()), // MainScreen으로 이동
+      // TODO: DELETE
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 }
