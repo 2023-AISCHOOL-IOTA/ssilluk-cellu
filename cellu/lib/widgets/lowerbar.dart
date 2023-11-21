@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import '../screens/Home_screen.dart';
 import '../screens/MenuPage.dart';
 import '../screens/biometrics_screen.dart';
 import '../screens/mypage_screen.dart';
@@ -16,8 +17,8 @@ class _BottomState extends State<Bottomnavi> {
   int _selectedIndex = 0;
   final LocalAuthentication auth = LocalAuthentication();
   final List<Widget> _pages = [
+    MainScreen(),
     BioScreen(),
-    MypageScreen(),
     MenuPage(),
     MypageScreen(),
     // 여기에 다른 페이지 위젯들을 추가합니다.
@@ -102,8 +103,17 @@ class _BottomState extends State<Bottomnavi> {
               ),
               // 지문 인식 기능을 호출하는 버튼을 추가하실 수 있습니다.
               BottomNavigationBarItem(
-                icon: Icon(Icons.fingerprint),
-                label: '지문 인식',
+                icon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 3.png"),
+                ),
+                activeIcon: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/icons/Menu 3_1.png"),
+                ),
+                label: '메뉴',
               ),
               BottomNavigationBarItem(
                 icon: Container(
