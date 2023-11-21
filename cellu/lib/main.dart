@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/server_connection_bloc.dart';
 import 'repository/server_connection_repository.dart';
 import 'services/logger_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'styles.dart';
-import 'widgets/splash_screen.dart';
+import 'ui/widgets/splash_screen.dart';
 
-import 'package:cellu/screens/drugmanagement_page.dart';
-import 'package:cellu/widgets/lowerbar.dart';
+import 'package:cellu/ui/screens/drugmanagement_page.dart';
+import 'package:cellu/ui/widgets/lowerbar.dart';
 
 void main() async {  // 환경 변수 로딩
   try {
