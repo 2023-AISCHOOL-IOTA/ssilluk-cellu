@@ -651,6 +651,7 @@ class MedicineScheduleItem extends StatelessWidget {
 }
 
 // TODO : 혈당 차트 클래스
+// 차트 클래스
 class LineChartSample extends StatelessWidget {
   final Map<int, List<int>> bloodSugarData; // 혈당 데이터를 매개변수로 받음
   final int selectedDate; // 선택된 날짜
@@ -683,26 +684,113 @@ class LineChartSample extends StatelessWidget {
             child: LineChart(
               LineChartData(
                 // 차트 구성 데이터
-                // 여기에 나머지 LineChartData 설정을 추가
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  checkToShowHorizontalLine: (value) => value % 30 == 0,
+                  checkToShowVerticalLine: (value) => value % 4 == 0,
+                  getDrawingHorizontalLine: (value) {
+                    return FlLine(
+                      color: const Color(0xff37434d),
+                      strokeWidth: 1,
+                    );
+                  },
+                  getDrawingVerticalLine: (value) {
+                    return FlLine(
+                      color: const Color(0xff37434d),
+                      strokeWidth: 1,
+                    );
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    getTextStyles: (context, value) => const TextStyle(
+                      color: Color(0xff68737d),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    getTitles: (value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return '0시';
+                        case 4:
+                          return '4시';
+                        case 8:
+                          return '8시';
+                        case 12:
+                          return '12시';
+                        case 16:
+                          return '16시';
+                        case 20:
+                          return '20시';
+                        default:
+                          return '';
+                      }
+                    },
+                    margin: 8,
+                    interval: 1,
+                  ),
+                  leftTitles: SideTitles(
+                    showTitles: true,
+                    getTextStyles: (context, value) => const TextStyle(
+                      color: Color(0xff67727d),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    getTitles: (value) {
+                      return '${value.toInt()}';
+                    },
+                    reservedSize: 28,
+                    margin: 12,
+                    interval: 30,
+                  ),
+                ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: const Color(0xff37434d), width: 1),
+                ),
+                minX: 0,
+                maxX: 23,
+                minY: 0,
+                maxY: 260,
+
                 lineBarsData: [
                   LineChartBarData(
                     spots: _createSpotsFromData(sugarData),
                     isCurved: false,
-                    colors: [Colors.black],
-                    barWidth: 2,
+                    colors: [Colors.black], // 선 색상 변경
+                    barWidth: 2, // 선 두께 설정
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
                       getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-                        radius: 4,
-                        color: Colors.blueAccent,
+                        radius: 4, // 포인트 크기 설정
+                        color: Colors.blueAccent, // 포인트 색상 변경
                         strokeWidth: 0,
                       ),
                     ),
                     belowBarData: BarAreaData(show: false),
                   ),
                 ],
-                // 나머지 LineChartData 설정
+                lineTouchData: LineTouchData(
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Colors.black,
+                    getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                      return touchedSpots.map((barSpot) {
+                        final xValue = barSpot.x.toInt(); // x 값을 정수로 변환
+                        final yValue = barSpot.y.toInt(); // y 값을 정수로 변화
+                        return LineTooltipItem(
+                          '$xValue:00 \n$yValue mg/dL', // 변환된 값을 사용
+                          const TextStyle(color: Colors.white), // 텍스트 색상 변경
+                        );
+                      }).toList();
+                    },
+                  ),
+                  touchCallback: (LineTouchResponse touchResponse) {},
+                  handleBuiltInTouches: true,
+                ),
               ),
             ),
           ),
@@ -710,6 +798,7 @@ class LineChartSample extends StatelessWidget {
       ],
     );
   }
+}
 
   // 혈당 데이터를 바탕으로 FlSpot 리스트 생성
   List<FlSpot> _createSpotsFromData(List<int> sugarData) {
