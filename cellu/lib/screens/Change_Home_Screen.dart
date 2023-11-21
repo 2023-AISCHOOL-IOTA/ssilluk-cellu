@@ -798,7 +798,6 @@ class LineChartSample extends StatelessWidget {
       ],
     );
   }
-}
 
   // 혈당 데이터를 바탕으로 FlSpot 리스트 생성
   List<FlSpot> _createSpotsFromData(List<int> sugarData) {
