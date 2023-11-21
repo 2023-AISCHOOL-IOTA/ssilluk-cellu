@@ -9,7 +9,7 @@ import '../widgets/custom_text_field.dart';
 import '../../styles.dart';
 
 import 'login_screen.dart';
-// import 'Home_screen.dart';
+import 'Home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -182,9 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // 회원 가입이 성공하면 MainScreen으로 이동
     Navigator.pushReplacement(
       context,
-      // MaterialPageRoute(builder: (context) => MainScreen()), // MainScreen으로 이동
-      // TODO: DELETE
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => MainScreen()), // MainScreen으로 이동
     );
   }
 }
