@@ -1,5 +1,6 @@
 // 해당 코드는 Home_screen.dart 코드를 최대한 클래스와 함수로 정의하였습니다.
-// 아직 서버를 연결하지 않아서 제대로 동작을 하진 못했어요ㅠ 확인 부탁드려요!
+// class를 위젯 추가하는 부분만 오류가 발생하는거 같은데
+// 아직 서버를 연결하지 않아서 제대로 동작을 확인하지 못했어요ㅠ 확인 부탁드려요!
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fl_chart/fl_chart.dart';
