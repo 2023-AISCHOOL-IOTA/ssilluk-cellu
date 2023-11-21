@@ -4,8 +4,29 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:cellu/styles.dart';
 import 'package:cellu/viewmodels/splash_screen_viewmodel.dart';
+import '../screens/login_screen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _loadScreen();
+  }
+
+  // 3초 딜레이 후 화면 이동
+  _loadScreen() async {
+    await Future.delayed(Duration(seconds: 3));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()), // 로그인 화면으로 이동
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SplashScreenViewModel>(context);
@@ -20,30 +41,33 @@ class SplashScreen extends StatelessWidget {
     }
   }
 
+// 로딩 중 화면을 구성하는 함수
   Widget _buildLoadingScreen() {
     return Scaffold(
-      backgroundColor: AppColors.white, // 스타일 적용
+      backgroundColor: AppColors.white, // 배경색 스타일 적용
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(), // 로딩 인디케이터
       ),
     );
   }
 
+// 연결 성공 화면을 구성하는 함수
   Widget _buildLogoScreen() {
     return Scaffold(
-      backgroundColor: AppColors.white, // 스타일 적용
+      backgroundColor: AppColors.white, // 배경색 스타일 적용
       body: Center(
         child: SvgPicture.asset(
-          'assets/logo.svg', // 로고 이미지 경로 수정
-          height: 150, // 이미지 크기 조절
+          'assets/logo.svg', // 로고 이미지 경로
+          height: 150, // 이미지 크기
         ),
       ),
     );
   }
 
+  // 연결 실패 화면을 구성하는 함수
   Widget _buildErrorScreen() {
     return Scaffold(
-      backgroundColor: AppColors.white, // 스타일 적용
+      backgroundColor: AppColors.white, // 배경색 스타일 적용
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
