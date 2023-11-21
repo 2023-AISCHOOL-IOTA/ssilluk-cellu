@@ -1,16 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'bloc/server_connection_bloc.dart';
-import 'repository/server_connection_repository.dart';
-import 'services/logger_service.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'styles.dart';
-import 'ui/widgets/splash_screen.dart';
+import '../../services/logger_service.dart';
+import 'viewmodels/splash_screen_viewmodel.dart';
+import 'widgets/splash_screen.dart';
 
-import 'package:cellu/ui/screens/drugmanagement_page.dart';
-import 'package:cellu/ui/widgets/lowerbar.dart';
-
-void main() async {  // 환경 변수 로딩
+void main() async {
+  // 환경 변수 로딩
   try {
     await dotenv.load(fileName: "assets/config/.env");
   } catch (e, s) {
@@ -20,20 +16,20 @@ void main() async {  // 환경 변수 로딩
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
-  Widget build(BuildContext context) {    // BLoC 제공자 설정
-    return BlocProvider(
-      create: (context) => ServerConnectionBloc(ServerConnectionRepository()),
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => SplashScreenViewModel(),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false, // 개발자 모드 비활성화
+        debugShowCheckedModeBanner: false,
         title: 'Cellu',
+        home: SplashScreen(),
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: SplashScreen(),
       ),
     );
   }
