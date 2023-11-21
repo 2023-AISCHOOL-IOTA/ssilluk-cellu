@@ -1,6 +1,7 @@
 //TODO: 마이페이지 (기기연결,정보수정,비밀번호변경,회원탈퇴,로그아웃)
 import 'package:flutter/material.dart';
 
+import 'Home_screen.dart';
 import 'MenuPage.dart';
 import 'biometrics_screen.dart';
 
@@ -25,7 +26,7 @@ class MypageScreen extends StatelessWidget {
               // 뒤로가기 버튼을 눌렀을 때 BioScreen으로 이동합니다.
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => BioScreen()),
+                MaterialPageRoute(builder: (context) => MainScreen()),
               );
             },
           ),

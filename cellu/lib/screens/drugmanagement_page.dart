@@ -1,14 +1,11 @@
+//TODO: 약물관리페이지
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'biometrics_screen.dart';
+import 'Home_screen.dart';
 
 
-
-
-void main() {
-  runApp(DrugManagement());
-}
 
 class DrugManagement extends StatelessWidget {
   @override
@@ -45,34 +42,67 @@ class DrugManagement extends StatelessWidget {
   }
 }
 
-class DrugInputPage extends StatelessWidget {
+class DrugInputPage extends StatefulWidget {
+  @override
+  _DrugInputPageState createState() => _DrugInputPageState();
+}
+
+class _DrugInputPageState extends State<DrugInputPage> {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController doseController = TextEditingController();
+  final TextEditingController hourController = TextEditingController();
+  final TextEditingController minuteController = TextEditingController();
+  final numberInputFormatter = FilteringTextInputFormatter.digitsOnly;
+  bool isBeforeMeal = true; // 식전 여부를 저장하는 변수
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // 뒤로 가기를 눌렀을 때 메인 페이지로 이동합니다.
-
-            Navigator.push(
+            // 뒤로 가기 버튼을 눌렀을 때 BioScreen으로 이동합니다.
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                  builder: (context) => BioScreen()),
+              MaterialPageRoute(builder: (context) => MainScreen()),
             );
           },
         ),
         title: Text('약물 작성'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
+              children: <Widget>[
+                Container(
+                  width: 150, // 시간 입력 필드의 너비
+                  child: TimeInputField(hourController, minuteController, numberInputFormatter),
+                ),
+                SizedBox(width: 20), // 간격
+                Container(
+                  width: 150, // 식전/식후 선택 버튼의 너비
+                  child: ToggleButtons(
+                    children: <Widget>[
+                      Text('식전'),
+                      Text('식후'),
+                    ],
+                    isSelected: [isBeforeMeal, !isBeforeMeal],
+                    onPressed: (int index) {
+                      setState(() {
+                        isBeforeMeal = index == 0;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 70), // 간격
             TextField(
               controller: typeController,
               decoration: InputDecoration(
@@ -94,10 +124,51 @@ class DrugInputPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 32),
-            SaveButton(typeController, nameController, doseController),
+            SaveButton(typeController, nameController, doseController, hourController, minuteController, isBeforeMeal),
           ],
         ),
       ),
+    );
+  }
+}
+
+class TimeInputField extends StatelessWidget {
+  final TextEditingController hourController;
+  final TextEditingController minuteController;
+  final TextInputFormatter numberInputFormatter;
+
+  TimeInputField(this.hourController, this.minuteController, this.numberInputFormatter);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 40,
+          child: TextField(
+            controller: hourController,
+            decoration: InputDecoration(
+              hintText: '시',
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+          ),
+        ),
+        Text(':'),
+        Container(
+          width: 40,
+          child: TextField(
+            controller: minuteController,
+            decoration: InputDecoration(
+              hintText: '분',
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -106,8 +177,11 @@ class SaveButton extends StatelessWidget {
   final TextEditingController typeController;
   final TextEditingController nameController;
   final TextEditingController doseController;
+  final TextEditingController hourController;
+  final TextEditingController minuteController;
+  final bool isBeforeMeal;
 
-  SaveButton(this.typeController, this.nameController, this.doseController);
+  SaveButton(this.typeController, this.nameController, this.doseController, this.hourController, this.minuteController, this.isBeforeMeal);
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +194,8 @@ class SaveButton extends StatelessWidget {
           print('약물 유형: ${typeController.text}');
           print('약물 이름: ${nameController.text}');
           print('약물 용량: ${doseController.text}');
+          print('시간: ${hourController.text}:${minuteController.text}');
+          print('식전/식후: ${isBeforeMeal ? "T" : "F"}');
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.blue,
@@ -130,7 +206,7 @@ class SaveButton extends StatelessWidget {
         ),
         child: Text(
           '저장하기',
-          style: TextStyle(fontSize: 18), // 버튼 텍스트 크기를 설정
+          style: TextStyle(fontSize: 20), // 버튼 텍스트 크기를 설정
         ),
       ),
     );
