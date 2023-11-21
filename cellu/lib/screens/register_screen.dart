@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../widgets/custom_text_field.dart';
-import '../styles.dart';
+import '../../styles.dart';
 
 import 'login_screen.dart';
 

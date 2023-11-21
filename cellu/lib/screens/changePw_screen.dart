@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import '../styles.dart';
+import '../../styles.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override

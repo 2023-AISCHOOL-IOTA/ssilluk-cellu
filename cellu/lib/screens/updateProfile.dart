@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/custom_text_field.dart';
-import '../styles.dart';
+import '../../styles.dart';
 
 enum Gender { male, female }
 
