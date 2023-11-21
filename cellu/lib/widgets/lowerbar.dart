@@ -18,7 +18,7 @@ class _BottomState extends State<Bottomnavi> {
   final LocalAuthentication auth = LocalAuthentication();
   final List<Widget> _pages = [
     MainScreen(),
-    MypageScreen(),
+    BioScreen(),
     MenuPage(),
     MypageScreen(),
     // 여기에 다른 페이지 위젯들을 추가합니다.
