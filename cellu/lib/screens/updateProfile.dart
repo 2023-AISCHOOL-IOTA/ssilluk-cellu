@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/custom_text_field.dart';
-import '../styles.dart';
+import '../../styles.dart';
 
 enum Gender { male, female }
 
-enum DiabetesType { type1, type2,none }
+enum DiabetesType { type1, type2, none }
 // enum DiabetesType { type1, type2, gestational, none } 가로 간격 때문에 기타 삭제 위해 임시 처리
 
 class EditProfileScreen extends StatefulWidget {
@@ -77,7 +77,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               '생년월일',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -113,8 +112,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[300]!, width: 2),
-                                borderRadius: BorderRadius.circular(20), // CustomTextField의 테두리 반경과 일치
+                                border: Border.all(
+                                    color: Colors.grey[300]!, width: 2),
+                                borderRadius: BorderRadius.circular(
+                                    20), // CustomTextField의 테두리 반경과 일치
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -160,7 +161,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
-
                           ),
                           Expanded(
                             flex: 1,
@@ -208,7 +208,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!, width: 2),
+                          border:
+                              Border.all(color: Colors.grey[300]!, width: 2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -268,7 +269,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 15),
                         ),
                         onPressed: () {
                           showDialog(
@@ -301,4 +303,3 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-

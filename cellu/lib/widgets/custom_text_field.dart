@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../styles.dart';
+import '../../styles.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType; // updateProfile 사용 추가
+  final Function(String)? onChanged; // 사용자 입력 변경 시 호출할 콜백
 
   CustomTextField({
     required this.label,
@@ -17,13 +18,15 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.prefixIcon,
-    this.keyboardType,  // updateProfile 사용 추가
+    this.keyboardType, // updateProfile 사용 추가
+    this.onChanged, // 콜백 추가
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-
+      onChanged: onChanged,
+      // onChanged 콜백 사용
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
@@ -36,7 +39,7 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       ),
       obscureText: obscureText,
-      keyboardType: keyboardType,  // updateProfile 사용 추가
+      keyboardType: keyboardType, // updateProfile 사용 추가
     );
   }
 }
