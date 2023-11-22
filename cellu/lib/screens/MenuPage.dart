@@ -68,9 +68,12 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50), // 버튼의 가로 길이와 간격을 조정합니다.
-      width: double.infinity, // 전체 너비를 사용합니다.
-      height: 60, // 버튼의 높이를 늘렸습니다.
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+      // 버튼의 가로 길이와 간격을 조정합니다.
+      width: double.infinity,
+      // 전체 너비를 사용합니다.
+      height: 60,
+      // 버튼의 높이를 늘렸습니다.
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Colors.white,

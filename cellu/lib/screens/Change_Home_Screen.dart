@@ -77,6 +77,7 @@ class BloodSugarManager {
   void fetchData() {
     // FIXME : 서버에서 데이터를 가져오는 로직
   }
+
   Color getSugarLevelColor(int level, bool isMax) {
     if (isMax && level >= 140) {
       return Colors.red;
@@ -94,7 +95,11 @@ class DayItem extends StatelessWidget {
   final bool isSelected;
   final Color color;
 
-  DayItem({required this.day, required this.sugarData, this.isSelected = false, required this.color});
+  DayItem(
+      {required this.day,
+      required this.sugarData,
+      this.isSelected = false,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +143,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int? selectedDate;
+  late var selectedDate;
   int selectedMonth = DateTime.now().month;
   int selectedYear = DateTime.now().year;
   int today = DateTime.now().day;
@@ -217,7 +222,6 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,15 +234,19 @@ class _MainScreenState extends State<MainScreen> {
 
             // 추가 위젯
             // FIXME : 혈당 꺽은선 그래프 차트
-            LineChartSample(bloodSugarData: bloodSugarData, selectedDate: selectedDate),
+            LineChartSample(
+                bloodSugarData: bloodSugarData, selectedDate: selectedDate),
 
             // FIXME : 혈당 정보 (최고, 최저, 식전후 평균 혈당)
             // 혈당 데이터와 선택된 날짜를 인자로 받을 수 있도록 구현
-            BloodSugarSummary(key: UniqueKey(),summaryData: summaryData),
+            BloodSugarSummary(key: UniqueKey(), summaryData: summaryData),
 
             // FIXME : 약 복용 정보
             // medicineData = 약 정보
-            MedicineScheduleCard(key: UniqueKey(), selectedDate: selectedDate, medicineList: medicineList),
+            MedicineScheduleCard(
+                key: UniqueKey(),
+                selectedDate: selectedDate,
+                medicineList: medicineList),
           ],
         ),
       ),
@@ -327,7 +335,9 @@ class _MainScreenState extends State<MainScreen> {
               width: 60,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelectedDate ? Colors.indigo : (today == day ? Colors.grey[300] : Colors.transparent),
+                color: isSelectedDate
+                    ? Colors.indigo
+                    : (today == day ? Colors.grey[300] : Colors.transparent),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -423,22 +433,27 @@ class BloodSugarSummary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Flexible(
-            child: _buildSummaryItem('최고혈당', '${summaryData['max']} mg/dL', Colors.red),
+            child: _buildSummaryItem(
+                '최고혈당', '${summaryData['max']} mg/dL', Colors.red),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('최저혈당', '${summaryData['min']} mg/dL', Colors.blue),
+            child: _buildSummaryItem(
+                '최저혈당', '${summaryData['min']} mg/dL', Colors.blue),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('식전 평균혈당', '${calculateFastingBloodSugarAverage()} mg/dL', Colors.orange),
+            child: _buildSummaryItem('식전 평균혈당',
+                '${calculateFastingBloodSugarAverage()} mg/dL', Colors.orange),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('식후 평균혈당', '${calculatePostprandialBloodSugarAverage()} mg/dL', Colors.green),
+            child: _buildSummaryItem(
+                '식후 평균혈당',
+                '${calculatePostprandialBloodSugarAverage()} mg/dL',
+                Colors.green),
             flex: 1,
           ),
-
         ],
       ),
     );
@@ -457,7 +472,8 @@ class BloodSugarSummary extends StatelessWidget {
         SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: color),
           textAlign: TextAlign.center,
         ),
       ],
@@ -474,7 +490,9 @@ class MedicineScheduleCard extends StatelessWidget {
   final int selectedDate; // 선택된 날짜
   final List<MedicineInfo> medicineList;
 
-  MedicineScheduleCard({Key? key, required this.selectedDate, required this.medicineList}) : super(key: key);
+  MedicineScheduleCard(
+      {Key? key, required this.selectedDate, required this.medicineList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -484,46 +502,50 @@ class MedicineScheduleCard extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(8.0),
       child: Column(
-        children: [Container(
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.0),
+                topRight: Radius.circular(16.0),
+              ),
+            ),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '  약 복용',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add, color: Colors.white),
+                  onPressed: () {
+                    // 추가 버튼 클릭 시 동작
+                    // FIXME : 여기에 약 복용 페이지 이동 추가
+                  },
+                ),
+              ],
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '  약 복용',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.white),
-                onPressed: () {
-                  // 추가 버튼 클릭 시 동작
-                  // FIXME : 여기에 약 복용 페이지 이동 추가
-                },
-              ),
-            ],
-          ),
-        ),
           // 약 복용 스케줄 아이템을 동적으로 생성
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              children: medicineList.map((medicine) => MedicineScheduleItem(
-                time: medicine.time,
-                Dosing_time: medicine.Dosing_time,
-                Drug_type: medicine.Drug_type,
-                Drug_name: medicine.Drug_name,
-                amount: medicine.amount,
-              )).toList(),
+              children: medicineList
+                  .map((medicine) => MedicineScheduleItem(
+                        time: medicine.time,
+                        Dosing_time: medicine.Dosing_time,
+                        Drug_type: medicine.Drug_type,
+                        Drug_name: medicine.Drug_name,
+                        amount: medicine.amount,
+                      ))
+                  .toList(),
             ),
           ),
         ],
@@ -760,12 +782,15 @@ class LineChartSample extends StatelessWidget {
                   LineChartBarData(
                     spots: _createSpotsFromData(sugarData),
                     isCurved: false,
-                    colors: [Colors.black], // 선 색상 변경
-                    barWidth: 2, // 선 두께 설정
+                    colors: [Colors.black],
+                    // 선 색상 변경
+                    barWidth: 2,
+                    // 선 두께 설정
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
                         radius: 4, // 포인트 크기 설정
                         color: Colors.blueAccent, // 포인트 색상 변경
                         strokeWidth: 0,

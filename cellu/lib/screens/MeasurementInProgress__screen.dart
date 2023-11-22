@@ -21,13 +21,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MeasurementInProgress extends StatefulWidget {
-
   @override
-  _MeasurementInProgressState  createState() => _MeasurementInProgressState();
+  _MeasurementInProgressState createState() => _MeasurementInProgressState();
 }
 
-class _MeasurementInProgressState extends State<MeasurementInProgress> with SingleTickerProviderStateMixin {
-
+class _MeasurementInProgressState extends State<MeasurementInProgress>
+    with SingleTickerProviderStateMixin {
   int _percentage = 0;
   Timer? _timer;
   late AnimationController _animationController;
@@ -85,6 +84,7 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
     _animationController.dispose();
     super.dispose();
   }
+
   Future<void> _sendDataToServer() async {
     // 여기에 HTTP POST 요청 로직을 구현합니다.
     // 예를 들어, http.post 함수를 사용할 수 있습니다.
@@ -111,8 +111,10 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
           },
           child: Text('저장'),
           style: ElevatedButton.styleFrom(
-            primary: Colors.blue, // 버튼 배경색을 파란색으로 설정
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), // 패딩 설정
+            primary: Colors.blue,
+            // 버튼 배경색을 파란색으로 설정
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+            // 패딩 설정
             textStyle: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -142,7 +144,9 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
             _buildPercentageText(),
             SizedBox(height: 5),
             _buildStatusText(),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             if (_percentage == 100) ...[
               _buildTimeOfDayDropdown(),
               _buildMealTimeDropdown(),
@@ -154,6 +158,7 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
       ),
     );
   }
+
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
@@ -181,7 +186,7 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
 
   Text _buildInstructionsText() {
     return Text(
-      _percentage < 100 ? '움직이시면 측정값이 올바르지 않을 수 있습니다.': '측정 완료',
+      _percentage < 100 ? '움직이시면 측정값이 올바르지 않을 수 있습니다.' : '측정 완료',
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 16),
     );
@@ -216,6 +221,7 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
       style: TextStyle(fontSize: 16),
     );
   }
+
   // NOTE : 측정 시기 선택 드롭다운 메뉴
   Widget _buildTimeOfDayDropdown() {
     return DropdownButton<String>(
@@ -253,5 +259,4 @@ class _MeasurementInProgressState extends State<MeasurementInProgress> with Sing
       itemHeight: 60, // 드롭다운 항목의 높이 설정
     );
   }
-
 }

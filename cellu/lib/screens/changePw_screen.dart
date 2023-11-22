@@ -11,9 +11,11 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmNewPasswordController = TextEditingController();
+  final TextEditingController _confirmNewPasswordController =
+      TextEditingController();
 
   final ValueNotifier<bool> _isCurrentPasswordVisible = ValueNotifier(false);
   final ValueNotifier<bool> _isNewPasswordVisible = ValueNotifier(false);
@@ -37,7 +39,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final newPassword = _newPasswordController.text;
     final confirmNewPassword = _confirmNewPasswordController.text;
 
-    if (email.isEmpty || currentPassword.isEmpty || newPassword.isEmpty || confirmNewPassword.isEmpty) {
+    if (email.isEmpty ||
+        currentPassword.isEmpty ||
+        newPassword.isEmpty ||
+        confirmNewPassword.isEmpty) {
       _showMessage('모든 필드를 채워주세요.');
       return;
     }
@@ -51,7 +56,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('YOUR_BACKEND_ENDPOINT'), // Replace with your backend endpoint
+        Uri.parse('YOUR_BACKEND_ENDPOINT'),
+        // Replace with your backend endpoint
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -85,8 +91,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       child: Text(
         text,
         style: TextStyle(
-          // 스타일링 옵션 추가
-        ),
+            // 스타일링 옵션 추가
+            ),
       ),
     );
   }
@@ -129,7 +135,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       String label,
       ValueNotifier<bool> visibilityNotifier,
       TextEditingController controller,
-      String hintText) { // 여기에 hintText 파라미터를 추가했습니다.
+      String hintText) {
+    // 여기에 hintText 파라미터를 추가했습니다.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,7 +146,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           builder: (context, value, child) {
             return _buildInputField(
               controller: controller,
-              hintText: hintText, // 수정된 부분: 힌트 텍스트를 파라미터로부터 받습니다.
+              hintText: hintText,
+              // 수정된 부분: 힌트 텍스트를 파라미터로부터 받습니다.
               prefixIcon: Icons.lock,
               obscureText: !value,
               suffixIcon: IconButton(
@@ -154,7 +162,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +222,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                       ),
                       onPressed: _changePassword,
                       child: Text('변경 하기'),

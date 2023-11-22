@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     2: [140, 90],
     // TODO: 서버에서 실제 혈당 데이터를 받아와서 여기에 채워넣어야 함. 현재는 임시 데이터로 채워져 있음.
   };
-  
+
   // FIXME: 현재 날짜 선택 로직이 누락된 부분이 있을 수 있음. 날짜 선택 시 데이터 갱신 확인 필요.
   void selectDate(int date) {
     setState(() {
@@ -73,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
       selectedDate = null;
     });
   }
+
   // TODO: 혈당 수준에 따른 색상 지정 로직을 검토하고, 필요 시 수정해야 함.
   Color getSugarLevelColor(int level, bool isMax) {
     if (isMax && level >= 140) {
@@ -167,7 +168,9 @@ class _MainScreenState extends State<MainScreen> {
                       decoration: BoxDecoration(
                         color: isSelectedDate
                             ? Colors.indigo
-                            : (today == day ? Colors.grey[300] : Colors.transparent),
+                            : (today == day
+                                ? Colors.grey[300]
+                                : Colors.transparent),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -176,7 +179,8 @@ class _MainScreenState extends State<MainScreen> {
                           Text(
                             '${day}일',
                             style: TextStyle(
-                              color: isSelectedDate ? Colors.white : Colors.black,
+                              color:
+                                  isSelectedDate ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -208,7 +212,6 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: BloodSugarSummary(),
             ),
-
             MedicineScheduleCard(),
           ],
         ),
@@ -216,7 +219,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
 
 // TODO : 최고혈당, 식전 평균혈당, 식후 평균혈당, 최저혈당이 현재 임의의 값으로 들어가 있음.
 class BloodSugarSummary extends StatelessWidget {
@@ -264,7 +266,8 @@ class BloodSugarSummary extends StatelessWidget {
         SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: color),
           textAlign: TextAlign.center,
         ),
       ],
@@ -291,7 +294,8 @@ class MedicineScheduleCard extends StatelessWidget {
                 topRight: Radius.circular(16.0),
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -320,21 +324,21 @@ class MedicineScheduleCard extends StatelessWidget {
               children: [
                 MedicineScheduleItem(
                   time: '13:20',
-                  Dosing_time :'식후',
+                  Dosing_time: '식후',
                   Drug_type: '초속효성',
                   Drug_name: '트레시바',
                   amount: '30',
                 ),
                 MedicineScheduleItem(
                   time: '18:01',
-                  Dosing_time :'식전',
+                  Dosing_time: '식전',
                   Drug_type: '지속형',
                   Drug_name: '리피토엠 20/500',
                   amount: '1.5',
                 ),
                 MedicineScheduleItem(
                   time: '18:01',
-                  Dosing_time : '식전',
+                  Dosing_time: '식전',
                   Drug_type: '동맥경화용제',
                   Drug_name: '리피토엠 20/500',
                   amount: '1.5',
@@ -547,14 +551,17 @@ class LineChartSample extends StatelessWidget {
                       FlSpot(20, 160),
                     ],
                     isCurved: false,
-                    colors: [Colors.black], // 선 색상 변경
-                    barWidth: 2, // 선 두께 설정
+                    colors: [Colors.black],
+                    // 선 색상 변경
+                    barWidth: 2,
+                    // 선 두께 설정
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
                         radius: 4, // 포인트 크기 설정
-                        color: Colors. blueAccent, // 포인트 색상 변경
+                        color: Colors.blueAccent, // 포인트 색상 변경
                         strokeWidth: 0,
                       ),
                     ),

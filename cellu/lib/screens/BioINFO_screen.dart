@@ -73,6 +73,7 @@ class BloodSugarManager {
   void fetchData() {
     // FIXME : 서버에서 데이터를 가져오는 로직
   }
+
   Color getSugarLevelColor(int level, bool isMax) {
     if (isMax && level >= 140) {
       return Colors.red;
@@ -90,7 +91,11 @@ class DayItem extends StatelessWidget {
   final bool isSelected;
   final Color color;
 
-  DayItem({required this.day, required this.sugarData, this.isSelected = false, required this.color});
+  DayItem(
+      {required this.day,
+      required this.sugarData,
+      this.isSelected = false,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +218,6 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,21 +230,24 @@ class _MainScreenState extends State<MainScreen> {
 
             // 추가 위젯
             // FIXME : 혈당 꺽은선 그래프 차트
-            LineChartSample(bloodSugarData: bloodSugarData, selectedDate: selectedDate),
+            LineChartSample(
+                bloodSugarData: bloodSugarData, selectedDate: selectedDate),
 
             // FIXME : 혈당 정보 (최고, 최저, 식전후 평균 혈당)
             // 혈당 데이터와 선택된 날짜를 인자로 받을 수 있도록 구현
-            BloodSugarSummary(key: UniqueKey(),summaryData: summaryData),
+            BloodSugarSummary(key: UniqueKey(), summaryData: summaryData),
 
             // TODO : 평균 심박도 위젯 추가하기
             // 심박도 데이터와 선택된 날짜를 인자로 전달
             // FIXME : heartRateData 찾기
-            HeartRateChart(heartRateData: heartRateData, selectedDate: selectedDate),
+            HeartRateChart(
+                heartRateData: heartRateData, selectedDate: selectedDate),
 
             // TODO : 스트레스 지수 위젯 추가하기
             // 스트레스 지수 데이터와 선택된 날짜를 인자로 전달
             // FIXME : stressIndexData 찾기
-            StressIndexChart(stressIndexData: stressIndexData, selectedDate: selectedDate),
+            StressIndexChart(
+                stressIndexData: stressIndexData, selectedDate: selectedDate),
           ],
         ),
       ),
@@ -329,7 +336,9 @@ class _MainScreenState extends State<MainScreen> {
               width: 60,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelectedDate ? Colors.indigo : (today == day ? Colors.grey[300] : Colors.transparent),
+                color: isSelectedDate
+                    ? Colors.indigo
+                    : (today == day ? Colors.grey[300] : Colors.transparent),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -425,22 +434,27 @@ class BloodSugarSummary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Flexible(
-            child: _buildSummaryItem('최고혈당', '${summaryData['max']} mg/dL', Colors.red),
+            child: _buildSummaryItem(
+                '최고혈당', '${summaryData['max']} mg/dL', Colors.red),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('최저혈당', '${summaryData['min']} mg/dL', Colors.blue),
+            child: _buildSummaryItem(
+                '최저혈당', '${summaryData['min']} mg/dL', Colors.blue),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('식전 평균혈당', '${calculateFastingBloodSugarAverage()} mg/dL', Colors.orange),
+            child: _buildSummaryItem('식전 평균혈당',
+                '${calculateFastingBloodSugarAverage()} mg/dL', Colors.orange),
             flex: 1,
           ),
           Flexible(
-            child: _buildSummaryItem('식후 평균혈당', '${calculatePostprandialBloodSugarAverage()} mg/dL', Colors.green),
+            child: _buildSummaryItem(
+                '식후 평균혈당',
+                '${calculatePostprandialBloodSugarAverage()} mg/dL',
+                Colors.green),
             flex: 1,
           ),
-
         ],
       ),
     );
@@ -459,7 +473,8 @@ class BloodSugarSummary extends StatelessWidget {
         SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: color),
           textAlign: TextAlign.center,
         ),
       ],
@@ -590,12 +605,15 @@ class LineChartSample extends StatelessWidget {
                   LineChartBarData(
                     spots: _createSpotsFromData(sugarData),
                     isCurved: false,
-                    colors: [Colors.black], // 선 색상 변경
-                    barWidth: 2, // 선 두께 설정
+                    colors: [Colors.black],
+                    // 선 색상 변경
+                    barWidth: 2,
+                    // 선 두께 설정
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
                         radius: 4, // 포인트 크기 설정
                         color: Colors.blueAccent, // 포인트 색상 변경
                         strokeWidth: 0,
@@ -628,6 +646,7 @@ class LineChartSample extends StatelessWidget {
       ],
     );
   }
+
   // 혈당 데이터를 바탕으로 FlSpot 리스트 생성
   List<FlSpot> _createSpotsFromData(List<int> sugarData) {
     // TODO: 서버에서 실시간 혈당 데이터를 받아와서 차트에 반영해야 함.
@@ -637,6 +656,7 @@ class LineChartSample extends StatelessWidget {
     });
   }
 }
+
 // --------------------------------------------
 // TODO : 평균 심박도 위젯 만들기
 class HeartRateChart extends StatelessWidget {
@@ -757,12 +777,14 @@ class HeartRateChart extends StatelessWidget {
                   LineChartBarData(
                     spots: spots,
                     isCurved: false,
-                    colors: [Colors.black], // 심박수 선 색상 변경
+                    colors: [Colors.black],
+                    // 심박수 선 색상 변경
                     barWidth: 2,
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
                         radius: 4,
                         color: Colors.redAccent, // 심박수 포인트 색상 변경
                         strokeWidth: 0,
@@ -796,6 +818,7 @@ class HeartRateChart extends StatelessWidget {
     );
   }
 }
+
 // --------------------------------------------
 // TODO : 스트레스 지수 위젯 만들기
 class StressIndexChart extends StatelessWidget {
@@ -916,12 +939,14 @@ class StressIndexChart extends StatelessWidget {
                   LineChartBarData(
                     spots: spots,
                     isCurved: false,
-                    colors: [Colors.black], // 스트레스 지수 선 색상 변경
+                    colors: [Colors.black],
+                    // 스트레스 지수 선 색상 변경
                     barWidth: 2,
                     isStrokeCapRound: true,
                     dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
                         radius: 4,
                         color: Colors.purpleAccent, // 스트레스 지수 포인트 색상 변경
                         strokeWidth: 0,
@@ -938,7 +963,8 @@ class StressIndexChart extends StatelessWidget {
                         final xValue = barSpot.x.toInt();
                         final yValue = barSpot.y.toDouble();
                         return LineTooltipItem(
-                          '$xValue:00 \n${yValue.toStringAsFixed(2)}', // y 값 소수점 2자리까지 표시
+                          '$xValue:00 \n${yValue.toStringAsFixed(2)}',
+                          // y 값 소수점 2자리까지 표시
                           const TextStyle(color: Colors.white),
                         );
                       }).toList();

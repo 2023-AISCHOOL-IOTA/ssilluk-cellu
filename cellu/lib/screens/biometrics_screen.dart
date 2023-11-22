@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class BioScreen extends StatelessWidget {
   @override
@@ -36,7 +34,6 @@ class BioScreen extends StatelessWidget {
                                 child: SizedBox(
                                   width: 39,
                                   height: 22,
-                                  
                                   child: Text(
                                     'ellu',
                                     style: TextStyle(
@@ -59,8 +56,7 @@ class BioScreen extends StatelessWidget {
                         child: Container(
                           width: 16,
                           height: 10,
-                          child: Stack(children: [
-                          ]),
+                          child: Stack(children: []),
                         ),
                       ),
                     ],
@@ -120,10 +116,10 @@ class BioScreen extends StatelessWidget {
                                               horizontal: 2.50, vertical: 1.67),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Container(
                                                 width: 15,
@@ -183,17 +179,15 @@ class BioScreen extends StatelessWidget {
                                           decoration: BoxDecoration(),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Container(
                                                 width: 16,
                                                 height: 14,
-                                                child: Stack(children: [
-
-                                                    ]),
+                                                child: Stack(children: []),
                                               ),
                                             ],
                                           ),
@@ -224,8 +218,8 @@ class BioScreen extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                         width: 0.50,
-                                        strokeAlign: BorderSide
-                                            .strokeAlignCenter,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignCenter,
                                         color: Color(0x4F666666),
                                       ),
                                     ),
@@ -241,8 +235,8 @@ class BioScreen extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                         width: 0.50,
-                                        strokeAlign: BorderSide
-                                            .strokeAlignCenter,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignCenter,
                                         color: Color(0x4F666666),
                                       ),
                                     ),
@@ -291,7 +285,8 @@ class BioScreen extends StatelessWidget {
                                                         child: Container(
                                                           width: 30,
                                                           height: 30,
-                                                          decoration: ShapeDecoration(
+                                                          decoration:
+                                                              ShapeDecoration(
                                                             color: Color(
                                                                 0x001C2852),
                                                             shape: OvalBorder(),
@@ -309,27 +304,33 @@ class BioScreen extends StatelessWidget {
                                                               children: [
                                                                 TextSpan(
                                                                   text: '164\n',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Color(
                                                                         0x7FEE7878),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
                                                                 TextSpan(
                                                                   text: '100',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Colors
                                                                         .black
                                                                         .withOpacity(
-                                                                        0.5),
+                                                                            0.5),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
@@ -358,7 +359,8 @@ class BioScreen extends StatelessWidget {
                                                         child: Container(
                                                           width: 30,
                                                           height: 30,
-                                                          decoration: ShapeDecoration(
+                                                          decoration:
+                                                              ShapeDecoration(
                                                             color: Color(
                                                                 0xFF1F213D),
                                                             shape: OvalBorder(),
@@ -376,25 +378,31 @@ class BioScreen extends StatelessWidget {
                                                               children: [
                                                                 TextSpan(
                                                                   text: '160\n',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Color(
                                                                         0xFFEE7878),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
                                                                 TextSpan(
                                                                   text: '95',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Colors
                                                                         .white,
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
@@ -423,7 +431,8 @@ class BioScreen extends StatelessWidget {
                                                         child: Container(
                                                           width: 30,
                                                           height: 30,
-                                                          decoration: ShapeDecoration(
+                                                          decoration:
+                                                              ShapeDecoration(
                                                             color: Color(
                                                                 0x001C2852),
                                                             shape: OvalBorder(),
@@ -441,27 +450,33 @@ class BioScreen extends StatelessWidget {
                                                               children: [
                                                                 TextSpan(
                                                                   text: '156\n',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Color(
                                                                         0x7FEE7878),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
                                                                 TextSpan(
                                                                   text: '90',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Colors
                                                                         .black
                                                                         .withOpacity(
-                                                                        0.5),
+                                                                            0.5),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
@@ -490,7 +505,8 @@ class BioScreen extends StatelessWidget {
                                                         child: Container(
                                                           width: 30,
                                                           height: 30,
-                                                          decoration: ShapeDecoration(
+                                                          decoration:
+                                                              ShapeDecoration(
                                                             color: Color(
                                                                 0x001C2852),
                                                             shape: OvalBorder(),
@@ -511,9 +527,11 @@ class BioScreen extends StatelessWidget {
                                                               color: Color(
                                                                   0xB2846F6F),
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -537,7 +555,8 @@ class BioScreen extends StatelessWidget {
                                                         child: Container(
                                                           width: 30,
                                                           height: 30,
-                                                          decoration: ShapeDecoration(
+                                                          decoration:
+                                                              ShapeDecoration(
                                                             color: Color(
                                                                 0x001C2852),
                                                             shape: OvalBorder(),
@@ -555,27 +574,33 @@ class BioScreen extends StatelessWidget {
                                                               children: [
                                                                 TextSpan(
                                                                   text: '170\n',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Color(
                                                                         0x7FEE7878),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
                                                                 TextSpan(
                                                                   text: '95',
-                                                                  style: TextStyle(
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Colors
                                                                         .black
                                                                         .withOpacity(
-                                                                        0.5),
+                                                                            0.5),
                                                                     fontSize: 9,
-                                                                    fontFamily: 'Inter',
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     height: 0,
                                                                   ),
                                                                 ),
@@ -627,8 +652,8 @@ class BioScreen extends StatelessWidget {
                                                       color: Color(0xB2846F6F),
                                                       fontSize: 10,
                                                       fontFamily: 'Inter',
-                                                      fontWeight: FontWeight
-                                                          .w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -817,8 +842,8 @@ class BioScreen extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                         width: 1,
-                                        color: Colors.black.withOpacity(
-                                            0.2800000011920929),
+                                        color: Colors.black
+                                            .withOpacity(0.2800000011920929),
                                       ),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -838,8 +863,8 @@ class BioScreen extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
                                           width: 1,
-                                          strokeAlign: BorderSide
-                                              .strokeAlignCenter,
+                                          strokeAlign:
+                                              BorderSide.strokeAlignCenter,
                                           color: Color(0x33999999),
                                         ),
                                       ),
@@ -860,8 +885,8 @@ class BioScreen extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
                                           width: 1,
-                                          strokeAlign: BorderSide
-                                              .strokeAlignCenter,
+                                          strokeAlign:
+                                              BorderSide.strokeAlignCenter,
                                           color: Color(0x33999999),
                                         ),
                                       ),
@@ -882,8 +907,8 @@ class BioScreen extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
                                           width: 1,
-                                          strokeAlign: BorderSide
-                                              .strokeAlignCenter,
+                                          strokeAlign:
+                                              BorderSide.strokeAlignCenter,
                                           color: Color(0x33999999),
                                         ),
                                       ),
@@ -1559,8 +1584,8 @@ class BioScreen extends StatelessWidget {
                                   height: 8.13,
                                   decoration: ShapeDecoration(
                                     color: Color(0xFFFF0000),
-                                    shape: OvalBorder(
-                                        side: BorderSide(width: 2)),
+                                    shape:
+                                        OvalBorder(side: BorderSide(width: 2)),
                                   ),
                                 ),
                               ),
@@ -1641,16 +1666,19 @@ class BioScreen extends StatelessWidget {
                                                         top: 0,
                                                         child: Container(
                                                           width: 312.09,
-                                                          decoration: ShapeDecoration(
-                                                            shape: RoundedRectangleBorder(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
                                                               side: BorderSide(
                                                                 width: 0.80,
-                                                                strokeAlign: BorderSide
-                                                                    .strokeAlignCenter,
+                                                                strokeAlign:
+                                                                    BorderSide
+                                                                        .strokeAlignCenter,
                                                                 color: Colors
                                                                     .black
                                                                     .withOpacity(
-                                                                    0.10000000149011612),
+                                                                        0.10000000149011612),
                                                               ),
                                                             ),
                                                           ),
@@ -1661,16 +1689,19 @@ class BioScreen extends StatelessWidget {
                                                         top: 64.63,
                                                         child: Container(
                                                           width: 312.09,
-                                                          decoration: ShapeDecoration(
-                                                            shape: RoundedRectangleBorder(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
                                                               side: BorderSide(
                                                                 width: 0.80,
-                                                                strokeAlign: BorderSide
-                                                                    .strokeAlignCenter,
+                                                                strokeAlign:
+                                                                    BorderSide
+                                                                        .strokeAlignCenter,
                                                                 color: Colors
                                                                     .black
                                                                     .withOpacity(
-                                                                    0.10000000149011612),
+                                                                        0.10000000149011612),
                                                               ),
                                                             ),
                                                           ),
@@ -1681,16 +1712,19 @@ class BioScreen extends StatelessWidget {
                                                         top: 129.26,
                                                         child: Container(
                                                           width: 312.09,
-                                                          decoration: ShapeDecoration(
-                                                            shape: RoundedRectangleBorder(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
                                                               side: BorderSide(
                                                                 width: 0.80,
-                                                                strokeAlign: BorderSide
-                                                                    .strokeAlignCenter,
+                                                                strokeAlign:
+                                                                    BorderSide
+                                                                        .strokeAlignCenter,
                                                                 color: Colors
                                                                     .black
                                                                     .withOpacity(
-                                                                    0.10000000149011612),
+                                                                        0.10000000149011612),
                                                               ),
                                                             ),
                                                           ),
@@ -1701,16 +1735,19 @@ class BioScreen extends StatelessWidget {
                                                         top: 193.89,
                                                         child: Container(
                                                           width: 312.09,
-                                                          decoration: ShapeDecoration(
-                                                            shape: RoundedRectangleBorder(
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
                                                               side: BorderSide(
                                                                 width: 0.80,
-                                                                strokeAlign: BorderSide
-                                                                    .strokeAlignCenter,
+                                                                strokeAlign:
+                                                                    BorderSide
+                                                                        .strokeAlignCenter,
                                                                 color: Colors
                                                                     .black
                                                                     .withOpacity(
-                                                                    0.10000000149011612),
+                                                                        0.10000000149011612),
                                                               ),
                                                             ),
                                                           ),
@@ -1739,26 +1776,32 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: 0,
                                                                 top: 0,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 40.94,
                                                                   height: 42.15,
-                                                                  decoration: ShapeDecoration(
+                                                                  decoration:
+                                                                      ShapeDecoration(
                                                                     color: Color(
                                                                         0xFFFF6B6B),
-                                                                    shape: OvalBorder(),
+                                                                    shape:
+                                                                        OvalBorder(),
                                                                   ),
                                                                 ),
                                                               ),
                                                               Positioned(
                                                                 left: -0,
                                                                 top: 64.63,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 40.94,
                                                                   height: 42.15,
-                                                                  decoration: ShapeDecoration(
+                                                                  decoration:
+                                                                      ShapeDecoration(
                                                                     color: Color(
                                                                         0xFFFFB700),
-                                                                    shape: OvalBorder(),
+                                                                    shape:
+                                                                        OvalBorder(),
                                                                   ),
                                                                 ),
                                                               ),
@@ -1777,49 +1820,59 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: 9.10,
                                                                 top: -0,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 21.84,
                                                                   height: 22.48,
                                                                   padding: const EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal: 1.82,
-                                                                      vertical: 1.87),
+                                                                      horizontal:
+                                                                          1.82,
+                                                                      vertical:
+                                                                          1.87),
                                                                   child: Column(
-                                                                    mainAxisSize: MainAxisSize
-                                                                        .min,
-                                                                    mainAxisAlignment: MainAxisAlignment
-                                                                        .center,
-                                                                    crossAxisAlignment: CrossAxisAlignment
-                                                                        .center,
-                                                                    children: [
-
-                                                                    ],
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [],
                                                                   ),
                                                                 ),
                                                               ),
                                                               Positioned(
                                                                 left: -0,
                                                                 top: 60.88,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 40.94,
                                                                   height: 42.15,
-                                                                  decoration: ShapeDecoration(
+                                                                  decoration:
+                                                                      ShapeDecoration(
                                                                     color: Color(
                                                                         0xFF565656),
-                                                                    shape: OvalBorder(),
+                                                                    shape:
+                                                                        OvalBorder(),
                                                                   ),
                                                                 ),
                                                               ),
                                                               Positioned(
                                                                 left: -0,
                                                                 top: 125.51,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 40.94,
                                                                   height: 42.15,
-                                                                  decoration: ShapeDecoration(
+                                                                  decoration:
+                                                                      ShapeDecoration(
                                                                     color: Color(
                                                                         0xFF8E00FE),
-                                                                    shape: OvalBorder(),
+                                                                    shape:
+                                                                        OvalBorder(),
                                                                   ),
                                                                 ),
                                                               ),
@@ -1838,52 +1891,60 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: -0,
                                                                 top: 192.96,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 21.84,
                                                                   height: 22.48,
-                                                                  padding: const EdgeInsets
-                                                                      .only(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
                                                                     top: 3.85,
                                                                     left: 3.64,
                                                                     right: 3.74,
-                                                                    bottom: 3.75,
+                                                                    bottom:
+                                                                        3.75,
                                                                   ),
                                                                   child: Column(
-                                                                    mainAxisSize: MainAxisSize
-                                                                        .min,
-                                                                    mainAxisAlignment: MainAxisAlignment
-                                                                        .center,
-                                                                    crossAxisAlignment: CrossAxisAlignment
-                                                                        .center,
-                                                                    children: [
-
-                                                                    ],
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [],
                                                                   ),
                                                                 ),
                                                               ),
                                                               Positioned(
                                                                 left: 0.91,
                                                                 top: -0,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 20.02,
                                                                   height: 20.61,
-                                                                  padding: const EdgeInsets
-                                                                      .only(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
                                                                     top: 2.58,
                                                                     left: 1.67,
                                                                     right: 1.67,
-                                                                    bottom: 3.43,
+                                                                    bottom:
+                                                                        3.43,
                                                                   ),
                                                                   child: Column(
-                                                                    mainAxisSize: MainAxisSize
-                                                                        .min,
-                                                                    mainAxisAlignment: MainAxisAlignment
-                                                                        .center,
-                                                                    crossAxisAlignment: CrossAxisAlignment
-                                                                        .center,
-                                                                    children: [
-
-                                                                    ],
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [],
                                                                   ),
                                                                 ),
                                                               ),
@@ -1907,15 +1968,20 @@ class BioScreen extends StatelessWidget {
                                                                   height: 14.99,
                                                                   child: Text(
                                                                     '아침',
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
                                                                       color: Colors
                                                                           .white,
-                                                                      fontSize: 9,
-                                                                      fontFamily: 'Inter',
-                                                                      fontWeight: FontWeight
-                                                                          .w500,
+                                                                      fontSize:
+                                                                          9,
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
                                                                       height: 0,
                                                                     ),
                                                                   ),
@@ -1929,15 +1995,20 @@ class BioScreen extends StatelessWidget {
                                                                   height: 14.99,
                                                                   child: Text(
                                                                     '점심',
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
                                                                       color: Colors
                                                                           .white,
-                                                                      fontSize: 9,
-                                                                      fontFamily: 'Inter',
-                                                                      fontWeight: FontWeight
-                                                                          .w500,
+                                                                      fontSize:
+                                                                          9,
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
                                                                       height: 0,
                                                                     ),
                                                                   ),
@@ -1951,15 +2022,20 @@ class BioScreen extends StatelessWidget {
                                                                   height: 14.99,
                                                                   child: Text(
                                                                     '저녁',
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
                                                                       color: Colors
                                                                           .white,
-                                                                      fontSize: 9,
-                                                                      fontFamily: 'Inter',
-                                                                      fontWeight: FontWeight
-                                                                          .w500,
+                                                                      fontSize:
+                                                                          9,
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
                                                                       height: 0,
                                                                     ),
                                                                   ),
@@ -1973,15 +2049,20 @@ class BioScreen extends StatelessWidget {
                                                                   height: 14.99,
                                                                   child: Text(
                                                                     '밤',
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
                                                                       color: Colors
                                                                           .white,
-                                                                      fontSize: 9,
-                                                                      fontFamily: 'Inter',
-                                                                      fontWeight: FontWeight
-                                                                          .w500,
+                                                                      fontSize:
+                                                                          9,
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
                                                                       height: 0,
                                                                     ),
                                                                   ),
@@ -1990,23 +2071,27 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: 3.64,
                                                                 top: 107.72,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 21.84,
                                                                   height: 22.48,
                                                                   padding: const EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal: 1.82,
-                                                                      vertical: 1.87),
+                                                                      horizontal:
+                                                                          1.82,
+                                                                      vertical:
+                                                                          1.87),
                                                                   child: Column(
-                                                                    mainAxisSize: MainAxisSize
-                                                                        .min,
-                                                                    mainAxisAlignment: MainAxisAlignment
-                                                                        .center,
-                                                                    crossAxisAlignment: CrossAxisAlignment
-                                                                        .center,
-                                                                    children: [
-
-                                                                    ],
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [],
                                                                   ),
                                                                 ),
                                                               ),
@@ -2043,8 +2128,8 @@ class BioScreen extends StatelessWidget {
                                                       color: Colors.white,
                                                       fontSize: 17,
                                                       fontFamily: 'Inter',
-                                                      fontWeight: FontWeight
-                                                          .w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -2063,8 +2148,8 @@ class BioScreen extends StatelessWidget {
                                                       color: Colors.white,
                                                       fontSize: 17,
                                                       fontFamily: 'Inter',
-                                                      fontWeight: FontWeight
-                                                          .w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -2535,8 +2620,8 @@ class BioScreen extends StatelessWidget {
                             '평균 심박도',
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              color: Colors.black.withOpacity(
-                                  0.4000000059604645),
+                              color:
+                                  Colors.black.withOpacity(0.4000000059604645),
                               fontSize: 13,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w700,
@@ -3027,14 +3112,19 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: 0,
                                                                 top: 131,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 168,
-                                                                  decoration: ShapeDecoration(
-                                                                    shape: RoundedRectangleBorder(
-                                                                      side: BorderSide(
-                                                                        width: 1,
-                                                                        strokeAlign: BorderSide
-                                                                            .strokeAlignCenter,
+                                                                  decoration:
+                                                                      ShapeDecoration(
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      side:
+                                                                          BorderSide(
+                                                                        width:
+                                                                            1,
+                                                                        strokeAlign:
+                                                                            BorderSide.strokeAlignCenter,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -3043,14 +3133,19 @@ class BioScreen extends StatelessWidget {
                                                               Positioned(
                                                                 left: 1,
                                                                 top: 0,
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 167,
-                                                                  decoration: ShapeDecoration(
-                                                                    shape: RoundedRectangleBorder(
-                                                                      side: BorderSide(
-                                                                        width: 1,
-                                                                        strokeAlign: BorderSide
-                                                                            .strokeAlignCenter,
+                                                                  decoration:
+                                                                      ShapeDecoration(
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      side:
+                                                                          BorderSide(
+                                                                        width:
+                                                                            1,
+                                                                        strokeAlign:
+                                                                            BorderSide.strokeAlignCenter,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -3068,15 +3163,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3090,15 +3187,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.5',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3112,15 +3211,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.4',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3134,15 +3235,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.3',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3156,15 +3259,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.6',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3178,15 +3283,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.7',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3200,15 +3307,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '0.8',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3222,15 +3331,17 @@ class BioScreen extends StatelessWidget {
                                                           height: 15,
                                                           child: Text(
                                                             '1',
-                                                            textAlign: TextAlign
-                                                                .right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 10,
-                                                              fontFamily: 'Inter',
-                                                              fontWeight: FontWeight
-                                                                  .w700,
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
                                                               height: 0,
                                                             ),
                                                           ),
@@ -3403,8 +3514,8 @@ class BioScreen extends StatelessWidget {
                                     '평균 스트레스 지수',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      color: Colors.black.withOpacity(
-                                          0.4000000059604645),
+                                      color: Colors.black
+                                          .withOpacity(0.4000000059604645),
                                       fontSize: 13,
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w700,
@@ -3618,20 +3729,20 @@ class BioScreen extends StatelessWidget {
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                             width: 1,
-                                            strokeAlign: BorderSide
-                                                .strokeAlignOutside,
+                                            strokeAlign:
+                                                BorderSide.strokeAlignOutside,
                                             color: Colors.black.withOpacity(0),
                                           ),
-                                          borderRadius: BorderRadius.circular(
-                                              100),
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                         ),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             width: 24,
@@ -3660,20 +3771,20 @@ class BioScreen extends StatelessWidget {
                                                     width: 24,
                                                     height: 24,
                                                     child: Row(
-                                                      mainAxisSize: MainAxisSize
-                                                          .min,
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .center,
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Container(
                                                           width: 24,
                                                           height: 24,
                                                           child: Stack(
-                                                              children: [
-
-                                                              ]),
+                                                              children: []),
                                                         ),
                                                       ],
                                                     ),
@@ -3703,10 +3814,10 @@ class BioScreen extends StatelessWidget {
                                         horizontal: 3.33, vertical: 1.67),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 13.33,
@@ -3749,10 +3860,10 @@ class BioScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(2.08),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 15.83,
@@ -3795,10 +3906,10 @@ class BioScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(1.67),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 16.67,
@@ -3851,13 +3962,11 @@ class BioScreen extends StatelessWidget {
                                               decoration: BoxDecoration(),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .start,
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .start,
-                                                children: [
-
-                                                ],
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [],
                                               ),
                                             ),
                                           ),
