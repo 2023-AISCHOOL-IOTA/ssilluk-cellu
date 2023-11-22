@@ -32,9 +32,10 @@ class _MainScreenState extends State<MainScreen> {
   Map<int, List<int>> bloodSugarData = {
     1: [120, 80],
     2: [140, 90],
-    // Add rest of the data for each day of the month
+    // TODO: 서버에서 실제 혈당 데이터를 받아와서 여기에 채워넣어야 함. 현재는 임시 데이터로 채워져 있음.
   };
-
+  
+  // FIXME: 현재 날짜 선택 로직이 누락된 부분이 있을 수 있음. 날짜 선택 시 데이터 갱신 확인 필요.
   void selectDate(int date) {
     setState(() {
       selectedDate = date;
@@ -72,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
       selectedDate = null;
     });
   }
-
+  // TODO: 혈당 수준에 따른 색상 지정 로직을 검토하고, 필요 시 수정해야 함.
   Color getSugarLevelColor(int level, bool isMax) {
     if (isMax && level >= 140) {
       return Colors.red;
@@ -217,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 
-// TODO : 최고혈당, 식전 평균혈당, 식후 평균혈당, 최저혈당 수정 필요
+// TODO : 최고혈당, 식전 평균혈당, 식후 평균혈당, 최저혈당이 현재 임의의 값으로 들어가 있음.
 class BloodSugarSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -271,6 +272,7 @@ class BloodSugarSummary extends StatelessWidget {
   }
 }
 
+// 약물 정보 클래스
 class MedicineScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -310,8 +312,8 @@ class MedicineScheduleCard extends StatelessWidget {
               ],
             ),
           ),
-          // TODO: 약물 수정 필요
-          // FIXME : time : 데이터 작성한 시간 (text), Dosing_time : 식사 여부, Drug_type : 약물 유형, Drug_name: 약 이름, amount : 용량
+          // TODO: 실제 약 복용 데이터를 서버에서 받아와야 함. 현재는 임시 데이터로 구성됨.
+          // time : 데이터 작성한 시간 (text), Dosing_time : 식사 여부, Drug_type : 약물 유형, Drug_name: 약 이름, amount : 용량
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -535,6 +537,7 @@ class LineChartSample extends StatelessWidget {
                 maxY: 260,
                 lineBarsData: [
                   LineChartBarData(
+                    // TODO: 서버에서 실시간 혈당 데이터를 받아와서 차트에 반영해야 함. 현재는 고정된 데이터 사용 중.
                     spots: [
                       FlSpot(8, 95),
                       FlSpot(10, 140),
@@ -585,50 +588,3 @@ class LineChartSample extends StatelessWidget {
     );
   }
 }
-
-// 측정 시간 DB에서 받아오기
-// import 'package:intl/intl.dart'; // intl 패키지를 import 합니다.
-//
-// // ...
-//
-// // DateTime 객체를 받아와서 포매팅하는 함수
-// String formatTime(DateTime dateTime) {
-//   final DateFormat formatter = DateFormat('HH:mm');
-//   return formatter.format(dateTime);
-// }
-//
-// // ...
-//
-// lineTouchData: LineTouchData(
-// touchTooltipData: LineTouchTooltipData(
-// tooltipBgColor: Colors.black,
-// getTooltipItems: (List<LineBarSpot> touchedSpots) {
-// return touchedSpots.map((barSpot) {
-// final DateTime time = // DB에서 받아온 DateTime 객체를 여기에 할당하세요.
-// final yValue = barSpot.y.toInt(); // y 값을 정수로 변환
-// return LineTooltipItem(
-// '${formatTime(time)} \n $yValue mg/dL', // 포매팅된 시간과 변환된 값을 사용
-// const TextStyle(color: Colors.white),
-// );
-// }).toList();
-// },
-// ),
-// touchCallback: (LineTouchResponse touchResponse) {},
-// handleBuiltInTouches: true,
-// ),
-//
-
-// 중앙 글시 넣기
-// Padding(
-// padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-// child:Center(
-// child: Text(
-// "혈당 수치",
-// style: TextStyle(
-// color: Colors.black,//글자 색상은 검정색
-// fontWeight: FontWeight.bold,
-// fontSize: 18
-// ),
-// ),
-// ),
-// ),
