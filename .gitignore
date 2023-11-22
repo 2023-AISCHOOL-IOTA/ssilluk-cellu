@@ -5,6 +5,7 @@ secretGenerator.js
 docs/
 *.pem
 pubspec.lock
+*.h5
 
 # Miscellaneous
 *.class
