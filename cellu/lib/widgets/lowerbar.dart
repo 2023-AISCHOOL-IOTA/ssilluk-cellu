@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -72,8 +71,10 @@ class _BottomState extends State<Bottomnavi> {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed, // 아이콘 크기를 고정합니다.
-            backgroundColor: Colors.black, // 배경색을 검정으로 설정합니다.
+            type: BottomNavigationBarType.fixed,
+            // 아이콘 크기를 고정합니다.
+            backgroundColor: Colors.black,
+            // 배경색을 검정으로 설정합니다.
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Container(
@@ -131,8 +132,10 @@ class _BottomState extends State<Bottomnavi> {
               // 여기에 다른 아이콘들을 추가합니다.
             ],
             currentIndex: _selectedIndex,
-            unselectedItemColor: Colors.white54, // 비활성화된 아이템 색상을 설정합니다.
-            selectedItemColor: Colors.white, // 활성화된 아이템 색상을 설정합니다.
+            unselectedItemColor: Colors.white54,
+            // 비활성화된 아이템 색상을 설정합니다.
+            selectedItemColor: Colors.white,
+            // 활성화된 아이템 색상을 설정합니다.
             onTap: _onItemTapped,
           ),
         ),

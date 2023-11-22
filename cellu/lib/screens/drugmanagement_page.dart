@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'Home_screen.dart';
 
-
-
 class DrugManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,8 @@ class _DrugInputPageState extends State<DrugInputPage> {
               children: <Widget>[
                 Container(
                   width: 150, // 시간 입력 필드의 너비
-                  child: TimeInputField(hourController, minuteController, numberInputFormatter),
+                  child: TimeInputField(
+                      hourController, minuteController, numberInputFormatter),
                 ),
                 SizedBox(width: 20), // 간격
                 Container(
@@ -124,7 +123,8 @@ class _DrugInputPageState extends State<DrugInputPage> {
               ),
             ),
             SizedBox(height: 32),
-            SaveButton(typeController, nameController, doseController, hourController, minuteController, isBeforeMeal),
+            SaveButton(typeController, nameController, doseController,
+                hourController, minuteController, isBeforeMeal),
           ],
         ),
       ),
@@ -137,7 +137,8 @@ class TimeInputField extends StatelessWidget {
   final TextEditingController minuteController;
   final TextInputFormatter numberInputFormatter;
 
-  TimeInputField(this.hourController, this.minuteController, this.numberInputFormatter);
+  TimeInputField(
+      this.hourController, this.minuteController, this.numberInputFormatter);
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +153,10 @@ class TimeInputField extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.number,
-            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+            inputFormatters: [
+              numberInputFormatter,
+              LengthLimitingTextInputFormatter(2)
+            ],
           ),
         ),
         Text(':'),
@@ -165,7 +169,10 @@ class TimeInputField extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.number,
-            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+            inputFormatters: [
+              numberInputFormatter,
+              LengthLimitingTextInputFormatter(2)
+            ],
           ),
         ),
       ],
@@ -181,7 +188,8 @@ class SaveButton extends StatelessWidget {
   final TextEditingController minuteController;
   final bool isBeforeMeal;
 
-  SaveButton(this.typeController, this.nameController, this.doseController, this.hourController, this.minuteController, this.isBeforeMeal);
+  SaveButton(this.typeController, this.nameController, this.doseController,
+      this.hourController, this.minuteController, this.isBeforeMeal);
 
   @override
   Widget build(BuildContext context) {
