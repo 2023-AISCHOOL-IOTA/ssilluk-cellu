@@ -4,26 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// 앱의 진입점인 main 함수입니다.
-void main() => runApp(const MyApp());
-
-// NOTE : MyApp 클래스는 애플리케이션의 최상위 위젯입니다.
-class MyApp extends StatelessWidget {
-  // NOTE : Key? key는 위젯의 고유 식별자로서, 선택적으로 전달할 수 있습니다.
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // NOTE : MaterialApp 위젯은 Material Design 앱을 만들기 위한 루트 위젯입니다.
-    return MaterialApp(
-      // NOTE : 앱 실행 시 우측 상단에 띄우는 디버그 배너를 비활성화합니다.
-      debugShowCheckedModeBanner: false,
-      // NOTE : 애플리케이션의 홈 화면으로 MainScreen 위젯을 지정합니다.
-      home: const MainScreen(),
-    );
-  }
-}
-
 // DateSelector: 날짜 선택 로직을 관리
 // BloodSugarManager: 혈당 데이터를 관리
 // DayItem: 각 날짜를 표시하는 UI 구성요소를 관리
