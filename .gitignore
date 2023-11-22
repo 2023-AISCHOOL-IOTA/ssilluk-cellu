@@ -4,6 +4,7 @@ package-lock.json
 secretGenerator.js
 docs/
 *.pem
+pubspec.lock
 
 # Miscellaneous
 *.class
