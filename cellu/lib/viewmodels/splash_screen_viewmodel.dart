@@ -3,44 +3,38 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../services/logger_service.dart';
+import '../repository/server_connection_repository.dart';
 
 class SplashScreenViewModel extends ChangeNotifier {
   bool _isLoading = true;
-  bool _isBackendConnected = false; // 백엔드 연결 상태
+  bool _isBackendConnected = false;
 
   bool get isLoading => _isLoading;
 
-  bool get isBackendConnected => _isBackendConnected; // 백엔드 연결 상태 확인
+  bool get isBackendConnected => _isBackendConnected;
 
   SplashScreenViewModel() {
-    loadData();
+    _checkServerConnection();
   }
 
-  void loadData() async {
+  Future<void> _checkServerConnection() async {
+    await Future.delayed(Duration(seconds: 3)); // 3초 대기
     try {
-      // 환경 변수 로딩
-      await dotenv.load(fileName: "assets/config/.env");
-
-      // 비동기 작업 수행 중...
-      await checkBackendConnection(); //  백엔드 연결 확인
-
-      // 로딩 완료 후 상태 업데이트
-      _isLoading = false;
-      notifyListeners();
+      final connectionRepo = ServerConnectionRepository();
+      _isBackendConnected = await connectionRepo.checkConnection();
     } catch (e) {
-      LoggerService.error('데이터 로딩 실패: $e');
-      // 추가: 에러 처리
+      LoggerService.error('Connection error: $e');
+      _isBackendConnected = false;
+    } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> checkBackendConnection() async {
-    try {
-      final response = await http.get(Uri.parse(dotenv.env['BACKEND_URL']!));
-      _isBackendConnected = response.statusCode == 200;
-    } catch (_) {
-      _isBackendConnected = false;
-    }
+  void retryConnection() {
+    _isLoading = true;
+    _isBackendConnected = false;
+    notifyListeners();
+    _checkServerConnection();
   }
 }
