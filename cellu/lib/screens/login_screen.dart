@@ -29,16 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login(String userId, String password) async {
-    final backendUrl = dotenv.env['BACKEND_URL'];
-    if (backendUrl == null) {
-      // .env 파일에 BACKEND_URL이 정의되어 있지 않으면 에러 처리
-      LoggerService.error('BACKEND_URL이 .env 파일에 정의되어 있지 않습니다.');
-      return;
-    }
     try {
       // 백엔드 서버의 로그인 API를 호출
       final response = await http.post(
-        Uri.parse('$backendUrl/user/signin'),
+        Uri.parse('${dotenv.env['BACKEND_URL']}/user/signin'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -60,14 +54,23 @@ class _LoginScreenState extends State<LoginScreen> {
         // 로그인 실패 처리 (인증 오류)
         // TODO: 로그인 실패 메시지 표시
         LoggerService.error('로그인 실패 (인증 오류): ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed')),
+        );
       } else {
         // 기타 상태 코드에 대한 처리
         // TODO: 기타 실패 상태에 대한 메시지 표시 또는 처리
         LoggerService.error('로그인 실패: ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed')),
+        );
       }
     } catch (e) {
       // TODO: 에러 발생 시 처리
       LoggerService.error('로그인 중 에러 발생: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
