@@ -3,25 +3,6 @@
 // 일단 그대로 두겠습니다!
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-      ),
-      home: MeasurementErrorPage(),
-    );
-  }
-}
-
 class MeasurementErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
