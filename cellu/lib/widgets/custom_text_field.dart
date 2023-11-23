@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType; // updateProfile 사용 추가
   final Function(String)? onChanged; // 사용자 입력 변경 시 호출할 콜백
+  final Function(String)? onSubmitted; // onSubmitted 콜백
 
   CustomTextField({
     required this.label,
@@ -19,7 +20,8 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.prefixIcon,
     this.keyboardType, // updateProfile 사용 추가
-    this.onChanged, // 콜백 추가
+    this.onChanged, // 콜백
+    this.onSubmitted, // onSubmitted 초기화
   });
 
   @override
@@ -39,7 +41,9 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       ),
       obscureText: obscureText,
-      keyboardType: keyboardType, // updateProfile 사용 추가
+      keyboardType: keyboardType,
+      // updateProfile 사용 추가
+      onSubmitted: onSubmitted, // TextField에 onSubmitted 연결
     );
   }
 }
