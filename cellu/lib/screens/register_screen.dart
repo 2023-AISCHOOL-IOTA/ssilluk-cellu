@@ -153,36 +153,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // 비밀번호 불일치 처리
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('비밀번호와 비밀번호 확인이 일치하지 않습니다.'),
+          content: Text('비밀번호가 일치하지 않습니다.'),
           duration: Duration(seconds: 3), // 알림이 표시되는 시간 설정
         ),
       );
       return;
     }
+    try {
+      // HTTP 요청 보냄
+      final response = await http.post(
+        Uri.parse('${dotenv.env['BACKEND_URL']}/user/signup'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'id': email,
+          'password': password,
+        }),
+      );
 
-    // HTTP 요청 보냄
-    final response = await http.post(
-      Uri.parse('${dotenv.env['BACKEND_URL']}/user/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'id': email,
-        'password': password,
-      }),
-    );
-    if (response.statusCode == 201) {
-      // 회원가입 성공
-      log('회원가입 성공: ${response.body}');
-      // 로그인 화면으로 이동
-    } else {
-      log('회원가입 실패: ${response.body}');
+      if (response.statusCode == 201) {
+        // 회원가입 성공
+        log('회원가입 성공: ${response.body}');
+
+        // 로그인 화면으로 이동
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      } else {
+        log('회원가입 실패: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('회원가입 실패!')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
-
-    // 회원 가입이 성공하면 MainScreen으로 이동
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainScreen()), // MainScreen으로 이동
-    );
   }
 }
