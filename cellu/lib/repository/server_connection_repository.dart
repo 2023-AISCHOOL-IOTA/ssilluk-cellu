@@ -6,8 +6,8 @@ class ServerConnectionRepository {
     try {
       final response = await http.get(Uri.parse(dotenv.env['BACKEND_URL']!));
       return response.statusCode == 200;
-    } catch (_) {
-      throw Exception('Server Connection Failed');
+    } catch (e) {
+      throw Exception('Server Connection Failed: $e');
     }
   }
 }
