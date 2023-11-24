@@ -6,13 +6,15 @@ import '../../services/logger_service.dart';
 class ServerConnectionRepository {
   Future<bool> checkConnection() async {
     try {
-      // TODO: DELETE
-      print('response start here');
+      // 요청을 보내기 전에 로그 추가
+      LoggerService.info('Sending a GET request to check connection');
       final response = await http.get(Uri.parse(dotenv.env['BACKEND_URL']!));
-      // TODO: DELETE
-      print('response:  $response');
+      // 요청 후에 로그 추가
+      LoggerService.info('Received response from server: ${response.body}');
+
       return response.statusCode == 200;
     } catch (e) {
+      // 오류 발생 시 로그 추가
       LoggerService.error('Server Connection Failed', error: e);
 
       if (e is http.ClientException) {
