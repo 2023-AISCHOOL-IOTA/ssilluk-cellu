@@ -11,7 +11,7 @@ import 'package:cellu/utils/user_token_manager.dart';
 import 'package:cellu/styles.dart';
 import 'package:cellu/models/blood_sugar_model.dart';
 import 'package:cellu/models/dose_schedule_model.dart';
-
+import 'package:flutter/services.dart';
 import '../services/logger_service.dart';
 
 class MainScreen extends StatefulWidget {
@@ -88,20 +88,24 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.white, // Scaffold 배경색을 흰색으로 설정
       appBar: AppBar(
-        title: SvgPicture.asset('assets/logo-small.svg', width: 80),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: AppColors.white, // AppBar 배경색을 흰색으로 설정
+        title: SvgPicture.asset('assets/logo-small.svg', width: 60), // 로고 이미지
+        elevation: 0, // AppBar 그림자 제거
+        systemOverlayStyle: SystemUiOverlayStyle.dark, // 상태 표시줄 아이콘을 어두운 색으로 설정
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // BloodSugarSummary(bloodSugarData),
-            // BloodSugarLineChart(bloodSugarData),
-            DoseScheduleCard(scheduleItems: doseScheduleItems),
-          ],
-        ),
-      ),
+                // BloodSugarSummary(bloodSugarData),
+                // BloodSugarLineChart(bloodSugarData),
+                DoseScheduleCard(scheduleItems: doseScheduleItems),
+              ],
+            ),
+          ),
+
+
     );
   }
 }
