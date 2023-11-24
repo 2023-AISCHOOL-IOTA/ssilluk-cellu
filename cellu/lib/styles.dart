@@ -31,7 +31,7 @@ class AppStyles {
   );
 
   static const TextStyle doseItemSubtitleStyle = TextStyle(
-    color: AppColors.grey,
+    color: AppColors.black,
     fontSize: 14,
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.normal,
@@ -76,7 +76,12 @@ class AppStyles {
 }
 
 class AppDimensions {
-  static const double pagePaddingHorizontal = 16.0;
+  static const double pagePaddingHorizontal = 6.0;
+  static const double cardCornerRadius = 12.0;
+  static const double cardElevation = 4.0;
+  static const double cardMargin = 12.0;
+  static const double cardPadding = 16.0;
+  static const double doseItemPadding = 10.0;
 
 // ... 다른 디멘션 값들
 }
@@ -85,6 +90,7 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
   static const Color red = Color(0xFFFF0000);
+  static const Color dosePrimaryColor = Color(0xFFF99620);
   static const Color primaryColor = Color(0xFF3330C2);
   static const Color primaryColorOpacity90 = Color(0xE63330C2);
   static const Color brightBlue = Color(0xFF322EFB);
@@ -92,6 +98,7 @@ class AppColors {
   static const Color grey = Color(0xFF7D7D7D);
   static const Color greyOpacity80 = Color(0xCC898989);
   static const Color lightGreyOpacity20 = Color(0x33C4C4C4);
+  static const Color cardBackgroundColor = Color(0xFFF5F5F5);
 
 // ... 다른 색상 값들
 }
