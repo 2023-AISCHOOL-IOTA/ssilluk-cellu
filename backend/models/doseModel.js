@@ -7,10 +7,11 @@ class doseModel {
     const conn = await pool.getConnection();
     try {
       const [result] = await conn.query(
-        "INSERT INTO tbl_dose (user_id, dose_time, dose_medicine, dose_amount, medicine_type) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO tbl_dose (user_id, dose_time, meal_yn, dose_medicine, dose_amount, medicine_type) VALUES (?, ?, ?, ?, ?, ?)",
         [
           userId,
           doseData.dose_time,
+          doseData.meal_yn,
           doseData.dose_medicine,
           doseData.dose_amount,
           doseData.medicine_type,
