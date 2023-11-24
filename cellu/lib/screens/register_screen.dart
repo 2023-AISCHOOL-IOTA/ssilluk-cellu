@@ -25,6 +25,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
   final ValueNotifier<bool> _isConfirmPasswordVisible = ValueNotifier(false);
 
+  bool _isLoading = false; // 로딩 상태 추가
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -70,32 +72,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hint: '이메일을 입력하세요',
                     obscureText: false,
                     prefixIcon: Icons.email,
-                    controller: _emailController, // 이메일 입력 컨트롤러 연결
+                    controller: _emailController,
+                    // 이메일 입력 컨트롤러 연결
+                    onSubmitted: (value) {
+                      // 여기서 필요한 로직 추가 (예: _passwordController로 포커스 이동)
+                    },
                   ),
                   SizedBox(height: 20),
                   _buildPasswordInputField(
                     '비밀번호',
                     _isPasswordVisible,
                     _passwordController, // 비밀번호 입력 컨트롤러 연결
+                    (value) {
+                      // 여기서 필요한 로직 추가 (예: _passwordController로 포커스 이동)
+                    },
                   ),
                   SizedBox(height: 20),
                   _buildPasswordInputField(
                     '비밀번호 확인',
                     _isConfirmPasswordVisible,
                     _confirmPasswordController, // 비밀번호 입력 컨트롤러 연결
+                    (value) {
+                      // 키보드의 엔터 키를 눌렀을 때 회원가입 시도
+                      _register();
+                    },
                   ),
                   SizedBox(height: 30),
+                  // 회원가입 버튼
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: AppColors.primaryColor,
+                      backgroundColor: AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                     ),
-                    onPressed: _register,
-                    child: Text('회원가입'),
+                    onPressed: _isLoading ? null : _register,
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text('회원가입'),
                   ),
                   SizedBox(height: 20),
                   TextButton(
@@ -120,9 +139,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPasswordInputField(
-      String label,
-      ValueNotifier<bool> visibilityNotifier,
-      TextEditingController controller) {
+    String label,
+    ValueNotifier<bool> visibilityNotifier,
+    TextEditingController controller,
+    void Function(String)? onSubmitted,
+  ) {
     return ValueListenableBuilder(
       valueListenable: visibilityNotifier,
       builder: (context, value, child) {
@@ -138,6 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onPressed: () => visibilityNotifier.value = !value,
           ),
           controller: controller,
+          onSubmitted: onSubmitted,
         );
       },
     );
@@ -148,41 +170,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String password = _passwordController.text;
     final String confirmPassword = _confirmPasswordController.text;
 
+    setState(() {
+      _isLoading = true; // 로딩 시작
+    });
+
     // 비밀번호와 비밀번호 확인이 일치하는지 확인
-    if (password != confirmPassword) {
-      // 비밀번호 불일치 처리
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('비밀번호와 비밀번호 확인이 일치하지 않습니다.'),
-          duration: Duration(seconds: 3), // 알림이 표시되는 시간 설정
-        ),
-      );
+    if (_passwordController.text != _confirmPasswordController.text) {
+      _showSnackBar('비밀번호가 일치하지 않습니다.');
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
+    try {
+      // HTTP 요청 보냄
+      final response = await http.post(
+        Uri.parse('${dotenv.env['BACKEND_URL']}/user/signup'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'id': _emailController.text,
+          'password': _passwordController.text,
+        }),
+      );
 
-    // HTTP 요청 보냄
-    final response = await http.post(
-      Uri.parse('${dotenv.env['BACKEND_URL']}/user/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'id': email,
-        'password': password,
-      }),
-    );
-    if (response.statusCode == 201) {
-      // 회원가입 성공
-      log('회원가입 성공: ${response.body}');
-      // 로그인 화면으로 이동
-    } else {
-      log('회원가입 실패: ${response.body}');
+      if (!mounted) return;
+
+      if (response.statusCode == 201) {
+        _showSnackBar('회원가입 성공!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      } else {
+        _showSnackBar('회원가입 실패');
+      }
+    } catch (e) {
+      _showSnackBar('회원가입 중 에러 발생');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
+  }
 
-    // 회원 가입이 성공하면 MainScreen으로 이동
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainScreen()), // MainScreen으로 이동
-    );
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
   }
 }

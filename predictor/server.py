@@ -1,49 +1,56 @@
 from flask import Flask, request, jsonify
+import tensorflow as tf
+from keras.models import load_model
 import logging
-# import real_model # real_model.py에 실제 모델 로직 있다는 가정
+import os
 
 app = Flask(__name__)
 
 # 로깅 설정
 logging.basicConfig(level=logging.DEBUG)
 
-def mock_predict(data):
-    data['bloodsugar'] = 150  # 임의의 bloodsugar 값 설정
-    return data
+# TensorFlow 버전 및 환경 확인
+tf_version = tf.__version__
+print("TensorFlow version:", tf_version)
 
-# FIXME: my_model은 임의로 작성한 모델. 예측 함수는 my_model.predict(data)로 호출
-# FIXME: 가짜 코드니까 수정해야 함
-def load_my_model(data):
-  prediction_result = data
-  return prediction_result
+# 모델 파일 경로 설정
+directory_name = os.path.dirname(__file__)
+model_file_path = os.path.join(directory_name, 'predict-model.h5')
+print("Model file path: ", model_file_path)
+
+# 모델 로드 함수 정의
+def load_tf_model(model_path):
+  try:
+    # TensorFlow 호환 버전 확인 및 모델 로드
+    return load_model(model_path)
+  except Exception as e:
+    logging.error(f'Error loading model: {str(e)}')
+    raise
 
 # 모델 로드
-# model = real_model.load_model('model_path/model_file')
+try:
+  model = load_tf_model(model_file_path)
+except Exception as e:
+  logging.error(f"Model loading failed: {e}")
+  # 여기에 필요한 경우 대체 로직을 구현할 수 있습니다.
 
-@app.route('/predict', methods=['GET','POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
-  data = request.get_json()
+  try:
+    data = request.get_json()
+    app.logger.info(f'Received prediction request with data: {data}')
 
-  # 요청을 받았을 때 로그를 출력
-  app.logger.info(f'Received prediction request with data: {data}')
-  print(f'Received prediction request with data: {data}')
+    # 데이터 전처리 및 예측 로직 작성
+    # 예시: processed_data = preprocess_data(data)
+    # 예시: prediction_result = model.predict(processed_data)
 
-  # 예측 모델 실행
+    # 예시 응답
+    response = {'prediction': 'example'}
+    return jsonify(response), 200
 
-  # FIXME: 진짜 예측 모델로 수정 해야 함
-
-  # data 전처리
-  # processed_data = real_model.preprocess(data)
-  # 예측 수행
-  # prediction_result = model.predict(processed_data)
-  # 결과 후처리
-  # processed_result = real_model.postprocess(prediction_result)
-
-  # response = {'prediction': prediction_result}
-
-  response = mock_predict(data)
-  app.logger.info(f'Response: {response}')
-  return jsonify(response), 200
+  except Exception as e:
+    app.logger.error(f'Error in prediction: {str(e)}')
+    return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-  app.run(host ='0.0.0.0', port = 6500, debug = True)
+    app.run(port=6500, debug=True)

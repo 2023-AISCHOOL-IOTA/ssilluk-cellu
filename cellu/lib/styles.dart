@@ -13,7 +13,7 @@ class AppStyles {
     fontSize: 14,
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.w600,
-    decoration: TextDecoration.underline,
+    // decoration: TextDecoration.underline,
   );
 
   static const TextStyle errorStyle = TextStyle(
