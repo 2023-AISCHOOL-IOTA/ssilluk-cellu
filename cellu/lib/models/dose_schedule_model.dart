@@ -32,21 +32,28 @@ class DoseScheduleItem {
   }
 
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+      ),
+      margin: EdgeInsets.symmetric(vertical: 0.1),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDimensions.pagePaddingHorizontal,
+        vertical: 10.0,
+      ),
       child: Row(
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Text(
               doseTime,
-              style: AppStyles.doseItemTitleStyle,
+              style: AppStyles.doseItemSubtitleStyle,
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
-              mealYN == 'T' ? '식전' : '식후',
+              mealYN == 'T' ? '식후' : '식전',
               style: AppStyles.doseItemSubtitleStyle,
             ),
           ),
@@ -58,10 +65,10 @@ class DoseScheduleItem {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 4,
             child: Text(
               doseAmount,
-              style: AppStyles.doseItemAmountStyle,
+              style: AppStyles.doseItemSubtitleStyle,
             ),
           ),
           if (medicineType != null)
@@ -90,7 +97,7 @@ class DoseScheduleItemModel {
       LoggerService.info('Sending a GET request to fetch dose schedule data');
       final url = Uri.parse('${dotenv.env['BACKEND_URL']}/dose');
       final response =
-      await http.get(url, headers: {'Authorization': 'Bearer $token'});
+          await http.get(url, headers: {'Authorization': 'Bearer $token'});
       // POST 요청 후에 로그 추가
       LoggerService.info('Received response from server: ${response.body}');
 
