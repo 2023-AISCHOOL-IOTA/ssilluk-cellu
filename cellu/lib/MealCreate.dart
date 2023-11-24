@@ -1,4 +1,4 @@
-import 'package:ssuilluk-cellu/Mymeal.dart';
+import 'package:cellu/Mymeal.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:flutter/material.dart';
