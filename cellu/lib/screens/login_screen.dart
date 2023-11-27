@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import '../widgets/custom_text_field.dart';
-import '../styles.dart';
-import '../repository/server_connection_repository.dart';
-import '../services/logger_service.dart';
-import 'register_screen.dart';
-import 'Home_screen.dart';
+import 'package:cellu/utils/user_token_manager.dart';
+import 'package:cellu/widgets/custom_text_field.dart';
+import 'package:cellu/styles.dart';
+import 'package:cellu/repository/server_connection_repository.dart';
+import 'package:cellu/services/logger_service.dart';
+import 'package:cellu/screens/register_screen.dart';
+import 'package:cellu/screens/Home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,24 +22,25 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = ''; // 사용자 이메일 상태
   String password = ''; // 사용자 비밀번호 상태
 
+  // 추가: 로딩 상태를 관리하기 위한 ValueNotifier
+  final ValueNotifier<bool> _isLoading = ValueNotifier(false);
+
   @override
   void dispose() {
     _isRememberMeChecked.dispose();
     _isPasswordVisible.dispose();
+    _isLoading.dispose();
     super.dispose();
   }
 
   Future<void> _login(String userId, String password) async {
-    final backendUrl = dotenv.env['BACKEND_URL'];
-    if (backendUrl == null) {
-      // .env 파일에 BACKEND_URL이 정의되어 있지 않으면 에러 처리
-      LoggerService.error('BACKEND_URL이 .env 파일에 정의되어 있지 않습니다.');
-      return;
-    }
+    _isLoading.value = true; // 로딩 시작
     try {
       // 백엔드 서버의 로그인 API를 호출
+      // 요청을 보내기 전에 로그 추가
+      LoggerService.info('Sending a POST request to sign in');
       final response = await http.post(
-        Uri.parse('$backendUrl/user/signin'),
+        Uri.parse('${dotenv.env['BACKEND_URL']}/user/signin'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -47,27 +49,51 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': password,
         }),
       );
+      // 요청 후에 로그 추가
+      LoggerService.info('Received response from server: ${response.body}');
+
+      if (!mounted) return; // 현재 위젯의 마운트 상태 확인
+
       if (response.statusCode == 200) {
         // 로그인 성공 처리
-        final token = response.body; // 서버에서 받은 토큰
-        // TODO: 토큰을 저장하거나 다른 작업 수행
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+        final String extractedToken = responseBody['token'];
+        UserTokenManager.setToken(extractedToken);
+
         // 로그인 성공 후 다음 화면으로 이동
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainScreen()),
+          MaterialPageRoute(
+            builder: (context) => MainScreen(),
+          ),
         );
       } else if (response.statusCode == 401) {
         // 로그인 실패 처리 (인증 오류)
         // TODO: 로그인 실패 메시지 표시
         LoggerService.error('로그인 실패 (인증 오류): ${response.statusCode}');
+        _showSnackBar('로그인 실패');
       } else {
         // 기타 상태 코드에 대한 처리
         // TODO: 기타 실패 상태에 대한 메시지 표시 또는 처리
         LoggerService.error('로그인 실패: ${response.statusCode}');
+        _showSnackBar('로그인 실패');
       }
     } catch (e) {
       // TODO: 에러 발생 시 처리
       LoggerService.error('로그인 중 에러 발생: $e');
+      _showSnackBar('Error!');
+    } finally {
+      if (mounted) {
+        _isLoading.value = false; // 로딩 종료
+      }
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -134,6 +160,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               password = value;
                             });
                           },
+                          onSubmitted: (value) {
+                            // 엔터 키를 누르면 _login 함수 호출
+                            _login(email, password);
+                          },
                         );
                       },
                     ),
@@ -166,14 +196,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         _login(email, password);
                       }, // 로그인 버튼의 onPressed 이벤트 설정
-                      child: Text('로그인'),
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: _isLoading,
+                        builder: (context, isLoading, child) {
+                          if (isLoading) {
+                            return CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            );
+                          }
+                          return Text('로그인');
+                        },
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
+                            builder: (context) => RegisterScreen(),
+                          ),
                         );
                       },
                       child: Text(

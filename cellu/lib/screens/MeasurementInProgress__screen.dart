@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-      ),
-      home: MeasurementInProgress(),
-    );
-  }
-}
-
 class MeasurementInProgress extends StatefulWidget {
   @override
   _MeasurementInProgressState createState() => _MeasurementInProgressState();
