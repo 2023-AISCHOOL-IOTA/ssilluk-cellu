@@ -30,7 +30,7 @@ class doseModel {
     const conn = await pool.getConnection();
     try {
       const [rows] = await conn.query(
-        "SELECT * FROM tbl_dose WHERE user_id = ? ORDER BY dose_idx ASC",
+        "SELECT * FROM tbl_dose WHERE user_id = ? ORDER BY dose_idx DESC",
         [userId]
       );
       return rows;
