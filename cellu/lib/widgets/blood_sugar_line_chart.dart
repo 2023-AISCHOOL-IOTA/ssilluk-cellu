@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:cellu/styles.dart';
 
-class LineChart extends StatelessWidget {
+class BloodSugarLineChart extends StatelessWidget {
   final Map<int, List<int>> bloodSugarData;
 
-  LineChart(this.bloodSugarData);
+  BloodSugarLineChart(this.bloodSugarData);
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +19,22 @@ class LineChart extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: LineChart(
-          LineChartData(
-            gridData: _buildGridData(),
-            titlesData: _buildTitlesData(),
-            borderData: _buildBorderData(),
-            minX: 0,
-            maxX: bloodSugarData.keys.reduce(max),
-            // x축 최대값
-            minY: 0,
-            maxY: bloodSugarData.values.expand((i) => i).reduce(max),
-            // y축 최대값
-            lineBarsData: _buildLineBarsData(),
-          ),
-        ),
+        child: LineChart(_buildLineChartData()),
       ),
+    );
+  }
+
+  LineChartData _buildLineChartData() {
+    return LineChartData(
+      gridData: _buildGridData(),
+      titlesData: _buildTitlesData(),
+      borderData: _buildBorderData(),
+      lineBarsData: _buildLineBarsData(),
+      minX: 0,
+      maxX: bloodSugarData.keys.length - 1,
+      // X축 최대값 변경
+      minY: 0,
+      maxY: 300, // 예시 Y축 최대값, 혈당 데이터에 맞게 조정 필요
     );
   }
 
@@ -62,7 +63,11 @@ class LineChart extends StatelessWidget {
       bottomTitles: SideTitles(
         showTitles: true,
         getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
-        // TODO: x축 타이틀 설정 로직
+        // x축 타이틀 설정 로직
+        getTitles: (double value) {
+          // 예시 로직: x축 값을 날짜로 표시
+          return '${bloodSugarData.keys.elementAt(value.toInt())}일';
+        },
       ),
     );
   }
@@ -75,7 +80,20 @@ class LineChart extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildLineBarsData() {
-    // TODO: 혈당 데이터를 바탕으로 차트 바 데이터 생성 로직
-    return [];
+    // 예시 데이터로 차트 바 데이터 생성, 실제 데이터로 변경 필요
+    return [
+      LineChartBarData(
+        spots: bloodSugarData.entries
+            .map((entry) =>
+                FlSpot(entry.key.toDouble(), entry.value.first.toDouble()))
+            .toList(),
+        isCurved: true,
+        colors: [AppColors.primaryColor],
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: true),
+        belowBarData: BarAreaData(show: false),
+      ),
+    ];
   }
 }
