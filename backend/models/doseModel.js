@@ -7,7 +7,7 @@ class doseModel {
     const conn = await pool.getConnection();
     try {
       const [result] = await conn.query(
-        "INSERT INTO tbl_dose (user_id, dose_time, meal_yn, dose_medicine, dose_amount, medicine_type) VALUES (?, ?, ?, ?, ?, ?) ORDER BY dose_idx DESC",
+        "INSERT INTO tbl_dose (user_id, dose_time, meal_yn, dose_medicine, dose_amount, medicine_type) VALUES (?, ?, ?, ?, ?, ?)",
         [
           userId,
           doseData.dose_time,
@@ -30,7 +30,7 @@ class doseModel {
     const conn = await pool.getConnection();
     try {
       const [rows] = await conn.query(
-        "SELECT * FROM tbl_dose WHERE user_id = ?",
+        "SELECT * FROM tbl_dose WHERE user_id = ? ORDER BY dose_idx ASC",
         [userId]
       );
       return rows;
