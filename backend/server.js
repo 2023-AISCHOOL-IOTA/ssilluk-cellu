@@ -45,7 +45,7 @@ if (!process.env.JWT_SECRET) {
 
 // server test
 // TODO: 삭제
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("<h1>Hello, World!</h1>");
   console.log("HELLO WORLD");
 });

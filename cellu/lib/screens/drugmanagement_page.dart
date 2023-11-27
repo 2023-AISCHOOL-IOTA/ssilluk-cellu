@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'Home_screen.dart';
 
-
-
 class DrugManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -72,60 +70,65 @@ class _DrugInputPageState extends State<DrugInputPage> {
         ),
         title: Text('약물 작성'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
-              children: <Widget>[
-                Container(
-                  width: 150, // 시간 입력 필드의 너비
-                  child: TimeInputField(hourController, minuteController, numberInputFormatter),
-                ),
-                SizedBox(width: 20), // 간격
-                Container(
-                  width: 150, // 식전/식후 선택 버튼의 너비
-                  child: ToggleButtons(
-                    children: <Widget>[
-                      Text('식전'),
-                      Text('식후'),
-                    ],
-                    isSelected: [isBeforeMeal, !isBeforeMeal],
-                    onPressed: (int index) {
-                      setState(() {
-                        isBeforeMeal = index == 0;
-                      });
-                    },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 100,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
+                children: <Widget>[
+                  Container(
+                    width: 150, // 시간 입력 필드의 너비
+                    child: TimeInputField(
+                        hourController, minuteController, numberInputFormatter),
                   ),
+                  SizedBox(width: 20), // 간격
+                  Container(
+                    width: 150, // 식전/식후 선택 버튼의 너비
+                    child: ToggleButtons(
+                      children: <Widget>[
+                        Text('식전'),
+                        Text('식후'),
+                      ],
+                      isSelected: [isBeforeMeal, !isBeforeMeal],
+                      onPressed: (int index) {
+                        setState(() {
+                          isBeforeMeal = index == 0;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 70), // 간격
+              TextField(
+                controller: typeController,
+                decoration: InputDecoration(
+                  hintText: '약물 유형을 작성해주세요.',
                 ),
-              ],
-            ),
-            SizedBox(height: 70), // 간격
-            TextField(
-              controller: typeController,
-              decoration: InputDecoration(
-                hintText: '약물 유형을 작성해주세요.',
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                hintText: '약물 이름을 작성해주세요.',
+              SizedBox(height: 16),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: '약물 이름을 작성해주세요.',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: doseController,
-              decoration: InputDecoration(
-                hintText: '약물 용량을 작성해주세요.',
+              SizedBox(height: 16),
+              TextField(
+                controller: doseController,
+                decoration: InputDecoration(
+                  hintText: '약물 용량을 작성해주세요.',
+                ),
               ),
-            ),
-            SizedBox(height: 32),
-            SaveButton(typeController, nameController, doseController, hourController, minuteController, isBeforeMeal),
-          ],
+              SizedBox(height: 32),
+              SaveButton(typeController, nameController, doseController,
+                  hourController, minuteController, isBeforeMeal),
+            ],
+          ),
         ),
       ),
     );
@@ -137,7 +140,8 @@ class TimeInputField extends StatelessWidget {
   final TextEditingController minuteController;
   final TextInputFormatter numberInputFormatter;
 
-  TimeInputField(this.hourController, this.minuteController, this.numberInputFormatter);
+  TimeInputField(
+      this.hourController, this.minuteController, this.numberInputFormatter);
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +156,10 @@ class TimeInputField extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.number,
-            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+            inputFormatters: [
+              numberInputFormatter,
+              LengthLimitingTextInputFormatter(2)
+            ],
           ),
         ),
         Text(':'),
@@ -165,7 +172,10 @@ class TimeInputField extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.number,
-            inputFormatters: [numberInputFormatter, LengthLimitingTextInputFormatter(2)],
+            inputFormatters: [
+              numberInputFormatter,
+              LengthLimitingTextInputFormatter(2)
+            ],
           ),
         ),
       ],
@@ -181,7 +191,8 @@ class SaveButton extends StatelessWidget {
   final TextEditingController minuteController;
   final bool isBeforeMeal;
 
-  SaveButton(this.typeController, this.nameController, this.doseController, this.hourController, this.minuteController, this.isBeforeMeal);
+  SaveButton(this.typeController, this.nameController, this.doseController,
+      this.hourController, this.minuteController, this.isBeforeMeal);
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +213,7 @@ class SaveButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
           ),
-          padding: EdgeInsets.symmetric(vertical: 20), // 세로 패딩을 20으로 설정
+          padding: EdgeInsets.symmetric(vertical: 10), // 세로 패딩을 20으로 설정
         ),
         child: Text(
           '저장하기',
