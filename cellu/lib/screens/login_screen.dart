@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:cellu/utils/user_token_manager.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:cellu/widgets/custom_text_field.dart';
 import 'package:cellu/styles.dart';
-import 'package:cellu/repository/server_connection_repository.dart';
-import 'package:cellu/services/logger_service.dart';
 import 'package:cellu/screens/register_screen.dart';
-import 'package:cellu/screens/Home_screen.dart';
+import 'package:cellu/screens/home_screen.dart';
+import 'package:cellu/utils/user_token_manager.dart';
+import 'package:cellu/services/logger_service.dart';
 
+// 로그인 화면을 구성하는 위젯
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -19,10 +21,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final ValueNotifier<bool> _isRememberMeChecked = ValueNotifier(false);
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
-  String email = ''; // 사용자 이메일 상태
-  String password = ''; // 사용자 비밀번호 상태
-
-  // 추가: 로딩 상태를 관리하기 위한 ValueNotifier
+  String email = '';
+  String password = '';
   final ValueNotifier<bool> _isLoading = ValueNotifier(false);
 
   @override
@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // 로그인 로직
   Future<void> _login(String userId, String password) async {
     _isLoading.value = true; // 로딩 시작
     try {
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // 로그인 실패 혹은 성공 시 표시될 스낵바
   void _showSnackBar(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
