@@ -6,6 +6,7 @@ import 'package:cellu/styles.dart';
 import 'package:cellu/utils/user_token_manager.dart';
 import 'package:cellu/services/logger_service.dart';
 
+// 약 복용 스케줄 아이템 모델
 class DoseScheduleItem {
   final String doseTime;
   final String mealYN;
@@ -22,6 +23,7 @@ class DoseScheduleItem {
   });
 
   factory DoseScheduleItem.fromJson(Map<String, dynamic> json) {
+    // JSON 데이터를 DoseScheduleItem 객체로 변환
     return DoseScheduleItem(
       doseTime: json['dose_time'],
       mealYN: json['meal_yn'],
@@ -85,6 +87,7 @@ class DoseScheduleItem {
   }
 }
 
+// 약 복용 스케줄 데이터를 가져오는 모델
 class DoseScheduleItemModel {
   Future<List<DoseScheduleItem>> fetchDoseScheduleData(String token) async {
     try {
