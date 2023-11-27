@@ -11,6 +11,8 @@ import 'package:cellu/services/logger_service.dart';
 import 'package:cellu/screens/register_screen.dart';
 import 'package:cellu/screens/Home_screen.dart';
 
+import '../widgets/lowerbar.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreen(),
+            builder: (context) => Bottomnavi(),
           ),
         );
       } else if (response.statusCode == 401) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import '../main.dart';
 import '../screens/Home_screen.dart';
 import '../screens/MenuPage.dart';
 import '../screens/biometrics_screen.dart';
@@ -20,6 +21,7 @@ class _BottomState extends State<Bottomnavi> {
     BioScreen(),
     MenuPage(),
     MypageScreen(),
+
     // 여기에 다른 페이지 위젯들을 추가합니다.
   ];
 

@@ -1,9 +1,12 @@
 //TODO: 마이페이지 (기기연결,정보수정,비밀번호변경,회원탈퇴,로그아웃)
+import 'package:cellu/screens/updateProfile.dart';
 import 'package:flutter/material.dart';
 
 import 'Home_screen.dart';
+import 'MeasurementPreparation_screen.dart';
 import 'MenuPage.dart';
 import 'biometrics_screen.dart';
+import 'login_screen.dart';
 
 class MypageScreen extends StatelessWidget {
   @override
@@ -23,7 +26,7 @@ class MypageScreen extends StatelessWidget {
               // 뒤로가기 버튼을 눌렀을 때 BioScreen으로 이동합니다.
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
+                MaterialPageRoute(builder: (context) => BioScreen()),
               );
             },
           ),
@@ -89,7 +92,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MenuPage()), // 정보 수정 화면으로 이동
+                                      EditProfileScreen()), // 정보 수정 화면으로 이동
                             );
                           },
                           child: SizedBox(
@@ -155,7 +158,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MenuPage()), // 정보 수정 화면으로 이동
+                                      EditProfileScreen()), // 정보 수정 화면으로 이동
                             );
                           },
                           child: SizedBox(
@@ -221,7 +224,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MenuPage()), // 정보 수정 화면으로 이동
+                                      LoginScreen()), // 정보 수정 화면으로 이동
                             );
                           },
                           child: SizedBox(
@@ -287,7 +290,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MenuPage()), // 정보 수정 화면으로 이동
+                                      LoginScreen()), // 정보 수정 화면으로 이동
                             );
                           },
                           child: SizedBox(
@@ -353,7 +356,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MenuPage()), // 정보 수정 화면으로 이동
+                                      MeasurementPreparation()), // 정보 수정 화면으로 이동
                             );
                           },
                           child: SizedBox(

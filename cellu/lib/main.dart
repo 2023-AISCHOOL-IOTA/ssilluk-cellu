@@ -1,8 +1,4 @@
 import 'dart:async';
-
-import 'package:cellu/screens/drugmanagement_page.dart';
-import 'package:cellu/screens/mypage_screen.dart';
-import 'package:cellu/widgets/lowerbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
