@@ -4,34 +4,38 @@ const UserModel = require("../models/userModel");
 
 exports.protect = async (req, res, next) => {
   let token;
+
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization.startsWith("Bearer ")
   ) {
     try {
-      // Bearer 제거하고 토큰만 추출
       token = req.headers.authorization.split(" ")[1];
+
+      // 토큰 포맷 검증
+      if (!token) {
+        return res.status(401).json({ message: "Invalid token format" });
+      }
 
       // 토큰 검증, 페이로드 추출
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      if (!decoded || !decoded.id) {
-        return res.status(401).send({ message: `Invalid token` });
-      }
-
-      // 페이로드에서 사용자 정보를 가져와 다음 미들웨어나 라우터에서 사용
+      // 사용자 정보 검색
       req.user = await UserModel.findUserById(decoded.id);
       if (!req.user) {
-        return res.status(401).send({ message: `User not found in database` });
+        return res
+          .status(401)
+          .json({ message: "User not found with provided token" });
       }
-
       next();
     } catch (error) {
-      res
+      // 오류 처리 및 로깅
+      console.error(`Token verification error: ${error.message}`);
+      return res
         .status(401)
-        .send({ message: `Not authorized, token failed: ${error.message}` });
+        .json({ message: `Token verification failed: ${error.message}` });
     }
   } else {
-    res.status(401).send({ message: `No token provided` });
+    return res.status(401).json({ message: "Authorization token is missing" });
   }
 };
