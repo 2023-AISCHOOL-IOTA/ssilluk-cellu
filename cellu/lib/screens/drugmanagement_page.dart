@@ -1,18 +1,19 @@
-//TODO: 약물관리페이지
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:cellu/styles.dart'; //
 import 'Home_screen.dart';
 
+// 약물 관리 페이지
 class DrugManagement extends StatelessWidget {
+  const DrugManagement({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Drug Input',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
           titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
@@ -40,7 +41,10 @@ class DrugManagement extends StatelessWidget {
   }
 }
 
+// 약물 입력 페이지
 class DrugInputPage extends StatefulWidget {
+  const DrugInputPage({super.key});
+
   @override
   _DrugInputPageState createState() => _DrugInputPageState();
 }
@@ -135,6 +139,7 @@ class _DrugInputPageState extends State<DrugInputPage> {
   }
 }
 
+// 시간 입력 필드 위젯
 class TimeInputField extends StatelessWidget {
   final TextEditingController hourController;
   final TextEditingController minuteController;
@@ -183,6 +188,7 @@ class TimeInputField extends StatelessWidget {
   }
 }
 
+// 저장 버튼 위젯
 class SaveButton extends StatelessWidget {
   final TextEditingController typeController;
   final TextEditingController nameController;
@@ -191,8 +197,14 @@ class SaveButton extends StatelessWidget {
   final TextEditingController minuteController;
   final bool isBeforeMeal;
 
-  SaveButton(this.typeController, this.nameController, this.doseController,
-      this.hourController, this.minuteController, this.isBeforeMeal);
+  const SaveButton(
+      this.typeController,
+      this.nameController,
+      this.doseController,
+      this.hourController,
+      this.minuteController,
+      this.isBeforeMeal,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

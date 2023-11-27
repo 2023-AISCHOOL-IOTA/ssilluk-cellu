@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +13,7 @@ import 'package:cellu/models/dose_schedule_model.dart';
 import 'package:flutter/services.dart';
 import '../services/logger_service.dart';
 
+// 메인 화면 위젯
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -34,11 +34,12 @@ class _MainScreenState extends State<MainScreen> {
     _fetchData();
   }
 
+  // 데이터를 가져오는 함수
   Future<void> _fetchData() async {
     final token = UserTokenManager.getToken();
     if (token != null) {
       try {
-        // 사용자 ID를 서버에서 가져오는 요청을 추가
+        // 사용자 ID를 서버에서 가져오는 요청
         final userIdResponse = await http.get(
             Uri.parse('${dotenv.env['BACKEND_URL']}/user/profile'),
             headers: {'Authorization': 'Bearer $token'});
@@ -82,6 +83,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
+      // 로딩 중 화면 표시
       return Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
@@ -98,14 +100,12 @@ class _MainScreenState extends State<MainScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-                // BloodSugarSummary(bloodSugarData),
-                // BloodSugarLineChart(bloodSugarData),
-                DoseScheduleCard(scheduleItems: doseScheduleItems),
-              ],
-            ),
-          ),
-
-
+            // BloodSugarSummary(bloodSugarData),
+            // BloodSugarLineChart(bloodSugarData),
+            DoseScheduleCard(scheduleItems: doseScheduleItems),
+          ],
+        ),
+      ),
     );
   }
 }
