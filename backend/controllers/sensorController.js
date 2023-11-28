@@ -62,7 +62,7 @@ const sensorController = {
             // 사용자의 전화번호를 얻는 로직
             // const guardianPhoneNumber = await userModel.getGuardianPhoneNumber(userEmail);
             const message =
-              "측정된 생체 데이터가 정상 범위를 벗어났습니다. 주의가 필요합니다.";
+              "측정된 혈당이 정상 범위를 벗어났습니다. 주의가 필요합니다.";
             // SMS 전송
             await notificationService.sendSMS(
               guardianPhoneNumber,
