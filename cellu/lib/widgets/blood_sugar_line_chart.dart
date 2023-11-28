@@ -18,7 +18,7 @@ class BloodSugarLineChart extends StatelessWidget {
         color: AppColors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: LineChart(_buildLineChartData()),
       ),
     );
@@ -31,9 +31,10 @@ class BloodSugarLineChart extends StatelessWidget {
       borderData: _buildBorderData(),
       lineBarsData: _buildLineBarsData(),
       minX: 0,
-      maxX: bloodSugarData.keys.length - 1,
+      maxX: 23,
       minY: 0,
-      maxY: 300,
+      maxY: 200,
+      lineTouchData: LineTouchData(enabled: false), // 데이터 터치 비활성화
     );
   }
 
@@ -41,30 +42,8 @@ class BloodSugarLineChart extends StatelessWidget {
     return FlGridData(
       show: true,
       drawVerticalLine: true,
-      getDrawingHorizontalLine: (value) {
-        if (value % 30 == 0) {
-          return FlLine(
-            color: AppColors.greyOpacity80,
-            strokeWidth: 1,
-          );
-        }
-        return FlLine(
-          color: Colors.transparent,
-          strokeWidth: 0,
-        );
-      },
-      getDrawingVerticalLine: (value) {
-        if (value % 3 == 0) {
-          return FlLine(
-            color: AppColors.greyOpacity80,
-            strokeWidth: 1,
-          );
-        }
-        return FlLine(
-          color: Colors.transparent,
-          strokeWidth: 0,
-        );
-      },
+      horizontalInterval: 30,
+      verticalInterval: 3,
     );
   }
 
@@ -73,21 +52,34 @@ class BloodSugarLineChart extends StatelessWidget {
       leftTitles: SideTitles(
         showTitles: true,
         getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
-        getTitles: (value) {
-          if (value % 30 == 0) {
-            return '${value.toInt()}';
-          }
-          return '';
-        },
         interval: 30,
       ),
       bottomTitles: SideTitles(
         showTitles: true,
         getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
-        getTitles: (double value) {
-          int hour = bloodSugarData.keys.elementAt(value.toInt());
-          return '${hour}시';
-        },
+        interval: 3,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return '0시';
+              case 3:
+                return '3시';
+              case 6:
+                return '6시';
+              case 9:
+                return '9시';
+              case 12:
+                return '12시';
+              case 15:
+                return '15시';
+              case 18:
+                return '18시';
+              case 21:
+                return '21시';
+              default:
+                return '';
+            }
+          },
       ),
     );
   }
@@ -100,12 +92,12 @@ class BloodSugarLineChart extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildLineBarsData() {
-    List<FlSpot> spots = [];
-    bloodSugarData.forEach((hour, values) {
-      values.forEach((value) {
-        spots.add(FlSpot(hour.toDouble(), value.toDouble()));
-      });
-    });
+    List<FlSpot> spots = bloodSugarData.entries
+        .expand((entry) => entry.value.map((value) => FlSpot(entry.key.toDouble(), value.toDouble())))
+        .toList();
+
+    // spots을 시간순으로 정렬
+    spots.sort((a, b) => a.x.compareTo(b.x));
 
     return [
       LineChartBarData(

@@ -47,38 +47,48 @@ class DoseScheduleItem {
         children: [
           Expanded(
             flex: 1,
-            child: Text(
-              doseTime,
-              style: AppStyles.doseItemSubtitleStyle,
+            child: Center(
+              child: Text(
+                doseTime,
+                style: AppStyles.doseItemSubtitleStyle,
+              ),
             ),
           ),
           Expanded(
-            flex: 2,
-            child: Text(
-              mealYN == 'T' ? '식후' : '식전',
-              style: AppStyles.doseItemSubtitleStyle,
+            flex: 1,
+            child: Center(
+              child: Text(
+                mealYN == 'T' ? '식후' : '식전',
+                style: AppStyles.doseItemSubtitleStyle,
+              ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              doseMedicine,
-              style: AppStyles.doseItemSubtitleStyle,
+            child: Center(
+              child: Text(
+                doseMedicine,
+                style: AppStyles.doseItemSubtitleStyle,
+              ),
             ),
           ),
           Expanded(
-            flex: 4,
-            child: Text(
-              doseAmount,
-              style: AppStyles.doseItemSubtitleStyle,
+            flex: 1,
+            child: Center(
+              child: Text(
+                doseAmount,
+                style: AppStyles.doseItemSubtitleStyle,
+              ),
             ),
           ),
           if (medicineType != null)
             Expanded(
-              flex: 2,
-              child: Text(
-                medicineType!,
-                style: AppStyles.doseItemSubtitleStyle,
+              flex: 3,
+              child: Center(
+                child: Text(
+                  medicineType!,
+                  style: AppStyles.doseItemSubtitleStyle,
+                ),
               ),
             ),
         ],
