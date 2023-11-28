@@ -8,6 +8,7 @@ import 'package:cellu/screens/updateProfile.dart';
 import 'package:cellu/screens/MenuPage.dart';
 import 'package:cellu/screens/biometrics_screen.dart';
 import 'package:cellu/screens/login_screen.dart';
+import 'package:cellu/utils/user_token_manager.dart';
 
 class MypageScreen extends StatelessWidget {
   @override
@@ -19,10 +20,7 @@ class MypageScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => BioScreen()),
-            );
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -44,7 +42,6 @@ class Mypage extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
-              // "기기 연결하기" 옵션을 맨 위로 이동
               _buildOptionItem(
                 context,
                 text: '기기 연결하기',
@@ -82,8 +79,24 @@ class Mypage extends StatelessWidget {
                 context,
                 top: 508,
                 text: '로그아웃',
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen())),
+                onTap: () {
+                  UserTokenManager.clearToken();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('로그아웃 되었습니다'),
+                    ),
+                  );
+
+                  // 2초 후에 로그인 페이지로 이동
+                  Future.delayed(Duration(seconds: 2), () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  });
+                },
               ),
               // ... 기타 위젯들 ...
             ],
