@@ -3,6 +3,7 @@ import 'package:cellu/screens/updateProfile.dart';
 import 'package:flutter/material.dart';
 
 import 'Home_screen.dart';
+import 'MeasurementInProgress__screen.dart';
 import 'MeasurementPreparation_screen.dart';
 import 'MenuPage.dart';
 import 'biometrics_screen.dart';
@@ -356,7 +357,7 @@ class Mypage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MeasurementPreparation()), // 정보 수정 화면으로 이동
+                                      MeasurementInProgress()),
                             );
                           },
                           child: SizedBox(

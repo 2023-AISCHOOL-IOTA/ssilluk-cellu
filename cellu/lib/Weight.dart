@@ -1,3 +1,4 @@
+import 'package:cellu/screens/MenuPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,8 +44,11 @@ class Page extends StatelessWidget {
                   iconSize: 24,  // 아이콘 크기를 24로 설정.
                   color: Colors.black,
                   onPressed: () {
-                    // 뒤로가기 버튼을 눌렀을 때의 액션을 여기에 정의합니다.
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MenuPage()
+                    ),
+                    );
                   },
                 ),
               ),
