@@ -6,6 +6,7 @@ docs/
 *.pem
 pubspec.lock
 *.h5
+AndroidManifest.xml
 
 # Miscellaneous
 *.class
