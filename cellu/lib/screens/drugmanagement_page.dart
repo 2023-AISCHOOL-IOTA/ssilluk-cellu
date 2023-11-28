@@ -6,6 +6,7 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart'; /
 import 'package:cellu/styles.dart';
 import 'package:cellu/screens/Home_screen.dart';
 import 'package:cellu/utils/user_token_manager.dart';
+import 'package:cellu/widgets/lowerbar.dart';
 
 class DrugManagement extends StatelessWidget {
   const DrugManagement({Key? key});
@@ -41,7 +42,7 @@ class _DrugInputPageState extends State<DrugInputPage> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MainScreen()),
+              MaterialPageRoute(builder: (context) => Bottomnavi()),
             );
           },
         ),
@@ -97,15 +98,22 @@ class _DrugInputPageState extends State<DrugInputPage> {
                   Container(
                     width: 150,
                     child: ToggleButtons(
+                      borderRadius: BorderRadius.circular(18),
                       isSelected: [isBeforeMeal, !isBeforeMeal],
                       onPressed: (int index) {
                         setState(() {
                           isBeforeMeal = index == 0;
                         });
                       },
-                      children: <Widget>[
-                        Text('식전'),
-                        Text('식후'),
+                      children: const <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('식전'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('식후'),
+                        ),
                       ],
                     ),
                   ),
