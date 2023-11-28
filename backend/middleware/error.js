@@ -18,6 +18,7 @@ const logger = winston.createLogger({
 const errorHandler = (err, req, res, next) => {
   // 에러 상태 코드 설정
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
 
   // 에러 정보 로그 기록
   logger.error(
@@ -34,7 +35,6 @@ const errorHandler = (err, req, res, next) => {
     statusCode === 500 ? "An unexpected error occurred" : err.message;
 
   // 클라이언트에 에러 응답 전송
-  res.status(statusCode);
   res.json({
     error: {
       message: err.message,
@@ -43,4 +43,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports.errorHandler = errorHandler;
+module.exports = errorHandler;

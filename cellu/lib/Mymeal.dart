@@ -1,4 +1,4 @@
-import 'package:ssilluk-cellu/MealCreate.dart';
+import 'package:cellu/MealCreate.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,7 +14,7 @@ class Mymeal extends StatelessWidget {
   Future<List<DietPlan>> fetchDietPlans() async {
     final response = await http.get(
       // Uri.parse('http://your-backend-server.com/diet-plans'));
-        Uri.parse('http://192.168.20.168:5021/date'));
+        Uri.parse('http://192.168.20.74:5021/date'));
 
     if (response.statusCode == 200) {
       String str = response.body.toString();
@@ -131,7 +131,7 @@ class DietPlan {
 
 // TODO : 백엔드 url 적기
 Future<String> fetchImageUrl() async {
-  final response = await http.get(Uri.parse('http://192.168.20.168:5021/date'));
+  final response = await http.get(Uri.parse('http://192.168.20.74:5021/date'));
 
   if (response.statusCode == 200) {
     String jsonResponse = json.decode(response.body);
@@ -146,7 +146,7 @@ Future<String> fetchImageUrl() async {
 // TODO : 백엔드 url 적기, 임의 데이터로 확인하기위해
 Future<List<DietPlan>> fetchDietPlans() async {
   final response = await http.get(
-      Uri.parse('http://192.168.20.168:5021/date'));
+      Uri.parse('http://192.168.20.74:5021/date'));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -171,7 +171,7 @@ Future<List<DietPlan>> fetchDietPlans() async {
 // TODO : 백엔드 url 적기
 Future<void> addDietPlan(DietPlan dietPlan) async {
   final response = await http.post(
-    Uri.parse('http://192.168.20.168:5021/date'),
+    Uri.parse('http://192.168.20.74:5021/date'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -259,8 +259,8 @@ class Page extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          left: 140,
-                          top: 170,
+                          left: 148,
+                          top: 186,
                           child: SizedBox(
                             width: 114,
                             height: 31,
@@ -306,7 +306,7 @@ class Page extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          left: 180,
+                          left: 140,
                           top: 222.50,
                           child: SizedBox(
                             width: 164,
@@ -315,7 +315,7 @@ class Page extends StatelessWidget {
                               snapshot.data![index].time,  // index 번째 식단 계획의 time를 표시합니다.
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 10,
+                                fontSize: 15,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w500,
                                 height: 0,
@@ -369,7 +369,7 @@ class Page extends StatelessWidget {
                                 image: NetworkImage(snapshot.data![index].dietImg),  // index 번째 DietPlan의 imageUrl을 사용합니다.
                                 // Fixme : 앱을 진짜 실행해야할때 위에 코드를 주식 아래코드를 ON
                                 // image: MemoryImage(base64Decode(snapshot.data![index].dietImg)), // Base64 디코딩
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                               ),
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(width: 1, color: Color(0x9E3C3C3C)),

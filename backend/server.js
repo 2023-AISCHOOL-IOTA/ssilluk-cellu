@@ -11,7 +11,7 @@ const stressRoutes = require("./routes/stressRoutes"); // 스트레스 라우터
 const dietRoutes = require("./routes/dietRoutes"); // 식단 라우터
 const doseRoutes = require("./routes/doseRoutes"); // 복약 라우터
 const weightRoutes = require("./routes/weightRoutes"); // 체중 라우터
-const { errorHandler } = require("./middleware/error"); // 에러 처리
+const errorHandler = require("./middleware/error"); // 에러 처리
 
 const app = express(); // express 어플리케이션 생성
 
@@ -56,4 +56,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
-
