@@ -9,15 +9,17 @@ dependencies:
     sdk: flutter
   flutter_charts: ^0.5.2
   cupertino_icons: ^1.0.2
-  image_picker: ^0.8.4+4  # 최신 버전을 확인하세요.
+  image_picker: ^0.8.4+4
   path_provider: ^2.0.8
   http: ^0.13.3
   flutter_svg: ^2.0.9
-  fl_chart: ^0.36.0 # fl_chart 패키지 추가
+  fl_chart: ^0.36.0
   flutter_dotenv: ^5.1.0
   local_auth: ^1.1.6
   logger: ^2.0.2+1
   provider: ^6.1.1
+  flutter_time_picker_spinner: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:

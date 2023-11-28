@@ -1,16 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_svg/svg.dart';
-import '../widgets/custom_text_field.dart';
-import '../../styles.dart';
+import 'package:cellu/widgets/custom_text_field.dart';
+import 'package:cellu/styles.dart';
+import 'package:cellu/screens/login_screen.dart';
 
-import 'login_screen.dart';
-import 'Home_screen.dart';
-
+// 회원가입 화면을 구성하는 위젯
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -138,33 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPasswordInputField(
-    String label,
-    ValueNotifier<bool> visibilityNotifier,
-    TextEditingController controller,
-    void Function(String)? onSubmitted,
-  ) {
-    return ValueListenableBuilder(
-      valueListenable: visibilityNotifier,
-      builder: (context, value, child) {
-        return CustomTextField(
-          label: label,
-          hint: label,
-          obscureText: !value,
-          prefixIcon: Icons.lock,
-          suffixIcon: IconButton(
-            icon: Icon(
-              value ? Icons.visibility : Icons.visibility_off,
-            ),
-            onPressed: () => visibilityNotifier.value = !value,
-          ),
-          controller: controller,
-          onSubmitted: onSubmitted,
-        );
-      },
-    );
-  }
-
+  // 회원가입 로직
   Future<void> _register() async {
     final String email = _emailController.text;
     final String password = _passwordController.text;
@@ -217,6 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  // 스낵바 표시
   void _showSnackBar(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -224,4 +196,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     }
   }
+}
+
+// 비밀번호 입력 필드 구성
+Widget _buildPasswordInputField(
+  String label,
+  ValueNotifier<bool> visibilityNotifier,
+  TextEditingController controller,
+  void Function(String)? onSubmitted,
+) {
+  return ValueListenableBuilder(
+    valueListenable: visibilityNotifier,
+    builder: (context, value, child) {
+      return CustomTextField(
+        label: label,
+        hint: label,
+        obscureText: !value,
+        prefixIcon: Icons.lock,
+        suffixIcon: IconButton(
+          icon: Icon(
+            value ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () => visibilityNotifier.value = !value,
+        ),
+        controller: controller,
+        onSubmitted: onSubmitted,
+      );
+    },
+  );
 }

@@ -1,16 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import '../widgets/custom_text_field.dart';
-import '../styles.dart';
-import '../repository/server_connection_repository.dart';
-import '../services/logger_service.dart';
-import 'register_screen.dart';
-import 'Home_screen.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:cellu/widgets/custom_text_field.dart';
+import 'package:cellu/styles.dart';
+import 'package:cellu/screens/register_screen.dart';
+import 'package:cellu/screens/home_screen.dart';
+import 'package:cellu/utils/user_token_manager.dart';
+import 'package:cellu/services/logger_service.dart';
 
+import '../widgets/lowerbar.dart';
+
+// 로그인 화면을 구성하는 위젯
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -18,10 +23,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final ValueNotifier<bool> _isRememberMeChecked = ValueNotifier(false);
   final ValueNotifier<bool> _isPasswordVisible = ValueNotifier(false);
-  String email = ''; // 사용자 이메일 상태
-  String password = ''; // 사용자 비밀번호 상태
-
-  // 추가: 로딩 상태를 관리하기 위한 ValueNotifier
+  String email = '';
+  String password = '';
   final ValueNotifier<bool> _isLoading = ValueNotifier(false);
 
   @override
@@ -32,10 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // 로그인 로직
   Future<void> _login(String userId, String password) async {
     _isLoading.value = true; // 로딩 시작
     try {
       // 백엔드 서버의 로그인 API를 호출
+      // 요청을 보내기 전에 로그 추가
+      LoggerService.info('Sending a POST request to sign in');
       final response = await http.post(
         Uri.parse('${dotenv.env['BACKEND_URL']}/user/signin'),
         headers: <String, String>{
@@ -46,36 +52,22 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': password,
         }),
       );
+      // 요청 후에 로그 추가
+      LoggerService.info('Received response from server: ${response.body}');
 
       if (!mounted) return; // 현재 위젯의 마운트 상태 확인
 
       if (response.statusCode == 200) {
         // 로그인 성공 처리
-        final token = response.body; // 서버에서 받은 토큰
-        // TODO: 토큰을 저장하거나 다른 작업 수행
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+        final String extractedToken = responseBody['token'];
+        UserTokenManager.setToken(extractedToken);
+
         // 로그인 성공 후 다음 화면으로 이동
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => MainScreen()),
-        // );
         Navigator.pushReplacement(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                MainScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              var begin = Offset(1.0, 0.0);
-              var end = Offset.zero;
-              var curve = Curves.ease;
-
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: child,
-              );
-            },
+          MaterialPageRoute(
+            builder: (context) => Bottomnavi(),
           ),
         );
       } else if (response.statusCode == 401) {
@@ -100,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // 로그인 실패 혹은 성공 시 표시될 스낵바
   void _showSnackBar(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -196,34 +189,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 15),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        onPressed: () {
-                          _login(email, password);
-                        }, // 로그인 버튼의 onPressed 이벤트 설정
-                        child: ValueListenableBuilder<bool>(
-                            valueListenable: _isLoading,
-                            builder: (context, isLoading, child) {
-                              if (isLoading) {
-                                return CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
-                                );
-                              }
-                              return Text('로그인');
-                            })),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                      ),
+                      onPressed: () {
+                        _login(email, password);
+                      }, // 로그인 버튼의 onPressed 이벤트 설정
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: _isLoading,
+                        builder: (context, isLoading, child) {
+                          if (isLoading) {
+                            return CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            );
+                          }
+                          return Text('로그인');
+                        },
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
+                            builder: (context) => RegisterScreen(),
+                          ),
                         );
                       },
                       child: Text(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:cellu/styles.dart';
 import 'package:cellu/viewmodels/splash_screen_viewmodel.dart';
-import '../screens/login_screen.dart';
+import 'package:cellu/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+    // Consumer 위젯을 사용하여 SplashScreenViewModel의 상태에 따라 UI 업데이트
     return Consumer<SplashScreenViewModel>(
       builder: (context, viewModel, child) {
         if (viewModel.isLoading) {
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         } else if (viewModel.isBackendConnected) {
           // 서버 연결 성공 시 로그인 화면으로 이동
           _navigateToLoginScreen(context);
-          return _buildLoadingScreen(); // 로딩 화면을 잠시 유지
+          return _buildLoadingScreen(); // 로딩 화면 유지
         } else {
           // 서버 연결 실패 화면
           return _buildConnectionErrorScreen(context, viewModel);
@@ -62,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '서버 연결 실패',
               style: AppStyles.errorStyle,
             ),
@@ -71,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 // 재시도 로직
                 viewModel.retryConnection();
               },
-              child: Text('재시도'),
+              child: const Text('재시도'),
             ),
           ],
         ),

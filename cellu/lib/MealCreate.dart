@@ -1,4 +1,5 @@
-import 'package:cellu/main2.dart';
+import 'package:cellu/Mymeal.dart';
+import 'package:cellu/screens/MenuPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -124,7 +125,7 @@ class _PageState extends State<Page> {
                         // 뒤로가기 버튼을 눌렀을 때의 액션을 여기에 정의합니다.
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => Mymeal()),
+                          MaterialPageRoute(builder: (context) => MenuPage()),
                         );
                       },
                     ),

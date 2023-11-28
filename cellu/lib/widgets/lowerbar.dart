@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import '../screens/Home_screen.dart';
-import '../screens/MenuPage.dart';
-import '../screens/biometrics_screen.dart';
-import '../screens/mypage_screen.dart';
-// 필요한 다른 페이지들에 대한 import를 추가합니다.
+import 'package:cellu/main.dart';
+import 'package:cellu/screens/Home_screen.dart';
+import 'package:cellu/screens/MenuPage.dart';
+import 'package:cellu/screens/biometrics_screen.dart';
+import 'package:cellu/screens/mypage_screen.dart';
 
 class Bottomnavi extends StatefulWidget {
   @override
@@ -20,7 +20,6 @@ class _BottomState extends State<Bottomnavi> {
     BioScreen(),
     MenuPage(),
     MypageScreen(),
-    // 여기에 다른 페이지 위젯들을 추가합니다.
   ];
 
   Future<void> _authenticateWithBiometrics() async {
