@@ -38,7 +38,7 @@ class BloodSugarSummary extends StatelessWidget {
           _buildSummaryItem('최고혈당', '$maxSugar mg/dL', AppColors.red),
           _buildSummaryItem('평균혈당', '${averageSugar.toStringAsFixed(1)} mg/dL',
               AppColors.primaryColor),
-          _buildSummaryItem('최저혈당', '$minSugar mg/dL', AppColors.blue),
+          _buildSummaryItem('최저혈당', '$minSugar mg/dL', AppColors.dosePrimaryColor),
         ],
       ),
     );
@@ -48,7 +48,7 @@ class BloodSugarSummary extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(title, style: AppStyles.doseItemTitleStyle),
+        Text(title, style: AppStyles.doseItemSubtitleStyle),
         SizedBox(height: 4),
         Text(value,
             style: AppStyles.doseItemAmountStyle.copyWith(color: color)),
