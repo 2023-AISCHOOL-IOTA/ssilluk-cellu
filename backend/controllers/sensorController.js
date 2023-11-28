@@ -1,6 +1,7 @@
 // NOTE: 센서 데이터를 받아 예측 모델 서버에 전송, 결과를 데이터베이스에 저장
 const axios = require("axios");
 const sensorModel = require("../models/sensorModel");
+const userModel = require("../models/userModel");
 const notificationService = require("../services/notificationService");
 const { getStressLevel } = require("../utils/stressUtils");
 
@@ -11,6 +12,17 @@ const sensorController = {
     try {
       const userEmail = req.user.user_id; // 인증된 사용자의 ID
       const sensorData = req.body; // 센서 데이터
+
+      // 사용자 정보 조회
+      const userInfo = await userModel.findUserById(userEmail);
+      if (!userInfo) {
+        return res.status(404).send({ message: "User information not found." });
+      }
+      const userGender = userInfo.user_gender || "F";
+
+      // 성별과 나이 정보 추가
+      sensorData.gender = userGender;
+      sensorData.age = calculateAge(userInfo.user_birthdate); // 나이 계산 함수
 
       // 사용자의 최신 센서 데이터 조회
       const latestSensorData = await sensorModel.findSensorDataByUserId(
@@ -28,7 +40,8 @@ const sensorController = {
         PREDICTION_MODEL_SERVER_URL,
         sensorData
       );
-      const predictionResult = data.bloodsugar;
+
+      const predictionResult = data.prediction;
 
       // 데이터베이스에 센서 데이터와 예측 결과 저장
       await sensorModel.saveData(userEmail, sensorData, predictionResult);
@@ -47,9 +60,9 @@ const sensorController = {
             // FIXME: 이 부분은 실제로 사용자의 전화번호를 조회하는 로직으로 대체해야 함
             const guardianPhoneNumber = process.env.SMS_MY_PHONE_NUMBER;
             // 사용자의 전화번호를 얻는 로직
-            // const guardianPhoneNumber = await UserModel.getGuardianPhoneNumber(userEmail);
+            // const guardianPhoneNumber = await userModel.getGuardianPhoneNumber(userEmail);
             const message =
-              "측정된 생체 데이터가 정상 범위를 벗어났습니다. 주의가 필요합니다.";
+              "측정된 혈당이 정상 범위를 벗어났습니다. 주의가 필요합니다.";
             // SMS 전송
             await notificationService.sendSMS(
               guardianPhoneNumber,
@@ -91,5 +104,16 @@ const sensorController = {
     }
   },
 };
+
+function calculateAge(birthdate) {
+  const birthday = new Date(birthdate);
+  const today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  const m = today.getMonth() - birthday.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 module.exports = sensorController;

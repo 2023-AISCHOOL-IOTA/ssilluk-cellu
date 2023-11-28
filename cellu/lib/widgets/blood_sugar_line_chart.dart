@@ -18,7 +18,7 @@ class BloodSugarLineChart extends StatelessWidget {
         color: AppColors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: LineChart(_buildLineChartData()),
       ),
     );
@@ -31,10 +31,10 @@ class BloodSugarLineChart extends StatelessWidget {
       borderData: _buildBorderData(),
       lineBarsData: _buildLineBarsData(),
       minX: 0,
-      maxX: bloodSugarData.keys.length - 1,
-      // X축 최대값 변경
+      maxX: 23,
       minY: 0,
-      maxY: 300, // 예시 Y축 최대값, 혈당 데이터에 맞게 조정 필요
+      maxY: 200,
+      lineTouchData: LineTouchData(enabled: false), // 데이터 터치 비활성화
     );
   }
 
@@ -42,32 +42,44 @@ class BloodSugarLineChart extends StatelessWidget {
     return FlGridData(
       show: true,
       drawVerticalLine: true,
-      getDrawingHorizontalLine: (value) {
-        return FlLine(
-          color: AppColors.greyOpacity80,
-          strokeWidth: 1,
-        );
-      },
-      getDrawingVerticalLine: (value) {
-        return FlLine(
-          color: AppColors.greyOpacity80,
-          strokeWidth: 1,
-        );
-      },
+      horizontalInterval: 30,
+      verticalInterval: 3,
     );
   }
 
   FlTitlesData _buildTitlesData() {
     return FlTitlesData(
-      leftTitles: SideTitles(showTitles: false),
+      leftTitles: SideTitles(
+        showTitles: true,
+        getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
+        interval: 30,
+      ),
       bottomTitles: SideTitles(
         showTitles: true,
         getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
-        // x축 타이틀 설정 로직
-        getTitles: (double value) {
-          // 예시 로직: x축 값을 날짜로 표시
-          return '${bloodSugarData.keys.elementAt(value.toInt())}일';
-        },
+        interval: 3,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return '0시';
+              case 3:
+                return '3시';
+              case 6:
+                return '6시';
+              case 9:
+                return '9시';
+              case 12:
+                return '12시';
+              case 15:
+                return '15시';
+              case 18:
+                return '18시';
+              case 21:
+                return '21시';
+              default:
+                return '';
+            }
+          },
       ),
     );
   }
@@ -80,13 +92,16 @@ class BloodSugarLineChart extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildLineBarsData() {
-    // 예시 데이터로 차트 바 데이터 생성, 실제 데이터로 변경 필요
+    List<FlSpot> spots = bloodSugarData.entries
+        .expand((entry) => entry.value.map((value) => FlSpot(entry.key.toDouble(), value.toDouble())))
+        .toList();
+
+    // spots을 시간순으로 정렬
+    spots.sort((a, b) => a.x.compareTo(b.x));
+
     return [
       LineChartBarData(
-        spots: bloodSugarData.entries
-            .map((entry) =>
-                FlSpot(entry.key.toDouble(), entry.value.first.toDouble()))
-            .toList(),
+        spots: spots,
         isCurved: true,
         colors: [AppColors.primaryColor],
         barWidth: 2,

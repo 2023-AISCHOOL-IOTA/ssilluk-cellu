@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import '../Mymeal.dart';
+import '../Weight.dart';
+import 'biometrics_screen.dart';
+import 'drugmanagement_page.dart';
+// 다른 필요한 페이지들에 대한 import를 추가합니다.
 
 class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // AppBar의 높이를 가져옵니다.
     final appBarHeight = AppBar().preferredSize.height;
 
     return Scaffold(
@@ -11,31 +15,56 @@ class MenuPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // 여기에 뒤로 가기 기능을 구현하세요.
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => BioScreen()),
+            );
           },
-          color: Colors.black, // 아이콘 색상을 검은색으로 변경
+          color: Colors.black,
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           '메뉴',
-          style: TextStyle(
-            color: Colors.black,
-          ),
+          style: TextStyle(color: Colors.black),
         ),
-        centerTitle: true, // 타이틀 가운데 정렬
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: appBarHeight), // AppBar 높이만큼 공간을 추가합니다.
-              MyButton(title: '약물 관리'),
-              SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '식단 관리'),
-              SizedBox(height: 30), // 버튼 사이 간격을 더 넓혔습니다.
-              MyButton(title: '체중 관리'),
+              SizedBox(height: appBarHeight),
+              MyButton(
+                title: '약물 관리',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DrugManagement()),
+                  );
+                },
+              ),
+              SizedBox(height: 30),
+              MyButton(
+                title: '식단 관리',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Mymeal()),
+                  );
+                },
+              ),
+              SizedBox(height: 30),
+              MyButton(
+                title: '체중 관리',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Weight()),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -46,18 +75,17 @@ class MenuPage extends StatelessWidget {
 
 class MyButton extends StatelessWidget {
   final String title;
+  final VoidCallback onPressed;
 
-  const MyButton({Key? key, required this.title}) : super(key: key);
+  const MyButton({Key? key, required this.title, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-      // 버튼의 가로 길이와 간격을 조정합니다.
       width: double.infinity,
-      // 전체 너비를 사용합니다.
       height: 60,
-      // 버튼의 높이를 늘렸습니다.
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Colors.white,
@@ -67,14 +95,12 @@ class MyButton extends StatelessWidget {
           side: BorderSide(color: Colors.grey.shade300, width: 1),
           elevation: 0,
         ),
-        onPressed: () {
-          // 여기에 버튼 클릭 시 수행할 기능을 구현하세요.
-        },
+        onPressed: onPressed,
         child: Text(
           title,
           style: TextStyle(
             color: Colors.black,
-            fontSize: 16, // 기존의 글자 크기를 유지합니다.
+            fontSize: 16,
           ),
         ),
       ),
