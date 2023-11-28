@@ -23,8 +23,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List<DoseScheduleItem> doseScheduleItems = [];
-
-  // Map<int, List<int>> bloodSugarData = {};
+  Map<int, List<int>> bloodSugarData = {};
   bool isLoading = true;
   String userId = '';
 
@@ -52,12 +51,12 @@ class _MainScreenState extends State<MainScreen> {
         }
 
         // 혈당 데이터 로드
-        // final bloodSugarDataResponse =
-        //     await BloodSugarModel(token).fetchBloodSugarData(userId);
-        // setState(() {
-        //   bloodSugarData = bloodSugarDataResponse;
-        //   isLoading = false;
-        // });
+        final bloodSugarDataResponse =
+            await BloodSugarModel(token).fetchBloodSugarData(userId);
+        setState(() {
+          bloodSugarData = bloodSugarDataResponse;
+          isLoading = false;
+        });
 
         // 약 복용 스케줄 데이터 로드
         final doseScheduleResponse =
@@ -100,8 +99,8 @@ class _MainScreenState extends State<MainScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // BloodSugarSummary(bloodSugarData),
-            // BloodSugarLineChart(bloodSugarData),
+            BloodSugarLineChart(bloodSugarData),
+            BloodSugarSummary(bloodSugarData),
             DoseScheduleCard(scheduleItems: doseScheduleItems),
           ],
         ),
