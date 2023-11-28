@@ -125,4 +125,14 @@ class DoseScheduleItemModel {
       throw Exception('Failed to load dose schedule data');
     }
   }
+
+  List<DoseScheduleItem> filterDoseScheduleByDate(
+      List<DoseScheduleItem> scheduleItems, DateTime filterDate) {
+    return scheduleItems.where((item) {
+      final itemDate = DateTime.parse(item.doseTime);
+      return itemDate.year == filterDate.year &&
+          itemDate.month == filterDate.month &&
+          itemDate.day == filterDate.day;
+    }).toList();
+  }
 }

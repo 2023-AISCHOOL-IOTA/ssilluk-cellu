@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart'; // 패키지 추가
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:intl/intl.dart';
 import 'package:cellu/styles.dart';
 import 'package:cellu/screens/Home_screen.dart';
 import 'package:cellu/utils/user_token_manager.dart';
@@ -28,7 +29,7 @@ class _DrugInputPageState extends State<DrugInputPage> {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController doseController = TextEditingController();
-  DateTime selectedTime = DateTime.now(); // 선택된 시간을 저장할 변수
+  DateTime selectedDateTime = DateTime.now(); // 선택된 날짜와 시간을 저장할 변수
 
   // 식사 전/후 여부를 저장할 변수
   bool isBeforeMeal = true;
@@ -58,25 +59,35 @@ class _DrugInputPageState extends State<DrugInputPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(width: 30),
                   Container(
                     width: 150,
                     child: GestureDetector(
                       onTap: () {
-                        // 시간 선택 다이얼로그 열기
-                        showTimePicker(
+                        // 날짜와 시간 선택 다이얼로그 열기
+                        showDatePicker(
                           context: context,
-                          initialTime: TimeOfDay.fromDateTime(
-                              selectedTime), // 선택된 시간 초기값 설정
-                        ).then((pickedTime) {
-                          if (pickedTime != null) {
-                            setState(() {
-                              selectedTime = DateTime(
-                                selectedTime.year,
-                                selectedTime.month,
-                                selectedTime.day,
-                                pickedTime.hour,
-                                pickedTime.minute,
-                              );
+                          initialDate: selectedDateTime,
+                          firstDate: DateTime(2001),
+                          lastDate: DateTime(2101),
+                        ).then((pickedDate) {
+                          if (pickedDate != null) {
+                            showTimePicker(
+                              context: context,
+                              initialTime:
+                                  TimeOfDay.fromDateTime(selectedDateTime),
+                            ).then((pickedTime) {
+                              if (pickedTime != null) {
+                                setState(() {
+                                  selectedDateTime = DateTime(
+                                    pickedDate.year,
+                                    pickedDate.month,
+                                    pickedDate.day,
+                                    pickedTime.hour,
+                                    pickedTime.minute,
+                                  );
+                                });
+                              }
                             });
                           }
                         });
@@ -84,17 +95,24 @@ class _DrugInputPageState extends State<DrugInputPage> {
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10),
+                          border:
+                              Border.all(color: AppColors.lightGreyOpacity20),
+                          borderRadius: BorderRadius.circular(18),
+                          color: AppColors.lightGreyOpacity20,
                         ),
-                        child: Text(
-                          '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}', // 선택된 시간을 예쁘게 표시
-                          style: TextStyle(fontSize: 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '날짜, 시간 선택',
+                              style: AppStyles.doseItemSubtitleStyle,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 30),
                   Container(
                     width: 150,
                     child: ToggleButtons(
@@ -145,8 +163,7 @@ class _DrugInputPageState extends State<DrugInputPage> {
                 typeController: typeController,
                 nameController: nameController,
                 doseController: doseController,
-                timeController: selectedTime,
-                // 시간을 DateTime 형태로 전달
+                dateTimeController: selectedDateTime,
                 isBeforeMeal: isBeforeMeal,
               ),
             ],
@@ -161,14 +178,14 @@ class SaveButton extends StatelessWidget {
   final TextEditingController typeController;
   final TextEditingController nameController;
   final TextEditingController doseController;
-  final DateTime timeController;
+  final DateTime dateTimeController;
   final bool isBeforeMeal;
 
   SaveButton({
     required this.typeController,
     required this.nameController,
     required this.doseController,
-    required this.timeController,
+    required this.dateTimeController,
     required this.isBeforeMeal,
   });
 
@@ -183,7 +200,7 @@ class SaveButton extends StatelessWidget {
             typeController.text,
             nameController.text,
             doseController.text,
-            timeController,
+            dateTimeController,
             isBeforeMeal,
           );
         },
@@ -206,7 +223,7 @@ class SaveButton extends StatelessWidget {
     String type,
     String name,
     String dose,
-    DateTime time,
+    DateTime dateTime,
     bool isBeforeMeal,
   ) async {
     final token = UserTokenManager.getToken();
@@ -216,7 +233,7 @@ class SaveButton extends StatelessWidget {
         'medicine_type': type,
         'dose_medicine': name,
         'dose_amount': dose,
-        'dose_time': '${time.hour}:${time.minute.toString().padLeft(2, '0')}',
+        'dose_time': DateFormat('yyyy-MM-dd HH:mm').format(dateTime),
         'meal_yn': isBeforeMeal ? 'N' : 'Y',
       };
 

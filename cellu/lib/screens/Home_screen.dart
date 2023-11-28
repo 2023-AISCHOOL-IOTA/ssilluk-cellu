@@ -69,8 +69,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _fetchDoseScheduleData(String token) async {
-    doseScheduleItems =
-        await DoseScheduleItemModel().fetchDoseScheduleData(token);
+    doseScheduleItems = await DoseScheduleItemModel()
+        .filterDoseScheduleByDate(doseScheduleItems, selectedDate);
   }
 
   @override
