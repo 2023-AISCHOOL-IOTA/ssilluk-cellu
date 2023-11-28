@@ -9,6 +9,7 @@ import 'package:cellu/screens/MenuPage.dart';
 import 'package:cellu/screens/biometrics_screen.dart';
 import 'package:cellu/screens/login_screen.dart';
 import 'package:cellu/utils/user_token_manager.dart';
+import 'package:cellu/widgets/lowerbar.dart';
 
 class MypageScreen extends StatelessWidget {
   @override
@@ -20,7 +21,10 @@ class MypageScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Bottomnavi()),
+            );
           },
         ),
       ),
