@@ -32,9 +32,8 @@ class BloodSugarLineChart extends StatelessWidget {
       lineBarsData: _buildLineBarsData(),
       minX: 0,
       maxX: bloodSugarData.keys.length - 1,
-      // X축 최대값 변경
       minY: 0,
-      maxY: 300, // 예시 Y축 최대값, 혈당 데이터에 맞게 조정 필요
+      maxY: 300,
     );
   }
 
@@ -43,15 +42,27 @@ class BloodSugarLineChart extends StatelessWidget {
       show: true,
       drawVerticalLine: true,
       getDrawingHorizontalLine: (value) {
+        if (value % 30 == 0) {
+          return FlLine(
+            color: AppColors.greyOpacity80,
+            strokeWidth: 1,
+          );
+        }
         return FlLine(
-          color: AppColors.greyOpacity80,
-          strokeWidth: 1,
+          color: Colors.transparent,
+          strokeWidth: 0,
         );
       },
       getDrawingVerticalLine: (value) {
+        if (value % 3 == 0) {
+          return FlLine(
+            color: AppColors.greyOpacity80,
+            strokeWidth: 1,
+          );
+        }
         return FlLine(
-          color: AppColors.greyOpacity80,
-          strokeWidth: 1,
+          color: Colors.transparent,
+          strokeWidth: 0,
         );
       },
     );
@@ -59,14 +70,23 @@ class BloodSugarLineChart extends StatelessWidget {
 
   FlTitlesData _buildTitlesData() {
     return FlTitlesData(
-      leftTitles: SideTitles(showTitles: false),
+      leftTitles: SideTitles(
+        showTitles: true,
+        getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
+        getTitles: (value) {
+          if (value % 30 == 0) {
+            return '${value.toInt()}';
+          }
+          return '';
+        },
+        interval: 30,
+      ),
       bottomTitles: SideTitles(
         showTitles: true,
         getTextStyles: (context, value) => AppStyles.doseItemSubtitleStyle,
-        // x축 타이틀 설정 로직
         getTitles: (double value) {
-          // 예시 로직: x축 값을 날짜로 표시
-          return '${bloodSugarData.keys.elementAt(value.toInt())}일';
+          int hour = bloodSugarData.keys.elementAt(value.toInt());
+          return '${hour}시';
         },
       ),
     );
@@ -80,13 +100,16 @@ class BloodSugarLineChart extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildLineBarsData() {
-    // 예시 데이터로 차트 바 데이터 생성, 실제 데이터로 변경 필요
+    List<FlSpot> spots = [];
+    bloodSugarData.forEach((hour, values) {
+      values.forEach((value) {
+        spots.add(FlSpot(hour.toDouble(), value.toDouble()));
+      });
+    });
+
     return [
       LineChartBarData(
-        spots: bloodSugarData.entries
-            .map((entry) =>
-                FlSpot(entry.key.toDouble(), entry.value.first.toDouble()))
-            .toList(),
+        spots: spots,
         isCurved: true,
         colors: [AppColors.primaryColor],
         barWidth: 2,

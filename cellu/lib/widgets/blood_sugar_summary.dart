@@ -9,7 +9,7 @@ class BloodSugarSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloodSugarValues =
-    bloodSugarData.values.expand((list) => list).toList();
+        bloodSugarData.values.expand((list) => list).toList();
 
     // 혈당 데이터가 없는 경우 기본 값을 표시
     if (bloodSugarValues.isEmpty) {
@@ -18,14 +18,16 @@ class BloodSugarSummary extends StatelessWidget {
 
     // 혈당 데이터의 최대, 최소, 평균 값을 계산
     final maxSugar =
-    bloodSugarValues.reduce((curr, next) => curr > next ? curr : next);
+        bloodSugarValues.reduce((curr, next) => curr > next ? curr : next);
     final minSugar =
-    bloodSugarValues.reduce((curr, next) => curr < next ? curr : next);
+        bloodSugarValues.reduce((curr, next) => curr < next ? curr : next);
     final averageSugar = bloodSugarValues.fold(0, (sum, item) => sum + item) /
         bloodSugarValues.length;
 
     return Container(
-      padding: EdgeInsets.all(AppDimensions.pagePaddingHorizontal),
+      margin: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppDimensions.pagePaddingHorizontal, vertical: 20.0),
       decoration: BoxDecoration(
         color: AppColors.lightGreyOpacity20,
         borderRadius: BorderRadius.circular(20),
