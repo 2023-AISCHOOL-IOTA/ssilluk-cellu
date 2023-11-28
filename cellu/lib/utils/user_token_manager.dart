@@ -1,7 +1,9 @@
 import 'package:cellu/services/logger_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserTokenManager {
   static String? _token;
+  static final _prefs = SharedPreferences.getInstance();
 
   // 토큰 설정
   static void setToken(String token) {
@@ -19,7 +21,8 @@ class UserTokenManager {
   }
 
   // 토큰 제거
-  static void clearToken() {
-    _token = null;
+  static void clearToken() async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.remove('token');
   }
 }
