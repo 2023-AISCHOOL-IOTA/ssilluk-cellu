@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,6 +26,24 @@ class ServerConnectionRepository {
       }
 
       throw Exception('Server Connection Failed: $e');
+    }
+  }
+
+  // 서버로부터 데이터를 가져오는 일반화된 함수
+  Future<dynamic> fetchData(String url, {Map<String, String>? headers}) async {
+    try {
+      LoggerService.info('Sending a GET request to fetch data');
+      final response = await http.get(Uri.parse(url), headers: headers);
+      LoggerService.info('Received response from server: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to fetch data from server');
+      }
+    } catch (e) {
+      LoggerService.error('Error fetching data from server: $e');
+      throw Exception('Error fetching data from server: $e');
     }
   }
 }
