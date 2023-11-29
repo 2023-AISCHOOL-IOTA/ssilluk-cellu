@@ -23,9 +23,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  DateTime selectedDate = DateTime.now(); // 현재 선택된 날짜
-  List<DoseScheduleItem> doseScheduleItems = []; // 약물 관리 데이터
-  Map<int, List<int>> bloodSugarData = {}; // 혈당 데이터
+  DateTime selectedDate = DateTime.now();
+  List<DoseScheduleItem> doseScheduleItems = [];
+  Map<DateTime, List<int>> bloodSugarData = {};
   bool isLoading = true;
   String userId = '';
 
@@ -37,163 +37,153 @@ class _MainScreenState extends State<MainScreen> {
 
   // 데이터를 가져오는 함수
   Future<void> _fetchDataForSelectedDate() async {
+    setState(() => isLoading = true);
     final token = UserTokenManager.getToken();
-
     if (token != null) {
       try {
-        // 사용자 ID를 서버에서 가져오는 요청
-        final userIdResponse = await http.get(
-            Uri.parse('${dotenv.env['BACKEND_URL']}/user/profile'),
-            headers: {'Authorization': 'Bearer $token'});
-
-        if (userIdResponse.statusCode == 200) {
-          final userData = json.decode(userIdResponse.body);
-          setState(() {
-            userId = userData['user_id'];
-          });
-        }
-
-        // 혈당 데이터 로드
-        final bloodSugarDataResponse =
-            await BloodSugarModel(token).fetchBloodSugarData(userId);
-
-        setState(() {
-          bloodSugarData = bloodSugarDataResponse;
-          isLoading = false;
-        });
-
-        // 약 복용 스케줄 데이터 로드
-        final doseScheduleResponse =
-            await DoseScheduleItemModel().fetchDoseScheduleData(token);
-
-        setState(() {
-          doseScheduleItems = doseScheduleResponse;
-          isLoading = false;
-        });
+        await _fetchBloodSugarData(token);
+        await _fetchDoseScheduleData(token);
       } catch (e) {
         LoggerService.error('Error fetching data: $e');
-        // 오류 처리
       }
-    } else {
-      // 토큰이 없을 경우 처리
-      setState(() {
-        isLoading = false;
-      });
     }
+    setState(() => isLoading = false);
+  }
+
+  Future<void> _fetchBloodSugarData(String token) async {
+    bloodSugarData = await BloodSugarModel(token).fetchBloodSugarData(userId);
+  }
+
+  Future<void> _fetchDoseScheduleData(String token) async {
+    doseScheduleItems =
+        await DoseScheduleItemModel().fetchDoseScheduleData(token);
   }
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      // 로딩 중 화면 표시
-      return Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    // 날짜 선택 바를 표시하는 메소드
-    Widget _buildDateSelector() {
-      return Container(
-        height: 60,
-        child: ListView.builder(
-          reverse: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: 90,
-          itemBuilder: (context, index) {
-            DateTime date = DateTime.now().subtract(Duration(days: index));
-            bool isSelected = selectedDate == date;
-
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedDate = date;
-                  _fetchDataForSelectedDate();
-                });
-              },
-              child: Container(
-                width: 60,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: isSelected ? Colors.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  DateFormat('MM/dd').format(date),
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }
-
-    // 달력 아이콘에서 날짜 선택 시 처리
-    void _onCalendarIconPressed() async {
-      DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2020),
-        lastDate: DateTime.now(),
-      );
-      if (picked != null && picked != selectedDate) {
-        setState(() {
-          selectedDate = picked;
-          _fetchDataForSelectedDate();
-        });
-      }
-    }
-
+    Map<DateTime, List<int>> filteredBloodSugarData =
+        _filterBloodSugarDataBySelectedDate();
+    List<DoseScheduleItem> filteredDoseScheduleItems =
+        _filterDoseScheduleDataBySelectedDate();
     return Scaffold(
-      backgroundColor: AppColors.white, // Scaffold 배경색을 흰색으로 설정
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: SvgPicture.asset('assets/logo-small.svg', width: 60),
-        elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.calendar_today),
-              onPressed: _onCalendarIconPressed),
-        ],
-      ),
+      backgroundColor: AppColors.white,
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             _buildDateSelector(),
-            BloodSugarLineChart(bloodSugarData),
-            BloodSugarSummary(bloodSugarData),
-            DoseScheduleCard(scheduleItems: doseScheduleItems),
+            BloodSugarLineChart(
+                bloodSugarData: filteredBloodSugarData,
+                selectedDate: selectedDate),
+            BloodSugarSummary(filteredBloodSugarData),
+            DoseScheduleCard(scheduleItems: filteredDoseScheduleItems),
           ],
         ),
       ),
     );
   }
 
-// 선택된 날짜에 해당하는 혈당 데이터만 필터링하는 메소드
-  Map<int, List<int>> _filterDataBySelectedDate(Map<int, List<int>> data) {
-    String selectedDateString = DateFormat('yyyyMMdd').format(selectedDate);
-    Map<int, List<int>> filteredData = {};
-    data.forEach((key, value) {
-      // key를 날짜 형식으로 변환
-      String dataDateString = DateFormat('yyyyMMdd')
-          .format(DateTime.fromMillisecondsSinceEpoch(key));
-      if (dataDateString == selectedDateString) {
-        filteredData[key] = value;
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: AppColors.white,
+      title: SvgPicture.asset('assets/logo-small.svg', width: 60),
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+      actions: [
+        IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: _onCalendarIconPressed),
+      ],
+    );
+  }
+
+  Widget _buildDateSelector() {
+    return SizedBox(
+      height: 60,
+      child: ListView.builder(
+        reverse: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 90,
+        itemBuilder: (context, index) {
+          DateTime date = DateTime.now().subtract(Duration(days: index));
+          bool isSelected = selectedDate.isAtSameMomentAs(date);
+
+          return GestureDetector(
+            onTap: () => _onDateSelected(date),
+            child: Container(
+              width: 60,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: isSelected ? Colors.blue : Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                DateFormat('MM/dd').format(date),
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _onCalendarIconPressed() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _fetchDataForSelectedDate();
+      });
+    }
+  }
+
+  void _onDateSelected(DateTime date) {
+    setState(() {
+      selectedDate = date;
+      _fetchDataForSelectedDate();
+    });
+  }
+
+  Map<DateTime, List<int>> _filterBloodSugarDataBySelectedDate() {
+    Map<DateTime, List<int>> filteredData = {};
+
+    bloodSugarData.forEach((dateTime, values) {
+      if (dateTime.year == selectedDate.year &&
+          dateTime.month == selectedDate.month &&
+          dateTime.day == selectedDate.day) {
+        filteredData[dateTime] = values;
       }
     });
 
     return filteredData;
   }
 
-  // 선택된 날짜에 해당하는 약물 관리 데이터를 필터링하는 메소드
-  List<DoseScheduleItem> _filterDoseDataBySelectedDate() {
-    String selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
+  List<DoseScheduleItem> _filterDoseScheduleDataBySelectedDate() {
     return doseScheduleItems.where((item) {
-      return item.doseTime == selectedDateString;
+      // todo: delete
+      LoggerService.info('item: $item');
+      LoggerService.info('item.doseTime: $item.doseTime');
+
+      String formattedTime = '${item.doseTime}:00';
+      LoggerService.info('formattedTime: $formattedTime');
+      DateTime itemDateTime = DateTime.parse(formattedTime);
+
+      return itemDateTime.year == selectedDate.year &&
+          itemDateTime.month == selectedDate.month &&
+          itemDateTime.day == selectedDate.day;
     }).toList();
   }
 }

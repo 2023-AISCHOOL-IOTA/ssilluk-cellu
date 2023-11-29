@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/custom_text_field.dart';
 import '../../styles.dart';
+import 'mypage_screen.dart';
 
 enum Gender { male, female }
 
@@ -26,10 +27,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            // 뒤로가기 버튼을 눌렀을 때 BioScreen으로 이동합니다.
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MypageScreen()),
+            );
+          },
         ),
-        centerTitle: true,
       ),
+
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           SvgPicture.asset('assets/logo-small.svg', height: 60),
