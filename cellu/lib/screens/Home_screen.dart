@@ -41,11 +41,8 @@ class _MainScreenState extends State<MainScreen> {
     final token = UserTokenManager.getToken();
     if (token != null) {
       try {
-        await _fetchUserId(token);
-        await Future.wait([
-          _fetchBloodSugarData(token),
-          _fetchDoseScheduleData(token),
-        ]);
+        await _fetchBloodSugarData(token);
+        await _fetchDoseScheduleData(token);
       } catch (e) {
         LoggerService.error('Error fetching data: $e');
       }
@@ -53,24 +50,13 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => isLoading = false);
   }
 
-  Future<void> _fetchUserId(String token) async {
-    final userIdResponse = await http.get(
-      Uri.parse('${dotenv.env['BACKEND_URL']}/user/profile'),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-    if (userIdResponse.statusCode == 200) {
-      final userData = json.decode(userIdResponse.body);
-      userId = userData['user_id'];
-    }
-  }
-
   Future<void> _fetchBloodSugarData(String token) async {
     bloodSugarData = await BloodSugarModel(token).fetchBloodSugarData(userId);
   }
 
   Future<void> _fetchDoseScheduleData(String token) async {
-    doseScheduleItems = await DoseScheduleItemModel()
-        .filterDoseScheduleByDate(doseScheduleItems, selectedDate);
+    doseScheduleItems =
+        await DoseScheduleItemModel().fetchDoseScheduleData(token);
   }
 
   @override
@@ -78,8 +64,11 @@ class _MainScreenState extends State<MainScreen> {
     if (isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
+
     Map<DateTime, List<int>> filteredBloodSugarData =
         _filterBloodSugarDataBySelectedDate();
+    List<DoseScheduleItem> filteredDoseScheduleItems =
+        _filterDoseScheduleDataBySelectedDate();
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: _buildAppBar(),
@@ -91,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
                 bloodSugarData: filteredBloodSugarData,
                 selectedDate: selectedDate),
             BloodSugarSummary(filteredBloodSugarData),
-            DoseScheduleCard(scheduleItems: doseScheduleItems),
+            DoseScheduleCard(scheduleItems: filteredDoseScheduleItems),
           ],
         ),
       ),
@@ -180,5 +169,21 @@ class _MainScreenState extends State<MainScreen> {
     });
 
     return filteredData;
+  }
+
+  List<DoseScheduleItem> _filterDoseScheduleDataBySelectedDate() {
+    return doseScheduleItems.where((item) {
+      // todo: delete
+      LoggerService.info('item: $item');
+      LoggerService.info('item.doseTime: $item.doseTime');
+
+      String formattedTime = '${item.doseTime}:00';
+      LoggerService.info('formattedTime: $formattedTime');
+      DateTime itemDateTime = DateTime.parse(formattedTime);
+
+      return itemDateTime.year == selectedDate.year &&
+          itemDateTime.month == selectedDate.month &&
+          itemDateTime.day == selectedDate.day;
+    }).toList();
   }
 }
