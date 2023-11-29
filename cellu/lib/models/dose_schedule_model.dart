@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cellu/styles.dart';
 import 'package:cellu/repository/server_connection_repository.dart';
 import 'package:cellu/services/logger_service.dart';
+import 'package:intl/intl.dart';
 
 // 약 복용 스케줄 아이템 모델
 class DoseScheduleItem {
@@ -12,6 +13,7 @@ class DoseScheduleItem {
   final String doseMedicine;
   final String doseAmount;
   final String? medicineType;
+  late final DateTime parsedDateTime;
 
   DoseScheduleItem({
     required this.doseTime,
@@ -19,7 +21,9 @@ class DoseScheduleItem {
     required this.doseMedicine,
     required this.doseAmount,
     this.medicineType,
-  });
+  }) {
+    parsedDateTime = DateTime.parse(doseTime);
+  }
 
   factory DoseScheduleItem.fromJson(Map<String, dynamic> json) {
     // JSON 데이터를 DoseScheduleItem 객체로 변환
@@ -106,9 +110,14 @@ class DoseScheduleItemModel {
     try {
       final data =
           await serverConnectionRepository.fetchData(url, headers: headers);
-      return data
+      List<DoseScheduleItem> items = data
           .map<DoseScheduleItem>((item) => DoseScheduleItem.fromJson(item))
           .toList();
+
+      // 데이터를 시간순으로 정렬
+      items.sort((a, b) => a.parsedDateTime.compareTo(b.parsedDateTime));
+
+      return items;
     } catch (e) {
       LoggerService.error('Error fetching dose schedule data: $e');
       throw Exception('Failed to load dose schedule data');
