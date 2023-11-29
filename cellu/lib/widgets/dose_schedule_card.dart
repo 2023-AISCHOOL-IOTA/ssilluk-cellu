@@ -12,7 +12,7 @@ class DoseScheduleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<DoseScheduleItem> recentItems = scheduleItems.take(5).toList();
+    List<DoseScheduleItem> recentItems = scheduleItems.toList();
 
     return Container(
       margin: const EdgeInsets.all(AppDimensions.pagePaddingHorizontal),

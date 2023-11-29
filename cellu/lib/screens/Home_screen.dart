@@ -173,12 +173,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<DoseScheduleItem> _filterDoseScheduleDataBySelectedDate() {
     return doseScheduleItems.where((item) {
-      // todo: delete
-      LoggerService.info('item: $item');
-      LoggerService.info('item.doseTime: $item.doseTime');
-
       String formattedTime = '${item.doseTime}:00';
-      LoggerService.info('formattedTime: $formattedTime');
       DateTime itemDateTime = DateTime.parse(formattedTime);
 
       return itemDateTime.year == selectedDate.year &&

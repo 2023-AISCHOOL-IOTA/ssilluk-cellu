@@ -7,6 +7,7 @@ import 'package:cellu/screens/MeasurementPreparation_screen.dart';
 import 'package:cellu/screens/updateProfile.dart';
 import 'package:cellu/screens/MenuPage.dart';
 import 'package:cellu/screens/biometrics_screen.dart';
+import 'package:cellu/screens/changePw_screen.dart';
 import 'package:cellu/screens/login_screen.dart';
 import 'package:cellu/utils/user_token_manager.dart';
 import 'package:cellu/widgets/lowerbar.dart';
@@ -70,7 +71,7 @@ class Mypage extends StatelessWidget {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EditProfileScreen())),
+                        builder: (context) => ChangePasswordScreen())),
               ),
               _buildOptionItem(
                 context,
